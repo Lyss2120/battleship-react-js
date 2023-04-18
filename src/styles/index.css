@@ -1,3 +1,15 @@
 /* 
     General Styles
 */
+body{
+    padding: 0;
+    box-sizing: border-box;
+
+}
+tr{
+margin: 0;
+}
+.square{
+    height: 3em;
+    width: 3em;
+}

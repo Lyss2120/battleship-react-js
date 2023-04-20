@@ -41,7 +41,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			],
 			coordX: null,
 			coordY: null,
-	
+
 			demo2: [
 				{
 					square: [1, 1, 1, 1, 1, 0, 0, 0, 0, 1],
@@ -88,43 +88,55 @@ const getState = ({ getStore, getActions, setStore }) => {
 				//reset the global store
 				setStore({ demo: demo });
 			},
-			
-			table: () => {
-				const colArr = Array.of(10)
-				const rowArr = Array.of(10)
-				setStore({ colArr: colArr, rowArr: rowArr })
-
-				for (let i = 0; i < 10; i++) {
-
-
-				}
-
-				// pc tiene que dar un array de dos numeros random. player tiene que entregar dos numeros por prompt
-				//cada barco es un array de 1 a 4 cuadros que coinciden con posiciones o coordenadas de la tabla
-				//si el ataque coincide con las posiciones o include() alguna coordenada de los barcos el color cambia a atacado naranja o hundido rojo
-				//parecido a la funcion de borrar tareas.. sacando el id en este caso la coordenada
+			getCoord: () => {
+				const store = getStore();
+				let x = store.colArr.map((item, i) => item[i].position)
+				let y = store.rowArr.map((item, i) => item[i].position)
+				console.log(x, y);
+				setStore({ coordY: x, coordX: y })
 			},
-			// let g = onClick = () => {
-			//   setBoat(!boat);
+		},
+		table: () => {
+			const store = getStore();
 
-			// let randId = () => {
-			//   uuidv1();
-			// };
-			// const fireTorpedo = (coords) => {
-			//   let coordenadas = prompt('elige las coordenadas')
+			const colArr = new Array(10).fill(0)
+			const rowArr = new Array(10).fill(0)
+			setStore({ colArr2: colArr, rowArr2: rowArr })
 
-			//   if (coordenadas == coords) {
-			//     console.log('hola');
-			//     // poner esta func en un onclick. si las coordenadas del usuario son iguales a las coords del barco hace algo
-			//     // cambia el color y el nro para cambiar su estado a atacado especificando las coords para que cambie color, 
-			//     // al atacar todos los div del barco cambia el nro para cambiar su estado a hundido y cambiar color
-			//     // tiene que llamarse dentro del for que renderiza el componente en un onclick  y en el enter del prompt ?
-			//     // pq tmb tiene que disparar pero sus coordenadas son dos nros random separados por una','
-			//   }
-			// }
+			for (let i = 0; i < colArr.length; i++) {
+				for (let j = 0; j < rowArr.length; j++) {
+					let coordX = colArr[i]
+					let coordY = rowArr[j]
+					let coords = coordX + ',' + coordY
+					setStore({ tableCoordenadas: coords })
+				}
+			}
+			// pc tiene que dar un array de dos numeros random. player tiene que entregar dos numeros por prompt
+			//cada barco es un array de 1 a 4 cuadros que coinciden con posiciones o coordenadas de la tabla
+			//si el ataque coincide con las posiciones o include() alguna coordenada de los barcos el color cambia a atacado naranja o hundido rojo
+			//parecido a la funcion de borrar tareas.. sacando el id en este caso la coordenada
+		},
+		// let g = onClick = () => {
+		//   setBoat(!boat);
 
-		}
-	};
+		// let randId = () => {
+		//   uuidv1();
+		// };
+		// const fireTorpedo = (coords) => {
+		//   let coordenadas = prompt('elige las coordenadas')
+
+		//   if (coordenadas == coords) {
+		//     console.log('hola');
+		//     // poner esta func en un onclick. si las coordenadas del usuario son iguales a las coords del barco hace algo
+		//     // cambia el color y el nro para cambiar su estado a atacado especificando las coords para que cambie color, 
+		//     // al atacar todos los div del barco cambia el nro para cambiar su estado a hundido y cambiar color
+		//     // tiene que llamarse dentro del for que renderiza el componente en un onclick  y en el enter del prompt ?
+		//     // pq tmb tiene que disparar pero sus coordenadas son dos nros random separados por una','
+		//   }
+		// }
+
+	}
 };
+
 
 export default getState;

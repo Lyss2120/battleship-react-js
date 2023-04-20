@@ -6,17 +6,19 @@ import Rows from './Rows';
 
 const Table2 = () => {
     const { store, actions } = useContext(Context);
-    useEffect
+    console.log(store.getCoord, 'getCoord');
     return (
         <div className=''>
             <div className='bg-secondary'>You</div>
-            <table className=""> 
+            <table className="">
                 <thead>
                     <tr>
                         {store.colArr.map((item, index) => {
                             return (
-                                <Columns key={index}
-                                    position={item.position} />
+                                <Columns
+                                    key={index}
+                                    position={item.position}
+                                    getCoord={actions.getCoord(item.position)} />
                             )
                         })}
                     </tr>
@@ -26,7 +28,8 @@ const Table2 = () => {
                         return (
                             <Rows
                                 key={index}
-                                position={item.position} />
+                                position={item.position}
+                                getCoord={actions.getCoord(item.position)} />
                         )
                     })}
                 </tbody>

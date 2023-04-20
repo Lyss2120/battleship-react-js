@@ -37,7 +37,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				{ position: '7' },
 				{ position: '8' },
 				{ position: '9' },
-				{ position: '10' }
+				{ position: '10',}
 			],
 			coordX: null,
 			coordY: null,
@@ -88,13 +88,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 				//reset the global store
 				setStore({ demo: demo });
 			},
-			getCoord: () => {
+			getCoord: (positionx, positiony) => {
 				const store = getStore();
 				let x = store.colArr.map((item, i) => item[i].position)
 				let y = store.rowArr.map((item, i) => item[i].position)
-				console.log(x, y);
-				setStore({ coordY: x, coordX: y })
-			},
+				let coordsget = colArr[positiony]
+				positionx == x && positiony == y ? setStore({ ...colArr, coordsget: [x,y]}) : console.log(x, y, coordsget,'p');
+			},// intento sacar la posicion de los componentes column,row que crean cada celda y compararla con los items de colArr,rowArr.podria usar un filter?? si coinciden agregar una nueva instancia a colArr donde se indique las coordenadas de cada celda--- 
 		},
 		table: () => {
 			const store = getStore();
@@ -107,8 +107,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				for (let j = 0; j < rowArr.length; j++) {
 					let coordX = colArr[i]
 					let coordY = rowArr[j]
-					let coords = coordX + ',' + coordY
-					setStore({ tableCoordenadas: coords })
+					let tablecoordenadas = coordX + ',' + coordY
+					setStore({ tableCoordenadas: tablecoordenadas })
+
 				}
 			}
 			// pc tiene que dar un array de dos numeros random. player tiene que entregar dos numeros por prompt

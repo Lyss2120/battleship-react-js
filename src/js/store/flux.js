@@ -14,30 +14,54 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			],
 			colArr: [
-				{position:0},
-				{position:1},
-				{position:2},
-				{position:3},
-				{position:4},
-				{position:5},
-				{position:6},
-				{position:7},
-				{position:8},
-				{position:9},
-				{position:10}
-				],
+				{ position: '0' },
+				{ position: '1' },
+				{ position: '2' },
+				{ position: '3' },
+				{ position: '4' },
+				{ position: '5' },
+				{ position: '6' },
+				{ position: '7' },
+				{ position: '8' },
+				{ position: '9' },
+				{ position: '10' }
+			],
 			rowArr: [
-				{position:1},
-				{position:2},
-				{position:3},
-				{position:4},
-				{position:5},
-				{position:6},
-				{position:7},
-				{position:8},
-				{position:9},
-				{position:10}
-				]
+				{ position: '0' },
+				{ position: '1' },
+				{ position: '2' },
+				{ position: '3' },
+				{ position: '4' },
+				{ position: '5' },
+				{ position: '6' },
+				{ position: '7' },
+				{ position: '8' },
+				{ position: '9' },
+				{ position: '10' }
+			],
+			coordX: null,
+			coordY: null,
+	
+			demo2: [
+				{
+					square: [1, 1, 1, 1, 1, 0, 0, 0, 0, 1],
+					square: [1, 1, 1, 1, 1, 0, 0, 0, 0, 1],
+					square: [1, 1, 1, 1, 1, 0, 0, 0, 0, 1],
+					square: [1, 1, 1, 1, 1, 0, 0, 0, 0, 1],
+					square: [1, 1, 1, 1, 1, 0, 0, 0, 0, 1],
+					square: [1, 1, 1, 1, 1, 0, 0, 0, 0, 1],
+					square: [1, 1, 1, 1, 1, 0, 0, 0, 0, 1],
+					square: [1, 1, 1, 1, 1, 0, 0, 0, 0, 1],
+					square: [1, 1, 1, 1, 1, 0, 0, 0, 0, 1],
+					square: [1, 1, 1, 1, 1, 0, 0, 0, 0, 1],
+				},
+				{
+					title: "SECOND",
+					background: "white",
+					initial: "white"
+				}
+			],
+			board: [],
 
 		},
 		actions: {
@@ -64,12 +88,41 @@ const getState = ({ getStore, getActions, setStore }) => {
 				//reset the global store
 				setStore({ demo: demo });
 			},
+			
 			table: () => {
-				const colArr = 10
-				const rowArr = 10
+				const colArr = Array.of(10)
+				const rowArr = Array.of(10)
+				setStore({ colArr: colArr, rowArr: rowArr })
+
+				for (let i = 0; i < 10; i++) {
 
 
-			}
+				}
+
+				// pc tiene que dar un array de dos numeros random. player tiene que entregar dos numeros por prompt
+				//cada barco es un array de 1 a 4 cuadros que coinciden con posiciones o coordenadas de la tabla
+				//si el ataque coincide con las posiciones o include() alguna coordenada de los barcos el color cambia a atacado naranja o hundido rojo
+				//parecido a la funcion de borrar tareas.. sacando el id en este caso la coordenada
+			},
+			// let g = onClick = () => {
+			//   setBoat(!boat);
+
+			// let randId = () => {
+			//   uuidv1();
+			// };
+			// const fireTorpedo = (coords) => {
+			//   let coordenadas = prompt('elige las coordenadas')
+
+			//   if (coordenadas == coords) {
+			//     console.log('hola');
+			//     // poner esta func en un onclick. si las coordenadas del usuario son iguales a las coords del barco hace algo
+			//     // cambia el color y el nro para cambiar su estado a atacado especificando las coords para que cambie color, 
+			//     // al atacar todos los div del barco cambia el nro para cambiar su estado a hundido y cambiar color
+			//     // tiene que llamarse dentro del for que renderiza el componente en un onclick  y en el enter del prompt ?
+			//     // pq tmb tiene que disparar pero sus coordenadas son dos nros random separados por una','
+			//   }
+			// }
+
 		}
 	};
 };

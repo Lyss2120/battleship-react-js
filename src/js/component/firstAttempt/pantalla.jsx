@@ -1,6 +1,4 @@
 import React from 'react'
-import Table2 from './Table2'
-import TablePc from './TablePc'
 
 const Pantalla = () => {
   return (
@@ -14,7 +12,8 @@ const Pantalla = () => {
       </div>
 
       <div className='d-flex justify-content-around p-4 flex-wrap'>
-        <Table2 />
+        {/* <Table2 /> */}
+        <Table3 />
         <TablePc />
       </div>
 

@@ -1,6 +1,7 @@
 .game-board{
     width: max-content;
-    background: aquamarine;
+    background: rgb(145, 156, 253);
     margin: 0 auto;
     margin-top: 7em;
+    padding: 2em;
 }

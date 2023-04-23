@@ -9,7 +9,7 @@ console.log();
 
 
   return (
-    <div>
+    <div className='board-container'>
         <span>App</span>
         <Board />
     </div>

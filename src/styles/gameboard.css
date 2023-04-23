@@ -4,8 +4,9 @@
     height: 100vh;
 }
 .gameboard{
-    height: 500px;
-    width: 500px;
+    /* height: 500px;
+    width: 500px; */
+    width: fit-content;
     display: flex;
     flex-wrap: wrap;
     background-color: rgb(69, 117, 248);

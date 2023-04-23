@@ -1,18 +1,43 @@
 import React, { useState } from 'react'
 import Board from './Board.jsx'
+import '../../../../styles/gameboard.css'
+
+// 0 = empty
+// 1 = part of a ship
+// 2 = a sunken part of a ship
+// 3 = a missed shot
+let gameBoard = [
+  [1,1,1,1,1,0,0,0,0,1],
+  [0,0,0,0,0,0,0,0,0,1],
+  [0,0,0,0,0,0,0,0,0,1],
+  [0,0,0,0,0,0,0,0,0,1],
+  [0,0,0,0,0,0,0,0,0,0],
+  [1,0,0,1,1,0,0,0,0,0],
+  [1,0,0,0,0,0,0,0,0,0],
+  [1,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0],
+  [1,1,1,1,0,0,0,0,0,0]
+];
 
 const MyTicTacToe = () => {
 const [player, setPlayer] = useState('player1')
 const [squares, setSquares] = useState(Array(9).fill(null))
 const [score, setScore] = useState({X:0, O:0})
+// const [ship, setShip] = useState([])
 console.log();
 
 
   return (
+    <>
+
     <div className='board-container'>
-        <span>App</span>
-        <Board />
+    <div className='experimento'>
+      <div> TIC TAC TOE</div>
     </div>
+
+        <Board score={score} squares={squares} player={player}/>
+    </div>
+    </>
   )
 }
 

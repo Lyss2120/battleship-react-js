@@ -1,9 +1,10 @@
 import React from "react";
-import "../../styles/tictactoeReactDev.css";
+// import "../../styles/tictactoeReactDev.css";
 // import Board from "../component/tictactoeReactDev/Board.jsx";
-import Somex from "../component/third/Somex.jsx";
 // import Game from "../component/secondAttempt/titctactoe.jsx";
 // import MyTicTacToe from "../component/secondAttempt/tictactoe/appMyTicTacToe.jsx";
+import Somex from "../component/third/Somex.jsx";
+import "../../styles/home.css";
 
 
 export const Home = () => (

@@ -1,37 +1,40 @@
-import React from 'react'
-
+import React, { useState } from 'react';
+import '../../../styles/third.css';
 
 const Somex = () => {
+    const [flip, setFlip] = useState(false);
 
-    let ships = [destroyer, submarine, cruiser, battleship, carrier]
-
+    let ships = ['destroyer', 'submarine', 'cruiser', 'battleship', 'carrier']
+    const flipIt= ()=>{
+        setFlip(!flip)
+    }
 
     return (
-        <div>
-            Somex
+        <div className='wrapper'>
+          
             <div className='game-info'>
                 <p> turn-display: <span className='turn-display'></span></p>
                 <p> info: <span className='info'></span></p>
             </div>
 
             <div className='gamesBoard-container'>
-                player
-                <div>gameboard
-                    <div>board</div>
+                <div className='gameboard'>
+                    
                 </div>
-
             </div>
-            <div className='option-container'>
-                {ships.map((item, i) => {
+
+            <div className='option-container bg-warning'>
+                {ships?.map((item, i) => {
                     return (
-                        <div className='p-2 ${item}-preview ${item}'>{item}</div>
+                        <div key={i} className={`${flip ? 'fliped' : null} ${item}-preview ${item}`}></div>
                     )
                 })
                 }                
             </div>
-            <div>buttons
-                <button>flip</button>
-                <button>start</button>
+            <div className='buttons'>
+                <button className='btn btn-light flip-button' 
+                onClick={()=>{setFlip(!flip)}}>flip</button>
+                <button className='btn btn-light start-button'>start</button>
             </div>
 
 

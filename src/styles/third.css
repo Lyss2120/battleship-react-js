@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
+.wrapper{
+  font-family: 'Bangers', cursive;
+}
+:root{
+    --blue: rgb(75, 75, 245);
+    --white:rgba(255, 255, 255, 0.555);
+    --yellow: ;
+    --orange: rgb(255, 136, 0);
+    --square: 20px;
+    --container: 500px;
+}
+.wrapper{
+    font-family: 'Bangers', cursive;
+    display: grid;
+    place-items: center;
+}
+.option-container{
+    height: 100px;
+    width: var(--container);
+    background-color: var(--yellow);
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.destroyer{
+    background-color: rgb(12, 38, 85);
+}
+.submarine{
+    background-color: rgb(17, 50, 112);
+}
+.cruiser{
+    background-color: rgb(24, 67, 148);
+}
+.battleship{
+    background-color: rgb(31, 86, 187);
+}
+.carrier{
+    background-color: rgb(41, 108, 233);
+}
+.destroyer-preview{
+    width: 20px;
+    height: 15px;
+    margin: 3px;
+    }
+.submarine-preview{
+    width: 40px;
+    height: 15px;
+    margin: 3px;
+    }
+.cruiser-preview{
+    width: 60px;
+    height: 15px;
+    margin: 3px;
+    }
+.battleship-preview{
+    width: 60px;
+    height: 15px;
+    margin: 3px;
+    }
+.carrier-preview{
+    width: 80px;
+    height: 15px;
+    margin: 3px;
+    }
+.fliped{
+    transform: rotate(90deg);
+}
+.morefliped{
+    transform: rotate(45deg);
+}
+.leftfliped{
+    transform: rotate(-45deg);
+}

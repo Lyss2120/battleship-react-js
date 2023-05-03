@@ -1,8 +1,18 @@
 import React from 'react'
+import Square from './square.jsx';
 
-const Board = () => {
+const Board = ({ board, setBoard, player }) => {
   return (
-    <div>Board</div>
+    <div>
+    <span>{player}</span>
+    <div className='game-board'>
+      {board.map((item, i) => {
+          return (
+            <Square key={i} id={i}>{item}</Square>
+          )
+        })}
+    </div>
+    </div>
   )
 }
 

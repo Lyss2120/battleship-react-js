@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Square = () => {
+const Square = ({ i, item }) => {
   return (
-    <div>Square</div>
-  )
+    <div className='square' key={i} id={i}>{item}</div>
+    )
 }
 
 export default Square

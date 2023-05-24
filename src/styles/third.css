@@ -3,12 +3,12 @@
   font-family: 'Bangers', cursive;
 }
 :root{
-    --blue: rgb(75, 75, 245);
+    --blue: rgba(75, 75, 245, 0.733);
     --white:rgba(255, 255, 255, 0.329);
     --transparent: rgba(102, 101, 101, 0.137);
     --orange: rgb(255, 136, 0);
-    --square: 25px;
-    --container: 600px;
+    --square: 30px;
+    --container: 700px;
 }
 .wrapper{
     font-family: 'Bangers', cursive;
@@ -81,15 +81,28 @@
 }
 .game-board{
     background-color: var(--blue);
-    width: 250px;
-    height: 250px;
+    width: 300px;
+    height: 300px;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
 }
+
 .square{
     width: var(--square);
     height: var(--square);
     border: solid 0.2px var(--white);
     background-color: inherit;
+    display: grid;
+    place-content: center;
+    /* height: 100px;
+    width: 100px; */
+    /* background: cornflowerblue; */
+    /* border: solid rgba(255, 255, 255, 0.158) 1px; */
+    transition: all 1s;
+}
+.square-top{
+    background-color: rgba(91, 95, 94, 0.11);
+    display: flex;
+    justify-content: space-around;
 }

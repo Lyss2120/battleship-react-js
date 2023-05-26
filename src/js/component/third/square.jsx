@@ -1,16 +1,29 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { Context } from '../../store/appContext'
 
-const Square = ({ lol, i, row, col, squareClick, board, setBoard }) => {
+const Square = ({ coord, i, row, col, board }) => {
+  const { store, actions } = useContext(Context)
 
   return (
     <>
-      <div key={i} className={`square tile bg-${lol === 1 ? 'info' : lol === 2 ? 'warning' : lol === 3 ? 'danger' : 'null'}`}
+      <div key={i} className={`square tile bg-${  coord === 4 ? 'light bg-opacity-50' : board === store.PcBoard && coord != 0 ? store.enemyShipsClass : board === store.PlayerBoard && coord === 1 ? 'info' : coord === 2 ? 'warning' : coord === 3 ? 'danger' :  'null'}`}
         // onClick={() => console.log('coord ' + row + ',' + col)}
-        onClick={() => squareClick(i, board, row, setBoard)}
+        onClick={() => actions.squareClick(board, row, col)}
       >
-        {/* {row},{col}   */}
-        {lol}
+        {
+          board === store.PcBoard ?
+            ''
+            // : 
+              // coord === 0 ?
+              // ''
+              : coord
+        }
       </div>
+
+
+
+
+
     </>
   )
 }

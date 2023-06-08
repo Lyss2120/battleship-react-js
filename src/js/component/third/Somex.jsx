@@ -46,14 +46,14 @@ const Somex = () => {
                 <button 
                 className='btn btn-secondary start-button row m-1'
                 // onClick={() => { actions.changeUser(user)}} //setear user en la func firetorpedo
-                onClick={actions.placeShips}
+                onClick={actions.start}
                 > 
                   changeUser  start!!
 
                 </button>
                 <button 
                 className='btn btn-secondary fire-button row m-1'
-                onClick={actions.fireTorpedo} >
+                onClick={actions.fireTorpedoPrompt} >
                     
                     fire!!
 
@@ -70,13 +70,3 @@ const Somex = () => {
 
 export default Somex
 
-    // const shipToAdd = (itemtoadd, i, position, board) => {
-    //     ships[i] === itemtoadd &&
-    //         setShipToAdding(itemtoadd)//compara el objeto a ver si coincide con la posicion que se clickeó dentro del estado que contiene todos los objetos/ships 
-    //     // const shipToAddCp= shipToAdding.slice();
-    //     // console.log(shipToAddCp);
-    //     // const newBoard= PcBoard.slice();
-    //     // shipToAddCp = newBoard[i]
-
-
-    // }

@@ -1,277 +1,356 @@
 const getState = ({ getStore, getActions, setStore }) => {
-	return {
-		store: {
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			],
-			row : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-			flip: false,
-			ships: [
-				{ startPosition: null, name: 'submarine', length: 3, taken: false, shipState: 'miss'}, // coords: [[1,1],[1,2]], maxpos es 10 - el ancho del barco si es horizontal si el barco mide 5 =maxpos => 5
-				{ startPosition: null, name: 'cruiser', length: 4, taken: false, shipState: 'miss' },// si es vertical 100 - el ancho del barco * 10 =maxpos => 50
-				{ startPosition: null, name: 'battleship', length: 5, taken: false, shipState: 'miss' },// diagonal 100 - el ancho del barco * 11 =maxpos => 45 
-				{ startPosition: null, name: 'carrier', length: 5, taken: false, shipState: 'miss' }
-			],
-			// gameBoard: [0= empty, 1 = ship, 2 = shoot, 3= sunken, 4= miss
-			// ],
-			PlayerBoard: [
-				[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-				[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-				[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-				[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-				[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-				[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-				[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-				[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-				[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-				[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-			],
-			PcBoard: [
-				[0, 1, 1, 1, 0, 0, 0, 0, 0, 1],
-				[0, 0, 0, 1, 1, 1, 1, 0, 0, 1],
-				[0, 0, 1, 0, 0, 0, 0, 0, 0, 1],
-				[0, 0, 0, 1, 0, 0, 0, 0, 0, 1],
-				[0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-				[1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-				[1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-				[1, 0, 0, 0, 1, 1, 1, 1, 0, 0],
-				[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-				[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-			],
-			user: 'Player',
-			enemyShipsClass: 'info bg-opacity-50',
-			// fire: false,
-			// randomAlign: Math.floor(Math.random() * 3), // random number entre 0 y 2
-			// align: randomAlign === 0 ? 'horizontal' : 1 ? 'vertical' : 'diagonal',// si no es 0 ni 1 es 2 cada nro tiene su alineación,
-			// maxpos: align === 'horizontal' ? 10 - ships.length : align === 'vertical' ? 100 - (ships.length * 10) : 100 - (ships.length * 11),// resta el largo del barco de la linea en la que va posicionado para que no se salga del tablero,
-			// randX: Math.floor(Math.random() * maxpos) + 1, // posición random entre 0 y maxpos incluida ej barco horizontal medida 6 seria entre 0 y 4,
-			// randomY: Math.floor(Math.random() * maxpos) + 1,
-			
+  return {
+    store: {
+      demo: [
+        {
+          title: "FIRST",
+          background: "white",
+          initial: "white",
+        },
+        {
+          title: "SECOND",
+          background: "white",
+          initial: "white",
+        },
+      ],
+      row: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
 
-		},
-		actions: {
-			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
-			},
-			changeColor: (index, color) => {
-				//get the store
-				store = getStore();
+      flip: false,
+      fliped: false,
+      moreFliped: false,
+      selfAlign: null,
+      // puede ser aqui cambiar la alieacion manualmente o simplemente cambiar totalmente el estado align por un string fijo ej: horizontal
+      //   orientation: align === 0 ? 'horizontal' : 1 ? 'vertical' : 'diagonal',// si no es 0 ni 1 es 2 cada nro tiene su alineación,
+      //   maxpos: orientation === 'horizontal' ? 10 - ships.length : align === 'vertical' ? 100 - (ships.length * 10) : 100 - (ships.length * 11),// resta el largo del barco de la linea en la que va posicionado para que no se salga del tablero,
+      //   randX: Math.floor(Math.random() * maxpos) + 1, // posición random entre 0 y maxpos incluida ej barco horizontal medida 6 seria entre 0 y 4,
+      //   randomY: Math.floor(Math.random() * maxpos) + 1,// para poner los estados anidados usar un solo estado con objeto y los estados key value++
+      // loop todos los barcos para ponerlos en los tableros  pc y player random y manual para player con flip. cuando esto este ver el shipstate y cambiarlo dentro de ships con setStore. de ahi pasarle el shipstate los ships y el player para que o tablero para comprobar en cada tablero quien pierde todos los barcos primero.... o si los 5 barcos estan en shipstate 3 poner los nombres en un array? cdo tengan shipstate 3 mandar el nombre y el board a whosthewinner.. o llenar el counter de cada board
+      // gameBoard: [0= empty, 1 = ship, 2 = shoot, 3= sunken, 4= miss
+      // ],
+      PlayerBoard: [
+        [0, 0, 3, 1, 1, 1, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      ],
+      PcBoard: [
+        [0, 1, 1, 1, 0, 0, 0, 0, 0, 1],
+        [0, 0, 0, 1, 1, 1, 1, 0, 0, 1],
+        [0, 0, 1, 0, 0, 0, 0, 0, 0, 1],
+        [0, 0, 0, 1, 0, 0, 0, 0, 0, 1],
+        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 0, 0, 0, 1, 1, 1, 1, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      ],
+      ships: [
+        {
+          startPosition: null,
+          name: "submarine",
+          length: 3,
+          taken: false,
+          shipState: "miss",
+        }, // coords: [[1,1],[1,2]], maxpos es 10 - el ancho del barco si es horizontal si el barco mide 5 =maxpos => 5
+        {
+          startPosition: null,
+          name: "cruiser",
+          length: 4,
+          taken: false,
+          shipState: "miss",
+        }, // si es vertical 100 - el ancho del barco * 10 =maxpos => 50
+        {
+          startPosition: null,
+          name: "battleship",
+          length: 5,
+          taken: true,
+          shipState: "miss",
+        }, // diagonal 100 - el ancho del barco * 11 =maxpos => 45
+        {
+          startPosition: null,
+          name: "carrier",
+          length: 5,
+          taken: false,
+          shipState: "miss",
+        },
+      ],
+      user: "Player",
+      enemyShipsClass: "info bg-opacity-50",
+      // fire: false,
+    },
+    actions: {
+      // Use getActions to call a function within a fuction, se pasan los parametros
+      exampleFunction: () => {
+        getActions().changeColor(0, "green");
+      },
+      changeColor: (index, color) => {
+        //get the store
+        const store = getStore();
 
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
+        //we have to loop the entire demo array to look for the respective index
+        //and change its color
+        const demo = store.demo.map((elm, i) => {
+          if (i === index) elm.background = color;
+          return elm;
+        });
 
-				//reset the global store
-				setStore({ demo: demo });
-			},
-			
-			placeShips: (board, row, col)=>{
-				const {PlayerBoard, ships, store}=getStore()
-				// console.log(ships[0].length, 'len', ships[0].name, 'name');
-				let newBoard = [...board]
-				let shipPart = 1
-				let shipLength = 3
-				let total = row + shipLength
-				let boardFin = 10 - total
-	
-				for (let i = row; i< total; i++) {
-					console.log('row', row, 'total', total, 'boardFin', boardFin)
-					newBoard[row][col] = shipPart
-					row++
-					console.log(newBoard);
-	
-			}setStore({ board: newBoard})
-		},
+        //reset the global store
+        setStore({ demo: demo });
+      },
+      start: () => {
+        const store = getStore();
+        // llama a place boards con cada tablero para poner dentro sus barcos
+        // store.ships.map((ship) => {
+        //   // console.log('store.PcBoard', ship.name);
+        //   getActions().placeShips(store.PcBoard, ship);
+        // });
+        store.ships.map((ship) => {
+          // console.log('store.PlayerBoard', ship.name);
+          // getActions().validPosition(store.PlayerBoard, ship)
+          getActions().placeShips(store.PlayerBoard, ship);
+        });
+      },
+      placeShips: (board, ship) => {
+        const valid = getActions().validPosition(board, ship)
+console.log(valid.row, valid.col, valid.align, 'paso valid', ship.name);
+        // if (isValidPosition(shipRow, shipCol, SHIP_LENGTH, 'horizontal', newGrid)) {
+        //   for (let i = 0; i < SHIP_LENGTH; i++) {
+        //     newGrid[shipRow][shipCol + i] = 'ship';
+        //   }
+        // } else {
+        //   // Si la posición no es válida, vuelve a intentar
+        //   positionShips();
+        // }
+      },
+      validPosition: (board, ship) => {
+        let newBoard = [...board]
+        let maxPos = 10 - ship.length;
+        let maxPosCoord = Math.floor(Math.random() * maxPos);
+        let random = Math.floor(Math.random() * 10);
+        // let row;
+        // let col;
+        let row= random;
+        let col= maxPosCoord;
 
-			squareClick : (board, row, col) => {
-				const {store}=getStore()
+        let randAlign = Math.floor(Math.random() * 3);
+        let align = randAlign === 0 ? 'horizontal': randAlign === 1 ? 'vertical': randAlign === 2 && 'horizontal'
+        let loqsea
+        let obj={row, col, align, loqsea}//actualiza row y col con las coord de la ultima parte del barco
+     //poner en un estado, y ocuper de ahi. seguir asignando hasta que el espacio este libre
+     if(ship.taken === true){
+      console.log(ship.name,'ya esta tomado') 
+      return false}
+      else if(ship.taken === false && col + length < 10) 
+      {console.log(ship.name,'no esta tomado') 
+            for(let i= 0; i < ship.length; i++){
+            // chequear en la coordenada y en cada coordenada de cada parte del barco osea x el length del barco
+            // revisa cada pieza del barco y marca cada posicion o coord... si no pasa porque una de sus partes es undefined o esta ocupada tiene que pasar por el cilco denuevo pero con otras corrdenadass hasta uqe en cuaentre un espacio vacio...
+            col++
+            if(newBoard[row][col] !== 0){
+              loqsea = console.log('no es cero es:', newBoard[row][col], row+','+col, ship.name, ship.length );
+              // row= Math.floor(Math.random() * 10)
+              // col= Math.floor(Math.random() * maxPos);
+              console.log('nuevos col y row',  ship.name)
+              getActions().validPosition(board, ship)
+            } else 
+            //   setStore({board : newBoard})
+            //   setStore({ships:[{ship :{name:true}}]})
+            // console.log(ship.name, 'ship.taken:',ship.taken);
+            obj.row=row 
+            obj.col=col
+            loqsea = console.log(' es cero:', newBoard[row][col], row+','+col, ship.name, ship.length );
 
-				let newBoard = [...board]
+        }
+        console.log(ship.name, 'tomado:', ship.name) //setear bien shipd.taken, usar con placeships para setear board y ver que no choquen entre si.. comprobar que no ocupen el mismo espacio
 
-				board[row][col]===0 ?
-				getActions().placeShips(board, row, col)//poner un barco en esa posicion, para despues con un loop pasar esta funcion a cada barco
-				: 
-				board[row][col]> 0 && board[row][col]<4 ?
-				getActions().fireTorpedo(board, row, col)//disparar en esta posición
-				:
-				board[row][col]=== 4 &&
-				getActions().whoIsTheWinner(board, row, col)//guarda todos los barcos que estan en 4 solo se pone en 4 si el barco entero se hundio. guarda los barcos hundidos de cada board y si uno tiene todos sus barcos en 4 es el perdedor  y automaticamente el dueño del otro tablero gana tiene que recibir player board y sus ships?
- 			},
-			fireTorpedo : (board, row, col) => {
-			console.log(board, row,col, 'fire')
-			// const newBoard= [...board]
-			
-			// coord === 0?
+      }
+    return obj
+      },
+      squareClick: (board, row, col) => {
+        const store = getStore();
 
-			// newBoard[row][col] = 'x'
+        let newBoard = [...board];
 
-			// if (newBoard[row][col] > 0 && newBoard[row][col] < 3) {
-			//     console.log(newBoard[row][col], 'gggg'); //donde ya hay barcos, si es 1 o 2 aumentar 1, si fuera 3 quiero que ponga todo rojo... la idea es que el barco entero este ahogado y se ponga ocn ese estado dentro del objeto en ships
-			//     // shipState in shipLength === 3 shipState drown esto lo hace firetorpedo
-			//     newBoard[row][col]++
-			//     setBoard(newBoard)
-			//   }
-					// fireTorpedo funciona con un prompt en donde se ponen las coords o clickeando en el cuadrado a disparar
-				   
-					// console.log('se clickea el boton');
-					// const rowP = prompt('coordenadas x')
-					// const colP = prompt('coordenadas y')
-					// console.log(rowP, colP);
-					// const newPlayerBoard = [...PlayerBoard];
-					// newPlayerBoard[rowP][colP] ++
-					// console.log(newPlayerBoard[rowP][colP]);
-					// setPlayerBoard(newPlayerBoard)
-					// setShipState(shipState+1)
-			
-				  },
-			changeUser : (user)=>{
-				user === 'Player' 
-				? setStore({user: 'Pc'}) 
-				: setStore({user: 'Player'}) 
-			},
-			showEnemyShips : (coord, board)=>{
-				const { enemyShipsClass } = getStore();
-				
-				enemyShipsClass === 'transparent border border-danger'
-				?
-				setStore({ enemyShipsClass : 'transparent'})
-				:
-				setStore({ enemyShipsClass : 'transparent border border-danger'})
+        board[row][col] === 0
+          ? getActions().placeShips(board, row, col) //poner un barco en esa posicion, para despues con un loop pasar esta funcion a cada barco
+          : board[row][col] < 3
+          ? getActions().fireTorpedo(board, row, col) //disparar en esta posición
+          : board[row][col] === 4 &&
+            getActions().whoIsTheWinner(board, row, col); //guarda todos los barcos que estan en 4 solo se pone en 4 si el barco entero se hundio. guarda los barcos hundidos de cada board y si uno tiene todos sus barcos en 4 es el perdedor  y automaticamente el dueño del otro tablero gana tiene que recibir player board y sus ships?
+      },
+      fireTorpedo: (board, row, col) => {
+        console.log(board, row, col, "fire");
+        // let shipState = ships[pos].shipState
+        const newBoard = [...board]; //si los datos existen usarlos, sino pedirlos con un prompt
+        console.log(board[row][col]);
 
-			},
+        row
+          ? board[row][col] === 0
+            ? (newBoard[row][col] = 4)
+            : board[row][col] < 4 &&
+              (newBoard[row][col]++, setStore({ board: newBoard }))
+          : getActions().fireTorpedoPrompt();
 
-		// whoIsTheWinner : (player, ships, shipState)=>{
-		// 	// se le manda el player que tiene todos sus ships con shipState en 3, no habra empate porque el primero que
-		// }	// complete los ships con 3, ganará
-		
-	}
+        // shipState ++
+        // setShips({[...ships], shipState})
+      },
+      fireTorpedoPrompt: () => {
+        const { PcBoard } = getStore();
+
+        let prow = parseInt(prompt("Type a coord x"));
+        let pcol = parseInt(prompt("Type a coord y"));
+        let board = PcBoard;
+        const newBoard = [...board];
+
+        board[prow][pcol] === 0
+          ? (newBoard[prow][pcol] = 4)
+          : board[prow][pcol] < 4 && newBoard[prow][pcol]++; // Si esta en 0 empty es un 4 miss si esta en 1 suma disparos hasta el 3 que ya es hundido (tiene que ponerse en 3 automaticamente al disparar alultimo cuadrado del barco)
+
+        console.log(
+          newBoard[prow][pcol], "newBoard[prow][pcol]", board,"pcBoard");
+          setStore({ board: newBoard });
+      },
+      whoIsTheWinner: (board, row, col) => {
+        //agregar el nombre del barco o del player no el row cuando pille un 4 agregara inmediatamente el nombre del barco o puede ser un counter. podrian haber 3 pcBoard y 4 playerBoard y este ultimo seria evaluado
+        console.log("datos de who is the winner", board, row, col);
+
+        let winner = null;
+        let len = ships.length;
+        let counter = {
+          PcBoard: 0,
+          PlayerBoard: 0,
+        };
+
+        board === PlayerBoard ? counter.PlayerBoard++ : counter.PcBoard++;
+
+        counter.PcBoard === len ? (winner = "Pc") : (winner = "Player");
+        alert(winner + " is the winner!");
+
+        return winner;
+      },
+      changeUser: (user) => {
+        user === "Player"
+          ? setStore({ user: "Pc" })
+          : setStore({ user: "Player" });
+      },
+      showEnemyShips: (coord, board) => {
+        const { enemyShipsClass } = getStore();
+
+        enemyShipsClass === "transparent border border-danger"
+          ? setStore({ enemyShipsClass: "transparent" })
+          : setStore({ enemyShipsClass: "transparent border border-danger" });
+      },
+
+      // whoIsTheWinner : (player, ships, shipState)=>{
+      // 	// se le manda el player que tiene todos sus ships con shipState en 3, no habra empate porque el primero que
+      // }	// complete los ships con 3, ganará
+    },
+  };
 };
-}
 
 export default getState;
 
-
-
-
-/*     const [PlayerBoard, setPlayerBoard] = useState(gameBoard)
-    const [PcBoard, setPcBoard] = useState(Array(100).fill(0))
-     const [user, setUser] = useState('Player')
-    // console.log(PlayerBoard);
-    const [shipState, setShipState] = useState(1)
-    const [ships, setShips] = useState([
-        { name: 'submarine', length: 3, taken: false, shipState: shipState }, // coords: [[1,1],[1,2]], maxpos es 10 - el ancho del barco si es horizontal si el barco mide 5 =maxpos => 5
-        { name: 'cruiser', length: 4, taken: false, shipState: shipState },// si es vertical 100 - el ancho del barco * 10 =maxpos => 50
-        { name: 'battleship', length: 5, taken: false, shipState: shipState },// diagonal 100 - el ancho del barco * 11 =maxpos => 45 
-        { name: 'carrier', length: 5, taken: false, shipState: shipState }
-    ])
-
- */
-    // const placeShips= (board)=>{
-    //     console.log(PlayerBoard);
-    // // board va a quedar con lo que tenia y reemplaza las posiciones de los barcos en sus maxpos y ocupa los squares correspondientes a su medida
-        // const randomAlign = Math.floor(Math.random() * 3) // random number entre 0 y 2
-        // const align = randomAlign === 0 ? 'horizontal' : 1 ? 'vertical' : 'diagonal'// si no es 0 ni 1 es 2 cada nro tiene su alineación
-        // const maxpos = align === 'horizontal' ? 10 - ships.length : align === 'vertical' ? 100 - (ships.length * 10) :  100 - (ships.length * 11)// resta el largo del barco de la linea en la que va posicionado para que no se salga del tablero
-        // const randX = Math.floor(Math.random() * maxpos) + 1 // posición random entre 0 y maxpos incluida ej barco horizontal medida 6 seria entre 0 y 4
-        // // const randomY= Math.floor(Math.random() * maxpos) + 1
-    //     //cambiar tablero para cualquiera de los dos players 
-    //     const newTablero= board.slice;
-    //     newTablero = ships[0].length //la medida seria ej 5, y la posicion ej 4 en horizontal(align) y en la fila 3, osea x=3,y=4
-    // // let coordship= ships[0].coords[0]
-    //     // let newPlayerBoard= PlayerBoard.slice();
-    //     // newPlayerBoard.splice((0[7]), 1, 'yt')
-    //     // setPlayerBoard(newPlayerBoard)
-    // }
-
-//     const fireTorpedo = (row, col)=>{
-
-// console.log(row,col, 'fire')
-// // if (newBoard[row][col] > 0 && newBoard[row][col] < 3) {
-// //     console.log(newBoard[row][col], 'gggg'); //donde ya hay barcos, si es 1 o 2 aumentar 1, si fuera 3 quiero que ponga todo rojo... la idea es que el barco entero este ahogado y se ponga ocn ese estado dentro del objeto en ships
-// //     // shipState in shipLength === 3 shipState drown esto lo hace firetorpedo
-// //     newBoard[row][col]++
-// //     setBoard(newBoard)
-// //   }
-//         // fireTorpedo funciona con un prompt en donde se ponen las coords o clickeando en el cuadrado a disparar
-       
-//         // console.log('se clickea el boton');
-//         // const rowP = prompt('coordenadas x')
-//         // const colP = prompt('coordenadas y')
-//         // console.log(rowP, colP);
-//         // const newPlayerBoard = [...PlayerBoard];
-//         // newPlayerBoard[rowP][colP] ++
-//         // console.log(newPlayerBoard[rowP][colP]);
-//         // setPlayerBoard(newPlayerBoard)
-//         // setShipState(shipState+1)
-
-//       }
+// shipAlign === "horizontal" || shipAlign === "diagonal" // col 7, row 7 col 7 = 7,7
+//   ? 10 - shipLength
+// : shipAlign === "vertical" && // row 7,
+//   100 - shipLength * 10;
+// : shipAlign === "diagonal" && 100 - ((shipLength * 11) - 10)    // para dos cifras sacar la primera como row y la segunda como col    resta el largo del barco de la fila o columna en la que va posicionado para que no se salga del tablero,
 
 
 
 
+// validPosition: (board, ship, row, col, total, shipAlign) => {
+//   let newBoard = [...board];
+//   let sobran = 10 - total;
+//   let maxPos = 10 - ship.length;
+//   let row2 = shipAlign === "vertical" || shipAlign === "diagonal"
+//       ? Math.floor(Math.random() * maxPos)
+//       : Math.floor(Math.random() * 10); //vertical solo pueden llegar hasta la row maxpos, col puede ser cualquiera.. encuentra la primera en 0 pero si durante el length se topa con otro no revisa aun 
+//   let col2 = shipAlign === "horizontal" || shipAlign === "diagonal"
+//       ? Math.floor(Math.random() * maxPos)
+//       : Math.floor(Math.random() * 10);
 
+//   console.log('entrando a validPosition', ship.name);
 
+//   if (newBoard[row][col] !== 0 && total > 10) {row = row2, col = col2}
 
+//    if(!ship.taken){
+//     console.log(ship.name, ship.taken);
+//   if (newBoard[row][col] === 0 && total <= 10) {
+//       if (shipAlign === 'horizontal' || shipAlign === 'diagonal') {
+//             for (let i = 0; i < ship.length; i++) {
+//               if (newBoard[row][col + i] === 0) {
+//                 console.log('vacio');
+//                 // return false;
+//               }
+//             }
+//       } else if (shipAlign === 'vertical' || shipAlign === 'diagonal') {
+//             for (let i = 0; i < ship.length; i++) {
+//               if (newBoard[row + i][col] === 0) {
+//                 console.log('vacio');
+//                 // return false;
+//               }
+//             }
+//       } 
+//     }  
+//       return true;
+//    };
+  
 
-// FUNCIONES QUE NO FUNCIONARON -.-' //
-			// getCoord: (positionx, positiony) => {
-			// 	const store = getStore();
-			// 	let x = store.colArr.map((item, i) => item[i].position)
-			// 	let y = store.rowArr.map((item, i) => item[i].position)
-			// 	let coordsget = colArr[positiony]
-			// 	positionx == x && positiony == y ? setStore({ ...colArr, coordsget: [x,y]}) : console.log(x, y, coordsget,'p');
-			// },// intento sacar la posicion de los componentes column,row que crean cada celda y compararla con los items de colArr,rowArr.podria usar un filter?? si coinciden agregar una nueva instancia a colArr donde se indique las coordenadas de cada celda---
+// },
+// placeShips: (board, ship) => {
+//   const store = getStore();
 
-		// table: () => {
-		// 	const store = getStore();
+//   let newBoard = [...board];
+//   let shipLength = ship.length;
 
-		// 	const colArr = new Array(10).fill(0)
-		// 	const rowArr = new Array(10).fill(0)
-		// 	setStore({ colArr2: colArr, rowArr2: rowArr })
+//   let randAlign = Math.floor(Math.random() * 3);
+//   let shipAlign =
+//     randAlign === 0
+//       ? "horizontal"
+//       : randAlign === 1
+//       ? "vertical"
+//       : randAlign === 2 && "diagonal";
 
-		// 	for (let i = 0; i < colArr.length; i++) {
-		// 		for (let j = 0; j < rowArr.length; j++) {
-		// 			let coordX = colArr[i]
-		// 			let coordY = rowArr[j]
-		// 			let tablecoordenadas = coordX + ',' + coordY
-		// 			setStore({ tableCoordenadas: tablecoordenadas })
+//   let maxPos = 10 - shipLength;
+  
+//   let row =
+//     shipAlign === "vertical" || shipAlign === "diagonal"
+//       ? Math.floor(Math.random() * maxPos)
+//       : Math.floor(Math.random() * 10); //vertical solo pueden llegar hasta la row maxpos, col puede ser cualquiera.. encuentra la primera en 0 pero si durante el length se topa con otro no revisa aun 
+//   let col =
+//     shipAlign === "horizontal" || shipAlign === "diagonal"
+//       ? Math.floor(Math.random() * maxPos)
+//       : Math.floor(Math.random() * 10); //horizontal solo puede llegar hasta la col maxpos, row cualquiera. diagonal solo puede llegar maxpos en row y col ej barco de length 3 solo llega hasta 7,7
+//   let total = row + shipLength; //la posicion en la que empieza + el largo del barco 
+//   let total2 = col + shipLength; //la posicion en la que empieza + el largo del barco 
 
-		// 		}
-		// 	}
-		// 	// pc tiene que dar un array de dos numeros random. player tiene que entregar dos numeros por prompt
-		// 	//cada barco es un array de 1 a 4 cuadros que coinciden con posiciones o coordenadas de la tabla
-		// 	//si el ataque coincide con las posiciones o include() alguna coordenada de los barcos el color cambia a atacado naranja o hundido rojo
-		// 	//parecido a la funcion de borrar tareas.. sacando el id en este caso la coordenada
-		// },
-		// let g = onClick = () => {
-		//   setBoat(!boat);
+//   // getActions().validPosition(board, ship, row, col, total) 
+// //   newBoard[row][col] !== 0 ?
+// //   console.log('nop', newBoard[row][col], row+','+col, shipLength, ship.name)}
+// //  : console.log('exito', newBoard[row][col], row+','+col)
+//   if (getActions().validPosition(board, ship, row, col, total, total2, shipAlign) === true) {
+//     console.log('yes', newBoard[row][col], row+','+col, shipLength, ship.name)
 
-		// let randId = () => {
-		//   uuidv1();
-		// };
-		// const fireTorpedo = (coords) => {
-		//   let coordenadas = prompt('elige las coordenadas')
+//     for (let i = 0; i < shipLength; i++) {
+//       // console.log(ship.name, newBoard[row][col]);
+//       newBoard[row][col] = ship.name;
+//       shipAlign === "diagonal"
+//         ? (row++, col++) 
+//         : shipAlign === "horizontal"
+//         ? col++
+//         : shipAlign === "vertical" && row++ 
+//     }
+//     setStore({ board: newBoard });
+//     setStore({ ships : [ { taken: true } ] });
+//   } else getActions().validPosition(board, ship, row, col, total, shipAlign)
+//   console.log(store.ships);
 
-		//   if (coordenadas == coords) {
-		//     console.log('hola');
-		//     // poner esta func en un onclick. si las coordenadas del usuario son iguales a las coords del barco hace algo
-		//     // cambia el color y el nro para cambiar su estado a atacado especificando las coords para que cambie color,
-		//     // al atacar todos los div del barco cambia el nro para cambiar su estado a hundido y cambiar color
-		//     // tiene que llamarse dentro del for que renderiza el componente en un onclick  y en el enter del prompt ?
-		//     // pq tmb tiene que disparar pero sus coordenadas son dos nros random separados por una','
-		//   }
-		// }
-
+// },

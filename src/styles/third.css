@@ -1,6 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
 .wrapper{
   font-family: 'Bangers', cursive;
+    background: rgb(26, 29, 34) url('https://img.freepik.com/vector-premium/juego-agua-costuras-fondo-superficie-azul-liquido-disenadores-juegos-2d-oceano-rio-o-mar-olas_80590-7363.jpg?w=2000    ') no-repeat fixed center;
+    background-size: cover;
+
 }
 :root{
     --blue: rgba(75, 75, 245, 0.733);

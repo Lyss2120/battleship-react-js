@@ -17,13 +17,13 @@ const Board = ({ board, user }) => {
         <SquareTop row={row} clase={'flex-row  ms-2 square-top'} />
         <div className='d-flex'>
           <SquareTop row={row} clase={'flex-column  px-1 square-top'} />
-          <div className='d-flex columnas game-board'>
+          <div className='d-flex tablero game-board'>
             {row.map((col, i) => {
               return (
-                <div key={i} className='filas segundoTop'>
+                <div key={i} className='columna '>
                   {row.map((row, i) => {
                     return (
-                      <Square key={i} className="square" 
+                      <Square key={i} className="rowss square" 
                       coord={board[row][col]} 
                       row={row} 
                       col={col} 

@@ -81,6 +81,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           shipState: "miss",
         },
       ],
+      takenShips: [{ name: 'cruiser' }],
       user: "Player",
       enemyShipsClass: "info bg-opacity-50",
       // fire: false,
@@ -117,61 +118,95 @@ const getState = ({ getStore, getActions, setStore }) => {
           getActions().placeShips(store.PlayerBoard, ship);
         });
       },
-      placeShips: (board, ship) => {
-        const valid = getActions().validPosition(board, ship)
-console.log(valid.row, valid.col, valid.align, 'paso valid', ship.name);
-        // if (isValidPosition(shipRow, shipCol, SHIP_LENGTH, 'horizontal', newGrid)) {
-        //   for (let i = 0; i < SHIP_LENGTH; i++) {
-        //     newGrid[shipRow][shipCol + i] = 'ship';
+      placeShips: (board, ship, row, col, align) => {
+        const valid = getActions().validPosition(board, ship, row, col, align)
+
+        console.log(valid.row, valid.col, valid.align, 'paso valid', ship.name);
+
+        row ? row : valid.row 
+        col ? col : valid.col 
+        align ? align : valid.align
+
+        if(align === 'horizontal' || align === 'diagonal'){
+          console.log(' params of placeships from clickplaceships; is horizontal or diagonal');
+        // if (isValidPosition(boad, ship)) {
+        //   for (let i = 0; i < ship.length; i++) {
+        //     newBoard[row][col] = 1;
+        //     col ++
         //   }
         // } else {
         //   // Si la posición no es válida, vuelve a intentar
-        //   positionShips();
+        //   placeShips();
         // }
+        }
+        else if(align === 'vertical' || align === 'diagonal'){
+          console.log('is vertical or diagonal');
+        // if (isValidPosition(boad, ship)) {
+        //   for (let i = 0; i < ship.length; i++) {
+        //     newBoard[row][col] = 1;
+        //     row ++
+        //   }
+        // } else {
+        //   placeShips();
+        // }
+        }
+
       },
-      validPosition: (board, ship) => {
+      clickPlaceShips: (board, ship, row, col, align)=>{
+        const store = getStore()
+        // *** ver como captar align de cada barco 
+        align = store.flip ? 'vertical' : store.moreFliped ? 'diagonal' : 'horizontal'
+        getActions().placeShips(board, ship, row, col, align)
+      }, //traer las coordenadas al clickear, y tambien al clickear cambiar store.flip para traer align tmb, con eso verificar y enviar uno por uno los barcos a placeSHIPS, 
+      validPosition: (board, ship, row=6, col=0, align='diagonal') => {
+        const store = getStore()
+        
         let newBoard = [...board]
+        
         let maxPos = 10 - ship.length;
         let maxPosCoord = Math.floor(Math.random() * maxPos);
         let random = Math.floor(Math.random() * 10);
-        // let row;
-        // let col;
-        let row= random;
-        let col= maxPosCoord;
-
         let randAlign = Math.floor(Math.random() * 3);
-        let align = randAlign === 0 ? 'horizontal': randAlign === 1 ? 'vertical': randAlign === 2 && 'horizontal'
+
+        row? row : random;
+        col? col: maxPosCoord;
+        align? align : randAlign === 0 ? 'horizontal': randAlign === 1 ? 'vertical': randAlign === 2 && 'horizontal'
+        
+        let takenShip = store.takenShips.find((item) => item.name === ship.name)
         let loqsea
         let obj={row, col, align, loqsea}//actualiza row y col con las coord de la ultima parte del barco
-     //poner en un estado, y ocuper de ahi. seguir asignando hasta que el espacio este libre
-     if(ship.taken === true){
-      console.log(ship.name,'ya esta tomado') 
-      return false}
-      else if(ship.taken === false && col + length < 10) 
-      {console.log(ship.name,'no esta tomado') 
+        //poner en un estado, y ocuper de ahi. seguir asignando hasta que el espacio este libre
+        console.log('params validPosition',row, col, align)
+
+
+      if(takenShip){
+        console.log(ship.name,'ya esta tomado') 
+        return false}
+
+      else if(!takenShip && col + length < 10){
+
+            console.log(ship.name,'no esta tomado')
+
             for(let i= 0; i < ship.length; i++){
-            // chequear en la coordenada y en cada coordenada de cada parte del barco osea x el length del barco
-            // revisa cada pieza del barco y marca cada posicion o coord... si no pasa porque una de sus partes es undefined o esta ocupada tiene que pasar por el cilco denuevo pero con otras corrdenadass hasta uqe en cuaentre un espacio vacio...
+            // revisa cada pieza del barco y marca cada posicion o coord... si no pasa porque una de sus partes es undefined o esta ocupada tiene que pasar por el cilco denuevo pero con otras coordenadass hasta uqe en cuaentre un espacio vacio...
+            //revisar porque no se setea el estado al pasar el primer barco para que los sigtes no ocupen el mismo espacio... verlo con placeships
             col++
             if(newBoard[row][col] !== 0){
               loqsea = console.log('no es cero es:', newBoard[row][col], row+','+col, ship.name, ship.length );
-              // row= Math.floor(Math.random() * 10)
-              // col= Math.floor(Math.random() * maxPos);
               console.log('nuevos col y row',  ship.name)
               getActions().validPosition(board, ship)
             } else 
-            //   setStore({board : newBoard})
-            //   setStore({ships:[{ship :{name:true}}]})
-            // console.log(ship.name, 'ship.taken:',ship.taken);
             obj.row=row 
             obj.col=col
-            loqsea = console.log(' es cero:', newBoard[row][col], row+','+col, ship.name, ship.length );
-
-        }
-        console.log(ship.name, 'tomado:', ship.name) //setear bien shipd.taken, usar con placeships para setear board y ver que no choquen entre si.. comprobar que no ocupen el mismo espacio
-
+            loqsea = console.log(' es cero:', newBoard[row][col], row+','+col, ship.name, store.takenShips,ship.length );
+            
+        } setStore({takenShips: [...store.takenShips, { name: ship.name }]})
+        getActions().placeShips(board, ship, obj.row, obj.col, align)//para que setee el estado de board y no ovuelva a ocupar el lugar al pasar otro barco por el ciclo
+        // takenShip {name: 'cruiser'} setea un estado en el que se guardan los barcos tomados, si no esta tomado sera undefined, en ese caso hacer el proceso, si existe en takenships no hara el proceso nuevamente
+        //setear bien shipd.taken, usar con placeships para setear board y ver que no choquen entre si.. comprobar que no ocupen el mismo espacio
+        // ya verifica que no se superpongan los barcos y si lo hacen llama nuevamente a validposition que le asigna nuevamente randomcoords
       }
-    return obj
+      return obj
       },
       squareClick: (board, row, col) => {
         const store = getStore();

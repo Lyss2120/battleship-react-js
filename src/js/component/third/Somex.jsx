@@ -64,17 +64,22 @@ const Somex = () => {
                     show enemy ships
                 </button>
                 
-                <div className="bg-danger m-2 p-5 d-flex justify-content-between">
-                <div className="bg-warning p-3 " onDragStart={(e)=>console.log('dragging telllow', e.target)}>
-                    <span> hol   </span>
+                <div className="bg-danger m-2 p-3 d-flex justify-content-between">
+                <div className="bg-warning p-1 ms-3" onDragStart={(e)=>console.log('dragging telllow', e.target)}>
+                    <span> barco 1   </span>
+                </div>
+                <div className="bg-secondary p-2 " onDragStart={(e)=>console.log('dragging gray', e.target)}>
+                <span>  barco 2 </span>
+                </div>
+                <div className="bg-success p-2 " onDragStart={(e)=>console.log('dragging green', e.target)}>
+                    barco 3
                 </div>
                 <div className="bg-secondary p-3 " onDragStart={(e)=>console.log('dragging gray', e.target)}>
-                <span>  hol </span>
+                <span>  barco 4 </span>
                 </div>
-                <div className="bg-success p-3 " onDragStart={(e)=>console.log('dragging green', e.target)}>
-                    
+                <div className="bg-success p-4 me-3" onDragStart={(e)=>console.log('dragging green', e.target)}>
+                    barco 5
                 </div>
-
                 </div>
             </div>
         </div>

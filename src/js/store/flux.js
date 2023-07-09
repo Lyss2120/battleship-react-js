@@ -81,7 +81,10 @@ const getState = ({ getStore, getActions, setStore }) => {
           shipState: "miss",
         },
       ],
+      takenCoords: [],
       takenShips: [],
+      takenCol: null,
+      takenRow: null,
       user: "Player",
       enemyShipsClass: "info bg-opacity-50",
       desdeElClickdata: {row:0, col:2, align:'horizontal'}
@@ -106,6 +109,9 @@ const getState = ({ getStore, getActions, setStore }) => {
         //reset the global store
         setStore({ demo: demo });
       },
+      randomNumber: (maxNum)=>{
+        Math.floor(Math.random() * maxNum)+1
+      },
       start: () => {
         const store = getStore();
         // llama a place boards con cada tablero para poner dentro sus barcos
@@ -123,172 +129,123 @@ const getState = ({ getStore, getActions, setStore }) => {
         const store = getStore()
         let newBoard = [...board];
         let maxPos = 10 - ship.length;
-        let maxPosCoord = Math.floor(Math.random() * maxPos);
+        // let maxPosCoord2 = getActions().randomNumber(maxPos)
+        // console.log({maxPosCoord2});
+        let maxPosCoord = Math.floor(Math.random() * maxPos)+1;
         let random = Math.floor(Math.random() * 10);
         let randAlign = Math.floor(Math.random() * 3);
+        let align= randAlign === 0 ? 'horizontal': randAlign === 1 ? 'vertical': randAlign === 2 && 'horizontal';
         let row;
         let col;
-        let align= randAlign === 0 ? 'horizontal': randAlign === 1 ? 'vertical': randAlign === 2 && 'horizontal';
         let valid;
-        let takenShip = store.takenShips.includes(ship.name) //BUSCA el nombre de UN BARCO EN EL ESTADO TAKENSHIPS. boolean si es true ya esta tomado
+        let takenShip = store.takenShips.includes(ship.name) 
         let desdeElClick = false
-        desdeElClick? ( row=0, col=2, align='horizontal') : (row=random, col=maxPosCoord, align=align, console.log('desde el click es false', {maxPosCoord}, {maxPos}))//aqui el usuario tiene que tomar otra vez el barco y dejarlo en un lugar-.... en vez de la alerta iluminar en un color puede ser rojo qeu indique qeu no se pueden poner barcos ahí, y que eso indique que tiene que intentar otra vez     
-        valid = getActions().validPosition(newBoard, ship, row, col, align)
-      // valid? console.log({valid},ship.name): console.log('no valid', {valid}, ship.name);
-      if(takenShip){
-        // valid = !valid
-        console.log(ship.name, {takenShip}, 'takenShip, esta tomado', {valid});
-        } // si el barco existe avisar... borrar if despues de comprobar que no molesta al codigo de abajo
-      if(!takenShip){//si el barco no se ha tomado antes asignarle coordenadas que las pasen validaciones
-        console.log(ship.name, 'takenShip, no esta tomado', {takenShip}, {valid});
-
-        // do {
-        // align = randAlign === 0 ? 'horizontal': randAlign === 1 ? 'vertical': randAlign === 2 && 'horizontal';
-        // align === 'horizontal'? (row= random, col= maxPosCoord) : (row= maxPosCoord, col= random );
-        // console.log('nuevas coordenadas y align', row, col, align, ship.name, 'ahora valid es:',valid); //se le asignan nuevas coordenadas si no pasa las validaciones porque no encontro un espacio vacio para el length de su barco
-        // } while (!valid)
-      }
-      //si valid con desdeelclick salio false o si desdeelclick no ha traido datos
-      //   while(!valid){
-      //   row= random;
-      //   col= maxPosCoord;
-      //   align= randAlign === 0 ? 'horizontal': randAlign === 1 ? 'vertical': randAlign === 2 && 'horizontal'
-      // }
-      },
-//       placeShips2: (board, ship)=>{
-//         const store = getStore()
-//       //poner aqui clickPlaceShips? para que de aqui tome valid? o llamar a plaeShips desde squareClick? con row, col y align
-//       // console.log(valid.row, valid.col, valid.align, 'paso valid', ship.name);
-//       //si row, col y align existen es porque vienen de clickPlaceShips, sino se las otorga validPosition con random numbers
-//       let newBoard = [...board];
-//       let maxPos = 10 - ship.length;
-//       let maxPosCoord = Math.floor(Math.random() * maxPos);
-//       let random = Math.floor(Math.random() * 10);
-//       let randAlign = Math.floor(Math.random() * 3);
-//       let row;
-//       let col;
-//       let align;
-//       let valid;
-//       let takenShip = store.takenShips.find((item) => item.name === ship.name)
-//       let desdeElClick = true
-//       desdeElClick? (valid = getActions().validPosition(newBoard, ship, store.desdeElClickdata.row, store.desdeElClickdata.col, store.desdeElClickdata.align, console.log(store.desdeElClickdata.row, store.desdeElClickdata.col, store.desdeElClickdata.align, 'desdeelclckdata'))) : console.log('desde el click es false')//aqui el usuario tiene que tomar otra vez el barco y dejarlo en un lugar-.... en vez de la alerta iluminar en un color puede ser rojo qeu indique qeu no se pueden poner barcos ahí, y que eso indique que tiene que intentar otra vez     
-//       valid? console.log({valid},ship.name): console.log('no valid', {valid}, ship.name);
-//       if(takenShip !== undefined){
-//         valid = !valid
-//         console.log(ship.name, 'takenShip, esta tomado', {valid});
-//         } // si el barco existe avisar... borrar if despues de comprobar que no molesta al codigo de abajo
-//       if(!takenShip){//si el barco no se ha tomado antes asignarle coordenadas que las pasen validaciones
-//         console.log(ship.name, 'takenShip, no esta tomado');
-//       }
-//         //si valid con desdeelclick salio false o si desdeelclick no ha traido datos
-//       if(!valid || !desdeElClick){
-//         console.log('no paso valid en el if', {valid}, 'desdeelclick es false', {desdeElClick})
-//       }
-
-      
-      
-      
-      
-//       //poner estos datos como un estado?..para no tener problemas con el lugar en el que se declara y llama a valid 
-
-//       // console.log(valid); //boolean
-//       // desdelclick puede ser un estado en el store que empiece en null a menos que se clickee para posicionar un barco y ahi se setee ese estado con algo o con un obj/array. con cada click distinto cambia el estado y de ahi se sacan las coords y align segun lo que haga el usuario
-//       // que evalue si puede pasar valid con estas coords  o no y si no pasa usar el do while para asignarle otro lugar?? o mandar un mensaje para que el usuario lo haga hasta encontrar un lugar
-//       // console.log('hacer algo al tener las coord desdelclick', {valid}, ship.name, row+','+col);
-//       //si las coordenadas ya vienen desde el click tomarlas, tienen que venir aca desde alguna forma... puede ser desde el store..
-//       // si el barco ya esta en takenship, y no paso valid porque ya esta tomado...      &&!valid para cuando venga con coordenadas desde el onclick
-     
-//     //  si desdeelchlick dio datos que no pasaron validposition o si no hay datos desde el click probar todas las veces necesarias hasta que valid pase
-// +      //   row=0
-//       //   col=1
-//       //   align='horizontal'
-//       //   console.log('hacer algo al tener las coord desdelclick', {valid}, ship.name, row+','+col);
-//       //   do {
-//       //   row=random;
-//       //   col= maxPosCoord;
-//       //   align= randAlign === 0 ? 'horizontal': randAlign === 1 ? 'vertical': randAlign === 2 && 'horizontal'
-//       //   console.log('nuevas coordenadas y align', row, col, align, ship.name, 'valid es:',valid); //se le asignan nuevas coordenadas si no pasa las validaciones porque no encontro un espacio vacio para el length de su barco
-//       // } while (!valid)
-//       // }
-
-//       // do {
-//       //   row=random;
-//       //   col= maxPosCoord;
-//       //   align= randAlign === 0 ? 'horizontal': randAlign === 1 ? 'vertical': randAlign === 2 && 'horizontal'
-//       //   console.log('nuevas coordenadas y align', row, col, align, ship.name, 'valid es:',valid); //se le asignan nuevas coordenadas si no pasa las validaciones porque no encontro un espacio vacio para el length de su barco
-//       // } while (valid)
-//     //}
-
-
-//       // const valid = getActions().validPosition(board, ship, row, col, align)
-
-//         // let row = valid.row 
-//         // let col = valid.col 
-//         // let align = valid.align
-
-//         // if(align === 'horizontal' || align === 'diagonal'){
-//         //  console.log('is horizontal or diagonal');
-//         //   for (let i = 0; i < ship.length; i++) {
-//         //     newBoard[row][col] = 1;
-//         //     col ++
-//         //   } 
-//         // }
-//         // else if(align === 'vertical' || align === 'diagonal'){
-//         //   console.log('is vertical or diagonal');
-//         //   for (let i = 0; i < ship.length; i++) {
-//         //     newBoard[row][col] = 1;
-//         //     row ++
-//         //   }
         
-//         // }
-//     },
-      clickPlaceShips: (board, ship, row, col)=>{
+        desdeElClick? ( row=0, col=2, align='horizontal') : (align === 'horizontal' ? (row=random, col=maxPosCoord, align=align) : (row= maxPosCoord, col= random, align=align), console.log('coordenadas asignadas por primera vez', row+','+col, align, ship.name) )//console.log('desde el click es false', {maxPosCoord}, {maxPos}, ship.name) aqui el usuario tiene que tomar otra vez el barco y dejarlo en un lugar-.... en vez de la alerta iluminar en un color puede ser rojo qeu indique qeu no se pueden poner barcos ahí, y que eso indique que tiene que intentar otra vez     
+        if(takenShip){
+          console.log({takenShip});
+          return
+        }
+
+        valid = getActions().validPosition(newBoard, ship, row, col, align)
+        if(!takenShip){
+          while(!valid){
+            let maxCoord2= Math.floor(Math.random() * maxPos);
+            let random2= Math.floor(Math.random() * 10);
+            align === 'horizontal'? (row= random2, col= maxCoord2) : (row= maxCoord2, col= random2 );
+            // console.log('takencol', store.takenCol, 'takenRow', store.takenRow);
+            // align === 'horizontal'? (col = store.takenCol + 1) : (row = store.takenRow + 1); se puede salir del tabero y daria false for ever
+
+            valid = getActions().validPosition(newBoard, ship, row, col, align)
+
+            console.log('nuevas coordenadas', row, col, align, ship.name, 'ahora valid es:',valid); //se le asignan nuevas coordenadas si no pasa las validaciones porque no encontro un espacio vacio para el length de su barco
+        }
+        }     
+      },
+      clickPlaceShips: (board, ship, row, col) => {
         const store = getStore()
-        // *** ver como captar align de cada barco 
-        console.log('hola');
+        // *** ver como captar align de cada barco... con estado? ver version anterior con flip
+        console.log('clickplaceShips');
         // align = store.flip ? 'vertical' : store.moreFliped ? 'diagonal' : 'horizontal'
-        // getActions().validPosition(board, ship, row, col, align)
-        // getActions().placeShips(board, ship)
+        // getActions().placeShips(board, ship, row, col)
       }, //traer las coordenadas al clickear, y tambien al clickear cambiar store.flip para traer align tmb, con eso verificar y enviar uno por uno los barcos a placeSHIPS, 
-      validPosition: (newBoard, ship, row, col, align) => {
-        const store = getStore();        
-        if (col + length > 10) {
+      valid1:(row, col, align) => {
+        if (align === 'horizontal'){            
+          console.log({align});
             let collenght= col + length
-            console.log({collenght});
-            //evita salirse del tablero y dar undefined por eso
+            if (collenght > 10) {
+            console.log({collenght}, 'no paso valid1');
             return false;
-        } 
-        else if (align === 'horizontal'){
-            console.log({align});
+          }
+      }
+        if (align === 'vertical'){
+            let rowlenght= row + length
+            if (rowlenght > 10) {
+            console.log({rowlenght}, 'no paso valid1');
+            return false;
+          }
+      }  
+      // console.log('paso valid1');
+      return true
+      },//guardar las coordenadas usadas en un array para encontrar una posicion valida entre las disponibles
+      validPosition: (newBoard, ship, row, col, align) => {
+        const store = getStore();   
+        // crear otra function, separar la de salir del tablero y la de  
+         
+        let valid1 = getActions().valid1(newBoard, ship, row, col, align)  
+        let takenShip = store.takenShips.includes(ship.name) 
+        
+
+        if(valid1 === false){console.log({valid1})};
+        if (align === 'horizontal'){
             for(let i= 0; i < ship.length; i++){
-                console.log('para', ship.name, 'from validposition', row+','+col, {align});            
+              // console.log('para', ship.name, 'from validposition', row+','+col, {align});            
                 if(newBoard[row][col] !== 0){
                   console.log(ship.name, 'choco con algo',newBoard[row][col], row+','+col);
+                  setStore({takenCol: col})
+                  // consultar como setear el estado ships en cada barco para cambiar coordenadas y taken
                   return false
-                }                                         
+                } 
+                if(!valid1){
+                  // console.log('valid1 dio false al pasar por valdipos'); 
+                return false
+                }
                   newBoard[row][col] = 1;
                   col += 1
                   setStore({ board: newBoard })                               
             }
             setStore({ takenShips: [...store.takenShips,  ship.name ] })
-            console.log('paso por takenshipssss ', ship.name, store.takenShips );
+            //console.log('paso por takenshipssss ', ship.name, store.takenShips ); acumular conjuntos de coords para sortear las nuevas coords dentro de lo que no esta tomado. parecido a los barcos takenship
+            //ver click placeships para usarlo con placeships o start y hacer las validaciones tal cual com con la normal.
+            //ver firetorpedo que sepa cuanod es barco para darle hit, cuando esta en hit darle sunk y si todas las partes del barco o el lenght esta en sunk avisar o cambiar el color y acumularlo en un array de barcos hundidos para ver el ganadr
+            //ver el tablero de cada jugador o el array de barcos hundidos.. el estado del ship en ships, y si todos los barcos del jugados estan en sunk el otro jugador ganq y se avisa el ganador con una celebracion y un modal encima que anuncie al ganador
+            //despues de eso dar la opcion de jugar denuevo.. posicbilidad de almacenar las partidas ganadas en el localhost.?
+            //ipcionde rotar los barcos y que eso cambie su estado align para dar los datosa a placeships, arreglar los estilos para que se vea como un juego
+            
             return true
         }
-        else if (align === 'vertical'){
-            console.log({align});
+
+        if (align === 'vertical'){
+            // console.log({align});
             for(let i= 0; i < ship.length; i++){
-                console.log('para', ship.name, 'from validposition', row+','+col, {align});
+                // console.log('para', ship.name, 'from validposition', row+','+col, {align});
+                
                 if(newBoard[row][col] !== 0){
                   console.log(ship.name, 'choco con algo',newBoard[row][col], row+','+col);
+                  setStore({takenRow: row})
                   return false
                 }  
-                // no reconoce el return false cdo choca con algo
+                // no reconoce el return false cdo choca con algo . 
+                if(!valid1){
+                  // console.log('valid1 es false al paasr por validpos');
+                  return false
+                }
                   newBoard[row][col] = 1;
                   row += 1
                   setStore({ board: newBoard })               
             }
             setStore({ takenShips: [...store.takenShips,  ship.name ] })
-            console.log('paso por takenshipssss ', ship.name, store.takenShips ); 
+            // console.log('paso por takenshipssss ', ship.name, store.takenShips ); 
             return true
         }
       },

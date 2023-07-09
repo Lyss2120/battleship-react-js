@@ -48,7 +48,7 @@ const Somex = () => {
                 // onClick={() => { actions.changeUser(user)}} //setear user en la func firetorpedo
                 onClick={actions.start}
                 > 
-                  changeUser  start!!
+                  start!!
 
                 </button>
                 <button 

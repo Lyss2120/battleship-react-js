@@ -13,16 +13,16 @@ const Square = ({ coord, i, row, col, board }) => {
         {
           board === store.PcBoard ?
             ''
-            // : 
-              // coord === 0 ?
-              // ''
+            : 
+              coord === 0 ?
+              ''
               : coord
         }
       </div>
 
 
 
-
+{/* en el click rescatar el target value para las coordenadas.  */}
 
     </>
   )

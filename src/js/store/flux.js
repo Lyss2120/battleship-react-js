@@ -53,28 +53,28 @@ const getState = ({ getStore, getActions, setStore }) => {
       ],
       ships: [
         {
-          startPosition: null,
+          coords: [],
           name: "submarine",
           length: 3,
           taken: false,
           shipState: "miss",
         }, // coords: [[1,1],[1,2]], maxpos es 10 - el ancho del barco si es horizontal si el barco mide 5 =maxpos => 5
         {
-          startPosition: null,
+          coords: [],
           name: "cruiser",
           length: 4,
           taken: false,
           shipState: "miss",
         }, // si es vertical 100 - el ancho del barco * 10 =maxpos => 50
         {
-          startPosition: null,
+          coords: [],
           name: "battleship",
           length: 5,
           taken: true,
           shipState: "miss",
         }, // diagonal 100 - el ancho del barco * 11 =maxpos => 45
         {
-          startPosition: null,
+          coords: [],
           name: "carrier",
           length: 5,
           taken: false,
@@ -141,26 +141,26 @@ const getState = ({ getStore, getActions, setStore }) => {
         let takenShip = store.takenShips.includes(ship.name) 
         let desdeElClick = false
         
-        desdeElClick? ( row=0, col=2, align='horizontal') : (align === 'horizontal' ? (row=random, col=maxPosCoord, align=align) : (row= maxPosCoord, col= random, align=align), console.log('coordenadas asignadas por primera vez', row+','+col, align, ship.name) )//console.log('desde el click es false', {maxPosCoord}, {maxPos}, ship.name) aqui el usuario tiene que tomar otra vez el barco y dejarlo en un lugar-.... en vez de la alerta iluminar en un color puede ser rojo qeu indique qeu no se pueden poner barcos ahí, y que eso indique que tiene que intentar otra vez     
         if(takenShip){
           console.log({takenShip});
           return
         }
 
+        desdeElClick? ( row=0, col=2, align='horizontal') : (align === 'horizontal' ? (row=random, col=maxPosCoord, align=align) : (row= maxPosCoord, col= random, align=align), console.log('coordenadas asignadas por primera vez', row+','+col, align, ship.name) )//console.log('desde el click es false', {maxPosCoord}, {maxPos}, ship.name) aqui el usuario tiene que tomar otra vez el barco y dejarlo en un lugar-.... en vez de la alerta iluminar en un color puede ser rojo qeu indique qeu no se pueden poner barcos ahí, y que eso indique que tiene que intentar otra vez             
+
         valid = getActions().validPosition(newBoard, ship, row, col, align)
-        if(!takenShip){
-          while(!valid){
+        
+        while(!valid){
             let maxCoord2= Math.floor(Math.random() * maxPos);
             let random2= Math.floor(Math.random() * 10);
             align === 'horizontal'? (row= random2, col= maxCoord2) : (row= maxCoord2, col= random2 );
             // console.log('takencol', store.takenCol, 'takenRow', store.takenRow);
             // align === 'horizontal'? (col = store.takenCol + 1) : (row = store.takenRow + 1); se puede salir del tabero y daria false for ever
-
+            // revisar en el tablero el array que tenga x posiciones libres consecutivas manteniendo el align.. 
             valid = getActions().validPosition(newBoard, ship, row, col, align)
 
             console.log('nuevas coordenadas', row, col, align, ship.name, 'ahora valid es:',valid); //se le asignan nuevas coordenadas si no pasa las validaciones porque no encontro un espacio vacio para el length de su barco
         }
-        }     
       },
       clickPlaceShips: (board, ship, row, col) => {
         const store = getStore()
@@ -188,31 +188,49 @@ const getState = ({ getStore, getActions, setStore }) => {
       // console.log('paso valid1');
       return true
       },//guardar las coordenadas usadas en un array para encontrar una posicion valida entre las disponibles
+      valid2:(newBoard, ship, row, col, align)=>{
+       if (align === 'horizontal'){
+        if(newBoard[row][col] !== 0){
+          setStore({takenCol: col})
+          return false
+          }
+       }
+       if (align === 'vertical'){
+          if(newBoard[row][col] !== 0){
+            setStore({takenRow : row})
+            return false
+          }
+       }
+       return true
+      },
       validPosition: (newBoard, ship, row, col, align) => {
-        const store = getStore();   
+        const store = getStore()   
         // crear otra function, separar la de salir del tablero y la de  
          
         let valid1 = getActions().valid1(newBoard, ship, row, col, align)  
-        let takenShip = store.takenShips.includes(ship.name) 
-        
+        let valid2 = getActions().valid2(newBoard, ship, row, col, align)  
 
+        let newShips= [...store.ships]
+            newShips[ship][taken]= true
+            newShips[ship][coords]= [...coords, row,col]
+        
         if(valid1 === false){console.log({valid1})};
         if (align === 'horizontal'){
             for(let i= 0; i < ship.length; i++){
-              // console.log('para', ship.name, 'from validposition', row+','+col, {align});            
-                if(newBoard[row][col] !== 0){
-                  console.log(ship.name, 'choco con algo',newBoard[row][col], row+','+col);
-                  setStore({takenCol: col})
-                  // consultar como setear el estado ships en cada barco para cambiar coordenadas y taken
+                //  revisar si en esa fila hay la cantidad de espacios disponibles para el length del barco si no hay bajar una fila asi hasta que encuentre
+                if(!valid2){
+                  console.log(ship.name, 'choco', row+','+col, store.takenCol);
+                  //if [row][col]=coords en ship.coords return dejarria los espacios disponibles en un nuevo array??..juntar las coordenadas y filtrar por cada row que cols estan disponibles usando indexOf o findIndex a cada col qeu no este ocupada...
                   return false
                 } 
                 if(!valid1){
-                  // console.log('valid1 dio false al pasar por valdipos'); 
                 return false
                 }
-                  newBoard[row][col] = 1;
+                else  newBoard[row][col] = 1;
                   col += 1
-                  setStore({ board: newBoard })                               
+                  setStore({ board: newBoard }) 
+                  setStore({ships: newShips})// coords=row, col taken=true setea las coordenadas oficiales y deja el barco en taken true
+                              
             }
             setStore({ takenShips: [...store.takenShips,  ship.name ] })
             //console.log('paso por takenshipssss ', ship.name, store.takenShips ); acumular conjuntos de coords para sortear las nuevas coords dentro de lo que no esta tomado. parecido a los barcos takenship
@@ -228,14 +246,20 @@ const getState = ({ getStore, getActions, setStore }) => {
         if (align === 'vertical'){
             // console.log({align});
             for(let i= 0; i < ship.length; i++){
-                // console.log('para', ship.name, 'from validposition', row+','+col, {align});
+                // // console.log('para', ship.name, 'from validposition', row+','+col, {align});
                 
-                if(newBoard[row][col] !== 0){
-                  console.log(ship.name, 'choco con algo',newBoard[row][col], row+','+col);
-                  setStore({takenRow: row})
+                // if(newBoard[row][col] !== 0){
+                //   console.log(ship.name, 'choco con algo',newBoard[row][col], row+','+col, typeof valid2, store.takenRow);
+                //   setStore({takenRow: row})
+                //   return false
+                // } 
+                if(!valid2 ){
+                  console.log(ship.name, 'choco con algo',newBoard[row][col], row+','+col, typeof valid2, store.takenRow);
+                  // setStore({takenCol: col})
+                  // consultar como setear el estado ships en cada barco para cambiar coordenadas y taken, //  revisar si en esa fila hay la cantidad de espacios disponibles para el length del barco si no hay bajar una fila asi hasta que encuentre
                   return false
-                }  
-                // no reconoce el return false cdo choca con algo . 
+                }
+                
                 if(!valid1){
                   // console.log('valid1 es false al paasr por validpos');
                   return false

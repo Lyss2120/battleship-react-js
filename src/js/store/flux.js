@@ -85,6 +85,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       takenShips: [],
       takenCol: null,
       takenRow: null,
+      coordArray:[],// guarda las coordenadas ocupadas en arrays dentro de coordAarray para poder ubicar solo los lugares disponibles
       user: "Player",
       enemyShipsClass: "info bg-opacity-50",
       desdeElClickdata: {row:0, col:2, align:'horizontal'}
@@ -161,6 +162,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 
             console.log('nuevas coordenadas', row, col, align, ship.name, 'ahora valid es:',valid); //se le asignan nuevas coordenadas si no pasa las validaciones porque no encontro un espacio vacio para el length de su barco
         }
+        console.log(store.coordArray, 'coordarray'); //guarda todas las coords ocupadas
+
       },
       clickPlaceShips: (board, ship, row, col) => {
         const store = getStore()
@@ -189,6 +192,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       return true
       },//guardar las coordenadas usadas en un array para encontrar una posicion valida entre las disponibles
       valid2:(newBoard, ship, row, col, align)=>{
+        const store = getStore()   
+
        if (align === 'horizontal'){
         if(newBoard[row][col] !== 0){
           setStore({takenCol: col})
@@ -205,35 +210,40 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
       validPosition: (newBoard, ship, row, col, align) => {
         const store = getStore()   
-        // crear otra function, separar la de salir del tablero y la de  
-         
+
         let valid1 = getActions().valid1(newBoard, ship, row, col, align)  
         let valid2 = getActions().valid2(newBoard, ship, row, col, align)  
 
-        let newShips= [...store.ships]
-            newShips[ship][taken]= true
-            newShips[ship][coords]= [...coords, row,col]
-        
         if(valid1 === false){console.log({valid1})};
+
         if (align === 'horizontal'){
             for(let i= 0; i < ship.length; i++){
                 //  revisar si en esa fila hay la cantidad de espacios disponibles para el length del barco si no hay bajar una fila asi hasta que encuentre
                 if(!valid2){
                   console.log(ship.name, 'choco', row+','+col, store.takenCol);
-                  //if [row][col]=coords en ship.coords return dejarria los espacios disponibles en un nuevo array??..juntar las coordenadas y filtrar por cada row que cols estan disponibles usando indexOf o findIndex a cada col qeu no este ocupada...
-                  return false
+                return false
                 } 
                 if(!valid1){
                 return false
                 }
-                else  newBoard[row][col] = 1;
+                else { 
+                  newBoard[row][col] = 1;
                   col += 1
-                  setStore({ board: newBoard }) 
-                  setStore({ships: newShips})// coords=row, col taken=true setea las coordenadas oficiales y deja el barco en taken true
-                              
+                  setStore({ board: newBoard })
+                  setStore({coordArray: [...store.coordArray, [row,col]]}) //almacena cada coordenada ocupada exitosamente en un array 
+                  let coords = [row, col]
+                  store.ships.map((item, index)=>{
+                      return (
+                        item.name === ship.name &&
+                        console.log('ship.taken', ship.taken, row, col, 'ship.align', ship.align),
+                        ship.taken = true, //sale undefined o undeclared. ver pq
+                        ship.align = align
+                      )
+                    }) 
+                }// store.ships.filter(item => item.name === ship.name)  modificar todo lo de ship?                           
             }
             setStore({ takenShips: [...store.takenShips,  ship.name ] })
-            //console.log('paso por takenshipssss ', ship.name, store.takenShips ); acumular conjuntos de coords para sortear las nuevas coords dentro de lo que no esta tomado. parecido a los barcos takenship
+            //acumular conjuntos de coords para sortear las nuevas coords dentro de lo que no esta tomado. parecido a los barcos takenship. -- listo
             //ver click placeships para usarlo con placeships o start y hacer las validaciones tal cual com con la normal.
             //ver firetorpedo que sepa cuanod es barco para darle hit, cuando esta en hit darle sunk y si todas las partes del barco o el lenght esta en sunk avisar o cambiar el color y acumularlo en un array de barcos hundidos para ver el ganadr
             //ver el tablero de cada jugador o el array de barcos hundidos.. el estado del ship en ships, y si todos los barcos del jugados estan en sunk el otro jugador ganq y se avisa el ganador con una celebracion y un modal encima que anuncie al ganador
@@ -247,7 +257,6 @@ const getState = ({ getStore, getActions, setStore }) => {
             // console.log({align});
             for(let i= 0; i < ship.length; i++){
                 // // console.log('para', ship.name, 'from validposition', row+','+col, {align});
-                
                 // if(newBoard[row][col] !== 0){
                 //   console.log(ship.name, 'choco con algo',newBoard[row][col], row+','+col, typeof valid2, store.takenRow);
                 //   setStore({takenRow: row})
@@ -255,21 +264,30 @@ const getState = ({ getStore, getActions, setStore }) => {
                 // } 
                 if(!valid2 ){
                   console.log(ship.name, 'choco con algo',newBoard[row][col], row+','+col, typeof valid2, store.takenRow);
-                  // setStore({takenCol: col})
+                  //setStore({takenCol: col}) esto lo hace valid2
                   // consultar como setear el estado ships en cada barco para cambiar coordenadas y taken, //  revisar si en esa fila hay la cantidad de espacios disponibles para el length del barco si no hay bajar una fila asi hasta que encuentre
                   return false
                 }
                 
                 if(!valid1){
-                  // console.log('valid1 es false al paasr por validpos');
                   return false
                 }
                   newBoard[row][col] = 1;
-                  row += 1
-                  setStore({ board: newBoard })               
+                  row += 1 
+                  setStore({ board: newBoard })
+                  setStore({coordArray: [...store.coordArray, [row,col]]}) //almacena cada coordenada ocupada exitosamente en un array 
+
+                  store.ships.map((item)=>{
+                      return (
+                        item.name === ship.name &&
+                        console.log('ship.taken', ship.taken, 'ship.coords', ship.coords, row, col, align),
+                        ship.taken = true, //sale undefined o undeclared. ver pq
+                       // ship.coords = [row, col], //un for usando el length del barco para todas sus coords?
+                        ship.align = align
+                      )
+                    })               
             }
             setStore({ takenShips: [...store.takenShips,  ship.name ] })
-            // console.log('paso por takenshipssss ', ship.name, store.takenShips ); 
             return true
         }
       },

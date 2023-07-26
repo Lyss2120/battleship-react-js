@@ -87,7 +87,13 @@ const getState = ({ getStore, getActions, setStore }) => {
       takenRow: null,
       validpos : false,
       desdeElClick : false,
-
+      maxPos: null,
+      maxPosCoord: null,
+      random: null,
+      randAlign: null,
+      RandomCoords: null,
+      align: null,
+      valid: null,
       coordArray:[],// guarda las coordenadas ocupadas en arrays dentro de coordAarray para poder ubicar solo los lugares disponibles
       user: "Player",
       enemyShipsClass: "info bg-opacity-50",
@@ -132,77 +138,174 @@ const getState = ({ getStore, getActions, setStore }) => {
           getActions().placeShips(store.PlayerBoard, ship);
         });
       },
-      placeShips: (board, ship)=>{
+      placeShips:(board, ship)=>{
+        const store = getStore();
+        let newBoard = [...board]
+        let row, col, align, randAlign, takenShip
+
+        row=Math.floor(Math.random() * 10)
+        col=Math.floor(Math.random() * 10)
+        randAlign=Math.floor(Math.random() * 3)
+        align = randAlign === 0 ? 'horizontal': randAlign === 1 ? 'vertical': randAlign === 2 && 'diagonal';
+        takenShip = store.takenShips.includes(ship.name)
+
+        const valid = (row, col)=>{getActions().validPosition(newBoard, ship, row, col, align)}
+
+        if(takenShip){
+          console.log({takenShip});
+          return
+        }
+
+        while(!valid(row, col)){
+          row=Math.floor(Math.random() * 10)
+          col=Math.floor(Math.random() * 10)
+        }
+        
+        valid= getActions().validPosition(newBoard, ship, row, col)
+
+        console.log(ship.name, ship.length, row+',' +col, align, {valid});
+        setStore({ takenShips: [...store.takenShips,  ship.name ] })
+
+      },
+      validPosition:(newBoard, ship, row, col, align)=>{
+
+        for (let i = 0; i < ship.length; i++) {
+          if (newBoard[row][col] !== 0){
+            console.log('choco con', newBoard[row][col],row+',' +col)
+            return false}
+        }
+        if (align === 'horizontal' && (col + ship.length > 10)){
+          console.log(ship.name, ship.length,'se sale del tablero', row+','+col, align);
+          return false
+        } 
+
+        if (align === 'vertical' && (row + ship.length > 10)){
+          console.log(ship.name, ship.length,'se sale del tablero', row+','+col, align);
+          return false
+        } 
+        
+        if (align === 'diagonal' && (row + ship.length > 10 || col + ship.length > 10)){
+          console.log(ship.name, ship.length,'se sale del tablero', row+','+col, align);
+          return false
+        }
+        
+        return true
+      },
+      placeShips3: (board, ship)=>{
         const store = getStore()
+        const {
+          maxPos,
+          maxPosCoord,
+          random,
+          randAlign,
+          RandomCoords,
+          align,
+          valid
+        } = getStore()
+
         let newBoard = [...board];
         let row, col 
-
         setStore({
           maxPos : 10 - ship.length, 
           maxPosCoord : Math.floor(Math.random() * maxPos)+1, 
           random : Math.floor(Math.random() * 10), 
           randAlign : Math.floor(Math.random() * 3),
-          align : randAlign === 0 ? 'horizontal': randAlign === 1 ? 'vertical': randAlign === 2 && 'diagonal',
-          valid : getActions().ShipPosition(newBoard, ship, row, col, align)
+          // align : randAlign === 0 ? 'horizontal': randAlign === 1 ? 'vertical': randAlign === 2 && 'diagonal',
+          // randCoords : 
+          // randAlign === 0 ? {align:'horizontal', row:random, col:maxPosCoord} 
+          // : randAlign === 1 ? {align:'vertical', row:maxPosCoord, col:random} 
+          // : {align:'diagonal', row:maxPosCoord, col:maxPosCoord} 
+
+
+          // ,
+          // randomCoords : align='horizontal' ? (row=random, col=maxPosCoord, align=align ) : align='vertical' ? (row= maxPosCoord, col= random, align=align) : (row = maxPosCoord, col = maxPosCoord, align=align) ,
+          // valid : getActions().ShipPosition(newBoard, ship, row, col, align)
         })
+   
 
-        let takenShip = store.takenShips.includes(ship.name) 
-        let coordtaken = store.coordArray.includes([row,col]) 
+        let newalign = randAlign === 0 ? 'horizontal': randAlign === 1 ? 'vertical': randAlign === 2 && 'diagonal';
+        let newRandCoords = randAlign === 0 ? {align:'horizontal', row:random, col:maxPosCoord} 
+                            : randAlign === 1 ? {align:'vertical', row:maxPosCoord, col:random} 
+                            : {align:'diagonal', row:maxPosCoord, col:maxPosCoord} 
+        // let newValid = getActions().ShipPosition(newBoard, ship, row, col, align)
 
-        console.log('coordArray',store.coordArray)
-        
-        if(takenShip){
-          console.log({takenShip});
-          return
-        }
-        if(coordtaken){
-          console.log({coordtaken});
-        }
-        //si no tiene coordenadas asignar random, si las coordenadas estan tomadas asignar random
-        desdeElClick ? 
-        ( row=0, col=2, align='horizontal') :
-        (randAlign === 0 ?  (align='horizontal',row=random, col=maxPosCoord) 
-        : randAlign === 1 ? (align='vertical', row= maxPosCoord, col= random) 
-        : randAlign === 2 ? (align='diagonal', row = maxPosCoord, col = maxPosCoord) 
-        : console.log('no align1'), console.log('coordenadas asignadas por primera vez', row+','+col, align, ship.name, ship.length))//console.log('desde el click es false', {maxPosCoord}, {maxPos}, ship.name) aqui el usuario tiene que tomar otra vez el barco y dejarlo en un lugar-.... en vez de la alerta iluminar en un color puede ser rojo qeu indique qeu no se pueden poner barcos ahí, y que eso indique que tiene que intentar otra vez             
+        setStore({ align : newalign, RandomCoords : newRandCoords, 
+          // valid : newValid 
+        })
+align? console.log(ship.name,{align}, {valid}, {RandomCoords},{maxPos},{maxPosCoord},{random},{randAlign}): console.log('nulls');
 
-        if(!valid){
-            let maxCoord2= Math.floor(Math.random() * maxPos);
-            let maxCoord3= Math.floor(Math.random() * maxPos);
+        // let takenShip = store.takenShips.includes(ship.name)
 
-            let random2= Math.floor(Math.random() * 10);
-            align === 'horizontal'? (row= random2, col= maxCoord2) : align === 'vertical'? (row= maxCoord2, col= random2 ) : align === 'diagonal'? (row= maxCoord2, col= maxCoord3 ) : console.log('no align');
-            // revisar en el tablero el array que tenga x posiciones libres consecutivas manteniendo el align.. 
+        // if(takenShip){
+        //   console.log({takenShip});
+        //   return
+        // }
+        // desdeElClick ? 
+        // ( row=0, col=2, align='horizontal') :
+        // !valid || !desdeElClick ? 
+        // // (align === 'horizontal'? (row= random2, col= maxCoord2) : align === 'vertical'? (row= maxCoord2, col= random2 ) : align === 'diagonal'? (row= maxCoord2, col= maxCoord3 ) : console.log('no align')) : 
+        // ( randAlign === 0 ?  
+        //   (align='horizontal',row=random, col=maxPosCoord) 
+        // : randAlign === 1 ? 
+        // (align='vertical', row= maxPosCoord, col= random) 
+        // : (align='diagonal', row = maxPosCoord, col = maxPosCoord) 
+        // , console.log('coordenadas asignadas por primera vez', row+','+col, align, ship.name, ship.length))
+        // : console.log('hubo un problema con las coordenadas')//console.log('desde el click es false', {maxPosCoord}, {maxPos}, ship.name) aqui el usuario tiene que tomar otra vez el barco y dejarlo en un lugar-.... en vez de la alerta iluminar en un color puede ser rojo qeu indique qeu no se pueden poner barcos ahí, y que eso indique que tiene que intentar otra vez             
+
+        // let coordtaken = store.coordArray.includes([row,col]) 
+        // console.log({coordtaken},'coordArray',store.coordArray)
+
+        // if(coordtaken){
+        //   console.log({coordtaken});
+        // }
+        // //si no tiene coordenadas asignar random, si las coordenadas estan tomadas asignar random
+        // desdeElClick ? 
+        // ( row=0, col=2, align='horizontal') :
+        // !valid || !desdeElClick ? 
+        // // (align === 'horizontal'? (row= random2, col= maxCoord2) : align === 'vertical'? (row= maxCoord2, col= random2 ) : align === 'diagonal'? (row= maxCoord2, col= maxCoord3 ) : console.log('no align')) : 
+        // ( randAlign === 0 ?  (align='horizontal',row=random, col=maxPosCoord) 
+        // : randAlign === 1 ? (align='vertical', row= maxPosCoord, col= random) 
+        // : (align='diagonal', row = maxPosCoord, col = maxPosCoord) 
+        // , console.log('coordenadas asignadas por primera vez', row+','+col, align, ship.name, ship.length))
+        // : console.log('hubo un problema con las coordenadas')//console.log('desde el click es false', {maxPosCoord}, {maxPos}, ship.name) aqui el usuario tiene que tomar otra vez el barco y dejarlo en un lugar-.... en vez de la alerta iluminar en un color puede ser rojo qeu indique qeu no se pueden poner barcos ahí, y que eso indique que tiene que intentar otra vez             
+
+        // // if(!valid){
+        // //     let maxCoord2= Math.floor(Math.random() * maxPos);
+        // //     let maxCoord3= Math.floor(Math.random() * maxPos);
+
+        // //     let random2= Math.floor(Math.random() * 10);
+        // //     align === 'horizontal'? (row= random2, col= maxCoord2) : align === 'vertical'? (row= maxCoord2, col= random2 ) : align === 'diagonal'? (row= maxCoord2, col= maxCoord3 ) : console.log('no align');
+        // //     // revisar en el tablero el array que tenga x posiciones libres consecutivas manteniendo el align.. 
             
-            // valid = getActions().ShipPosition(newBoard, ship, row, col, align)
-            console.log('nuevas coordenadas', row, col, align, ship.name) //se le asignan nuevas coordenadas si no pasa las validaciones porque no encontro un espacio vacio para el length de su barco
-        }
-        for(let i =0; i < ship.length; i++){
-          valid = getActions().ShipPosition(newBoard, ship, row, col, align)
-          // console.log('paso por valid en placeShips es', valid);
+        // //     // valid = getActions().ShipPosition(newBoard, ship, row, col, align)
+        // //     console.log('nuevas coordenadas', row, col, align, ship.name) //se le asignan nuevas coordenadas si no pasa las validaciones porque no encontro un espacio vacio para el length de su barco
+        // }
+        // for(let i =0; i < ship.length; i++){
+        //   valid = getActions().ShipPosition(newBoard, ship, row, col, align)
+        //   // console.log('paso por valid en placeShips es', valid);
 
-          let maxPosCoord= Math.floor(Math.random() * maxPos);
-          let maxCoord3= Math.floor(Math.random() * maxPos);
-          let random= Math.floor(Math.random() * 10);
-            // revisar en el tablero el array que tenga x posiciones libres consecutivas manteniendo el align.. 
-             //se le asignan nuevas coordenadas si no pasa las validaciones porque no encontro un espacio vacio para el length de su barco
+        //   let maxPosCoord= Math.floor(Math.random() * maxPos);
+        //   let maxCoord3= Math.floor(Math.random() * maxPos);
+        //   let random= Math.floor(Math.random() * 10);
+        //     // revisar en el tablero el array que tenga x posiciones libres consecutivas manteniendo el align.. 
+        //      //se le asignan nuevas coordenadas si no pasa las validaciones porque no encontro un espacio vacio para el length de su barco
         
-             !valid?
-            // (console.log('paso por valid en placeShips es', valid), 
-            // align === 'horizontal'? (row= random, col= maxPosCoord) : align === 'vertical'? (row= maxPosCoord, col= random ) : align === 'diagonal'? (row= maxPosCoord, col= maxCoord3 ) : console.log('no align'),
-            // valid = getActions().ShipPosition(newBoard, ship, row, col, align),    )        
-            console.log('nuevas coordenadas', row, col, align, ship.name, '1ahora valid es:',valid)
-          : 
-          (console.log('coordenadas', row, col, align, ship.name, '2ahora valid es:',valid), 
-          //se le asignan nuevas coordenadas si no pasa las validaciones porque no encontro un espacio vacio para el length de su barco
-          newBoard[row][col] = 1 + ship.name.at(0),
-          setStore({ coordArray : [...store.coordArray, [row,col]] }), //almacena cada coordenada ocupada exitosamente en un array 
-          console.log(ship.name,'seteando cordarray ', row, col),
-          align ==='vertical'? row += 1 : align ==='horizontal'? col += 1 : (row += 1, col += 1, console.log('align', align))
-          )
-         }        
-        console.log(store.coordArray);
-        setStore({ takenShips: [...store.takenShips,  ship.name ] })
+        //      !valid?
+        //     // (console.log('paso por valid en placeShips es', valid), 
+        //     // align === 'horizontal'? (row= random, col= maxPosCoord) : align === 'vertical'? (row= maxPosCoord, col= random ) : align === 'diagonal'? (row= maxPosCoord, col= maxCoord3 ) : console.log('no align'),
+        //     // valid = getActions().ShipPosition(newBoard, ship, row, col, align),    )        
+        //     console.log('nuevas coordenadas', row, col, align, ship.name, '1ahora valid es:',valid)
+        //   : 
+        //   (console.log('coordenadas', row, col, align, ship.name, '2ahora valid es:',valid), 
+        //   //se le asignan nuevas coordenadas si no pasa las validaciones porque no encontro un espacio vacio para el length de su barco
+        //   newBoard[row][col] = 1 + ship.name.at(0),
+        //   setStore({ coordArray : [...store.coordArray, [row,col]] }), //almacena cada coordenada ocupada exitosamente en un array 
+        //   console.log(ship.name,'seteando cordarray ', row, col),
+        //   align ==='vertical'? row += 1 : align ==='horizontal'? col += 1 : (row += 1, col += 1, console.log('align', align))
+        //   )
+        //  }        
+        // console.log(store.coordArray);
+        // setStore({ takenShips: [...store.takenShips,  ship.name ] })
         
         
       

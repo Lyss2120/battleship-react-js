@@ -4,13 +4,13 @@ const OptionContainer = () => {
   return (
     <div className='option-container'>
    {/* {ships?.map((item, i) => { 
-    //     return (
-    //       <div key={i} className={`${flip ? 'fliped' : null} ${item.name}-preview ${item.name}`}
-    //         onClick={() => { shipToAdd(item, i), shipToBoard(shipToAdd) }}>
-    //       </div>
-    //     )
-    //   })
-    //   }*/}
+        return (
+          <div key={i} className={`${flip ? 'fliped' : null} ${item.name}-preview ${item.name}`}
+            onClick={() => { shipToAdd(item, i), shipToBoard(shipToAdd) }}>
+          </div>
+        )
+      })
+      } */}
     </div>
   )
 }

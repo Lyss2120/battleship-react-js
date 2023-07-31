@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Context } from "../../store/appContext";
 import '../../../styles/third.css';
 import Board from './board.jsx';
+import Ship from './ship.jsx';
 
 // SQUARECLIK= SI ESTA EN 0 TIENE QUE LLAMAR A PLACESHIPS, SI ESTA EN 1 TIENE QUE LLAMAR A FIRETORPEDO, SI ESTA TODO EL BARCO EN 3 TIENE QUE AGREGARSE A UN ARRAY CON BARCOS ATACADOS O CAMBIAR EL ESTADO DE LOS BARCOS DEL JUGADOR, CUANDO TODOS SUS BARCOS ESTAN EN 3 DEBE LLAMAR A WIN
 
@@ -64,22 +65,24 @@ const Somex = () => {
                     show enemy ships
                 </button>
                 
-                <div className="bg-danger m-2 p-3 d-flex justify-content-between">
-                <div className="bg-warning p-1 ms-3" onDragStart={(e)=>console.log('dragging telllow', e.target)}>
-                    <span> barco 1   </span>
-                </div>
-                <div className="bg-secondary p-2 " onDragStart={(e)=>console.log('dragging gray', e.target)}>
-                <span>  barco 2 </span>
-                </div>
-                <div className="bg-success p-2 " onDragStart={(e)=>console.log('dragging green', e.target)}>
-                    barco 3
-                </div>
-                <div className="bg-secondary p-3 " onDragStart={(e)=>console.log('dragging gray', e.target)}>
-                <span>  barco 4 </span>
-                </div>
-                <div className="bg-success p-4 me-3" onDragStart={(e)=>console.log('dragging green', e.target)}>
-                    barco 5
-                </div>
+                <div className="bg-secondary m-2 p-3 d-flex justify-content-between">
+{console.log(store.ships)}
+                {
+									store.ships?.map((item, index) => {
+										return (
+											<Ship
+                                                key= {index}
+                                                name= {item.name}
+                                                color= {item.color}
+                                                taken= {item.taken}
+                                                length= {item.length}
+                                                coords= {item.coords}
+                                                shipState= {item.shipState}
+											/>
+										);
+									})
+				}
+
                 </div>
             </div>
         </div>

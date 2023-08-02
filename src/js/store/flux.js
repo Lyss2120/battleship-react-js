@@ -40,14 +40,14 @@ const getState = ({ getStore, getActions, setStore }) => {
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       ],
       PcBoard: [
-        [0, 1, 1, 1, 0, 0, 0, 0, 0, 1],
-        [0, 0, 0, 1, 1, 1, 1, 0, 0, 1],
-        [0, 0, 1, 0, 0, 0, 0, 0, 0, 1],
-        [0, 0, 0, 1, 0, 0, 0, 0, 0, 1],
-        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [1, 0, 0, 0, 1, 1, 1, 1, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       ],
@@ -127,6 +127,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       takenShips: [],
       desdeElClickdata: {row:0, col:2, align:'horizontal'},
       lala:[],
+      selectedShip: null,
       // coordArray:[],// guarda las coordenadas ocupadas en arrays dentro de coordAarray para poder ubicar solo los lugares disponibles
       // takenCoords: [],
     },
@@ -152,9 +153,22 @@ const getState = ({ getStore, getActions, setStore }) => {
       randomNumber: (maxNum)=>{
        return Math.floor(Math.random() * maxNum)
       },
-      start: () => {
+      changeUser: (user) => {
+        user === "Player" ? setStore({ user: "Pc" }): setStore({ user: "Player" });
+      },
+      inicio:()=>{
+        const store = getStore();
+        
+        getActions().start(store.PcBoard)
+        //se posicionan los barcos de Pc
+        alert('elige un barco o presiona start para random position')
+        //Posicionar los barcos manualmente o con el boton start para hacerlo automatico 
+      },
+      start: (board) => {
         const store = getStore();
         // llama a place boards con cada tablero para poner dentro sus barcos
+       board? (board, console.log('board esta ok', {board})):( {board}, store.PlayerBoard) 
+
         store.ships.map((ship) => {
         // console.log('store.PlayerBoard', ship.name);
         let row = getActions().randomNumber(10)
@@ -168,17 +182,23 @@ const getState = ({ getStore, getActions, setStore }) => {
           return
         }
        
-        while(!getActions().handleValidPosition(store.PlayerBoard, ship, row, col, align)){
+        while(!getActions().handleValidPosition(board, ship, row, col, align)){
           row = getActions().randomNumber(10),
           col = getActions().randomNumber(10),
           randAlign = getActions().randomNumber(3)
           // console.log('nuevas coordenadas', row,col, randAlign);
         }  //validando     
         
-        if(getActions().handleValidPosition(store.PlayerBoard, ship, row, col, align)){
-          getActions().handleSetBoard(store.PlayerBoard, ship, row, col, align)
+        if(getActions().handleValidPosition(board, ship, row, col, align)){
+          getActions().handleSetBoard(board, ship, row, col, align)
         } }); 
       },//mapea y es da row y col
+      selectedShip:(ship)=>{
+        const store = getStore();
+
+        setStore({selectedShip : ship})
+        // console.log(ship.name, store.selectedShip, store.ships)
+      },
       handleFreeCoords: (board, ship, row, col, align) => {
         const store = getStore()
         let valid = true
@@ -230,8 +250,6 @@ const getState = ({ getStore, getActions, setStore }) => {
             // newShip.shipState ++,
             // newShip.shipState === 1 ? 'cool' : newShip.shipState === 2 ? 'hit' : newShip.shipState === 3 ? 'sunk' : 'miss'
           ) //solo puede estar en sunk-3 cuando todos los espacios que componen el barco esten en hit-2
-          
-      
         //  console.log(newShip?.taken, newShip?.name, newShip?.coords,'hadlenewShipdata');
         return newShip
       },
@@ -239,31 +257,24 @@ const getState = ({ getStore, getActions, setStore }) => {
         const store = getStore()
         let newBoard = [...board]
         let newShip= ship
-        // let newShips = [...store.ships]
+        let newShips = [...store.ships]
+        getActions().handleShipData(newShip, row, col, 'handleSetBoard')
 
         for(let i =0; i < ship.length; i++){
           if(newBoard[row][col]!==0){console.log(newBoard[row][col],'newBoard[row][col] !==0, en handleSetBoard')}
 
-          getActions().handleShipData(newShip, row, col, 'handleSetBoard')
-          // newShips[i] = newShip
-          // newShip.coords = [...newShip.coords, [row,col]], 
-          // newShip.taken = true,
-          // newShip.shipState = 3, ??? si actualiza el estado sin el setStore
-
-          // newShips.map((ship, i)=>{
-          //   if (ship === ship){
-          //   ship.coords = [...ship.coords, [row,col]], 
-          //   ship.taken = true,
-          //   ship.shipState = 3,
-          //   console.log(ship, 'nameship');
-          //   } 
-          // }) ??????? pq no funciona
-          // console.log(newShip.taken, ship.taken, 'taken');
+          newShips[i] = newShip,
+          newShip.coords = [...newShip.coords, [row,col]], 
+          newShip.taken = true,
+          newShip.shipState = 3, 
+         
           newBoard[row][col] = 1 
           // + ship.name.at(0)
+          setStore({ships: newShips})
           setStore({board : newBoard})
           align ==='vertical'? row += 1 : align ==='horizontal'? col += 1 : (row += 1, col += 1)
-        } 
+        }           console.log('gg', {newShips});
+
 
         setStore({ takenShips: [...store.takenShips, ship.name ] }) 
       },//setea el tablero
@@ -281,24 +292,37 @@ const getState = ({ getStore, getActions, setStore }) => {
           getActions().handleSetBoard(store.PlayerBoard, ship, row, col, align)
         }
         
-        
         // *** ver como captar align de cada barco... con estado? ver version anterior con flip
         // console.log('clickplaceShips');
         // getActions().placeShips(board, ship, row, col)
       }, //traer las coordenadas al clickear, y tambien al clickear cambiar store.flip para traer align tmb, con eso verificar y enviar uno por uno los barcos a placeSHIPS, 
-      squareClick: (board, row, col) => {
-        const store = getStore();
+      ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+      handleClick: (board, row, col) => {
+        const {user, takenShips, selectedShip} = getStore();
         let newBoard = [...board];
-        console.log(newBoard[row][col], 'squareclick');
-        if (newBoard[row][col]){
-          //si es 0 llamar place ships si takenships esta lleno (tiene que tener 4 barcos) y ya se pusieron todos los barcos
-        }
-        if (newBoard[row][col]){
+        let board2 = user === "Player" ?  "Pc" : "Player" //para firetorpedo
+        let ship = selectedShip
+
+        console.log(newBoard[row][col], 'handleClick', {takenShips});
+
+        // if (newBoard[row][col]=== 0){
+          takenShips.length < 4 ? 
+          // (
+            // console.log('takenShips < 4',{takenShips}, {ship}) 
+          getActions().handleSetBoard(board, ship, row, col, 'horizontal') //sacar el align de cada barco// si takenships es menor a 4 es porque faltan barcos por posicionar en el tablero
+          : takenShips.length === 4 ? 
+           getActions().firetorpedo(board2, row, col) //console.log('takenShips === 4',{takenShips}), dispara al 0//manejar lo de los tableros.. si es turno de player dispara a pc y viceversa
+          : console.log('whatsss') //si es 0 llamar place ships si takenships esta lleno (tiene que tener 4 barcos) y ya se pusieron todos los barcos y puede disparar sería miss pq rowcol es 0
+        // }//si estas coordenadas coinciden con las ship.coords de algun barco en store.ships significa que hay un barco .... usar esto para pner barcos como componente tmb
+        
+        
+        // if (newBoard[row][col]!==0){
+        //   takenShips.length < 4 ? handleSetBoard(board, row, col, align)
+        //   :takenShips.length === 4 ? firetorpedo(board, row, col, align)
+        // }//si no es igual a cero verificar que los barcos esten posicionados con takenShip.length en 4. si no es 4 no estan todos en takenship llamar a handleSetBoard
+        // if (newBoard[row][col]===3){
           
-        }
-        if (newBoard[row][col]){
-          
-        }
+        // }// ver el barco al que pertenece este square y verificar que los demas esten en 3 para mandarlo a whoisthewinner()
 
         // board[row][col] === 0
         //   ? getActions().clickPlaceShips(board, ship, row, col, align)//como mandar el ship.hacer algo parecido a lo de start //poner un barco en esa posicion, para despues con un loop pasar esta funcion a cada barco
@@ -311,24 +335,24 @@ const getState = ({ getStore, getActions, setStore }) => {
         console.log(board[row][col], "fire");
         // let shipState = ships[pos].shipState
         const newBoard = [...board]; //si los datos existen usarlos, sino pedirlos con un prompt
-        console.log(board[row][col]);
+        console.log(board[row][col], 'fire');
+
+        //si estas coordenadas coinciden con las ship.coords de algun barco en store.ships significa que hay un barco .... usar esto para pner barcos como componente tmb
         // 4 = 'miss', actualiza el valor de row
         //existe row ? sino llamar a prompt
-        row ? 
-        board[row][col] === 0 ? (newBoard[row][col] = 4)
-        : board[row][col] < 3 && (newBoard[row][col]++, setStore({ board: newBoard }))
-        : getActions().fireTorpedoPrompt();
+        // row ? 
+        // board[row][col] === 0 ? (newBoard[row][col] = 4)
+        // : board[row][col] < 3 && (newBoard[row][col]++, setStore({ board: newBoard }))
+        // : getActions().fireTorpedoPrompt();
 
         // ship.map((item, i)=>{
           
         // })
 
-        
-
 // . si existe row, es igual a 0? se cambia a miss o 4, si no es 0 y es menor a 4 se aumenta en 1 su estado, a hit o sunken segun el estado que ya tenia
         // shipState ++ si el contenido del bloque es 3 se agrega a sunkenShips
         // seStore({ sunkenShips : [...sunkenShips], {player: player, board: board, name: ship.name}})
-      },
+      },//en proceso
       fireTorpedoPrompt: () => {
         const { PcBoard, ships } = getStore();
 
@@ -353,30 +377,25 @@ const getState = ({ getStore, getActions, setStore }) => {
         // console.log(
         //   newBoard[prow][pcol], "newBoard[prow][pcol]", board,"pcBoard");
           setStore({ board: newBoard });
-      },
-      whoIsTheWinner: (board, row, col) => {
-        //agregar el nombre del barco o del player no el row cuando pille un 4 agregara inmediatamente el nombre del barco o puede ser un counter. podrian haber 3 pcBoard y 4 playerBoard y este ultimo seria evaluado
-        console.log("datos de who is the winner", board, row, col);
+      },//en proceso
+      //aun no esta listo// whoIsTheWinner: (board, row, col) => {
+      //   //agregar el nombre del barco o del player no el row cuando pille un 4 agregara inmediatamente el nombre del barco o puede ser un counter. podrian haber 3 pcBoard y 4 playerBoard y este ultimo seria evaluado
+      //   console.log("datos de who is the winner", board, row, col);
 
-        let winner = null;
-        let len = ships.length;
-        let counter = {
-          PcBoard: 0,
-          PlayerBoard: 0,
-        };
+      //   let winner = null;
+      //   let len = ships.length;
+      //   let counter = {
+      //     PcBoard: 0,
+      //     PlayerBoard: 0,
+      //   };
 
-        board === PlayerBoard ? counter.PlayerBoard++ : counter.PcBoard++;
+      //   board === PlayerBoard ? counter.PlayerBoard++ : counter.PcBoard++;
 
-        counter.PcBoard === len ? (winner = "Pc") : (winner = "Player");
-        alert(winner + " is the winner!");
+      //   counter.PcBoard === len ? (winner = "Pc") : (winner = "Player");
+      //   alert(winner + " is the winner!");
 
-        return winner;
-      },
-      changeUser: (user) => {
-        user === "Player"
-          ? setStore({ user: "Pc" })
-          : setStore({ user: "Player" });
-      },
+      //   return winner;
+      // },
       showEnemyShips: (coord, board) => {
         const { enemyShipsClass } = getStore();
 

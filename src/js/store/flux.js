@@ -413,11 +413,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 export default getState;
 
-// shipAlign === "horizontal" || shipAlign === "diagonal" // col 7, row 7 col 7 = 7,7
-//   ? 10 - shipLength
-// : shipAlign === "vertical" && // row 7,
-//   100 - shipLength * 10;
-// : shipAlign === "diagonal" && 100 - ((shipLength * 11) - 10)    // para dos cifras sacar la primera como row y la segunda como col    resta el largo del barco de la fila o columna en la que va posicionado para que no se salga del tablero,
 
 
 

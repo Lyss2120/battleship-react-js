@@ -12,7 +12,7 @@ const Somex = () => {
     const { store, actions } = useContext(Context);
     const { user, PcBoard, PlayerBoard } = store;
 
-   
+
     return (
         <div className='wrapper'>
             <div className='game-info pt-5 '>
@@ -20,65 +20,51 @@ const Somex = () => {
                 {/* <p> info: <span className='info'></span></p>  se muestra si hay ganador*/}
             </div>
             <div className='gamesBoard-container'>
-                <Board 
-                // ships={ships} 
-                // setShips={setShips} 
-                // shipState={shipState} 
-                // setShipState={setShipState} 
-                // fireTorpedo={actions.fireTorpedo} 
-                // setBoard={setPcBoard} 
-                // setUser={setUser}
-                board={PcBoard} 
-                user={'pc'} 
-                 />
+                <Board
+                    board={PcBoard}
+                    user={'pc'}
+                />
 
-                <Board 
-                // ships={ships} 
-                // setShips={setShips} 
-                // shipState={shipState} 
-                // setShipState={setShipState} 
-                // fireTorpedo={actions.fireTorpedo} 
-                // setBoard={setPlayerBoard} 
-                // setUser={setUser} 
-                user={'player'} 
-                board={PlayerBoard}
-                /> 
+                <Board
+                    user={'player'}
+                    board={PlayerBoard}
+                />
             </div>
             <div className='buttons row'>
-            <button 
-                className='btn btn-secondary start-button row m-1'
-                onClick={() => { actions.inicio()}} //setear user y pedir poner los barcos
-                > 
-                  Inicioo
+                <button
+                    className='btn btn-secondary start-button row m-1'
+                    onClick={() => { actions.inicio() }} //setear user y pedir poner los barcos
+                >
+                    Inicioo
                 </button>
-            <button 
-                className='btn btn-secondary start-button row m-1'
-                onClick={() => { actions.changeUser(user)}} //setear user en la func firetorpedo
-                > 
-                  Change turn
+                <button
+                    className='btn btn-secondary start-button row m-1'
+                    onClick={() => { actions.changeUser(user) }} //setear user en la func firetorpedo
+                >
+                    Change turn
                 </button>
-                <button 
-                className='btn btn-secondary start-button row m-1'
-                // onClick={() => { actions.changeUser(user)}} //setear user en la func firetorpedo
-                onClick={() => { actions.start(user)}}
-                > 
-                  start!!
+                <button
+                    className='btn btn-secondary start-button row m-1'
+                    // onClick={() => { actions.changeUser(user)}} //setear user en la func firetorpedo
+                    onClick={() => { actions.start(user) }}
+                >
+                    start!!
                 </button>
-                <button 
-                className='btn btn-secondary fire-button row m-1'
-                onClick={actions.fireTorpedoPrompt} >
-                    
+                <button
+                    className='btn btn-secondary fire-button row m-1'
+                    onClick={actions.fireTorpedoPrompt} >
+
                     fire!!
 
                 </button>
                 <button className='btn btn-secondary showShips-button row m-1'
-                onClick={actions.showEnemyShips} 
+                    onClick={actions.showEnemyShips}
                 >
                     show enemy ships
                 </button>
 
                 <OptionContainer />
-              
+
             </div>
         </div>
     )
@@ -86,22 +72,22 @@ const Somex = () => {
 
 export default Somex
 
-  /* <div className="bg-secondary m-2 p-3 d-flex justify-content-between">
-                {console.log(store.ships)}
-                {
-									store.ships?.map((item, index) => {
-										return (
-											<Ship
-                                                key= {index}
-                                                name= {item.name}
-                                                color= {item.color}
-                                                taken= {item.taken}
-                                                length= {item.length}
-                                                coords= {item.coords}
-                                                shipState= {item.shipState}
-											/>
-										);
-									})
-				}
+/* <div className="bg-secondary m-2 p-3 d-flex justify-content-between">
+              {console.log(store.ships)}
+              {
+                                  store.ships?.map((item, index) => {
+                                      return (
+                                          <Ship
+                                              key= {index}
+                                              name= {item.name}
+                                              color= {item.color}
+                                              taken= {item.taken}
+                                              length= {item.length}
+                                              coords= {item.coords}
+                                              shipState= {item.shipState}
+                                          />
+                                      );
+                                  })
+              }
 
-                </div> */
+              </div> */

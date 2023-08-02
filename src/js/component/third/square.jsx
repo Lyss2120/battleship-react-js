@@ -7,7 +7,21 @@ const Square = ({ shipp, coord, i, row, col, board }) => {
 // console.log({shipfinder}); //da muchos undefined
   return (
     <>
-      {coord !== 0 ? 
+     <div key={i} className={`square tile bg-${coord === 4 ? 'light bg-opacity-50' : board === store.PcBoard && coord != 0 ? store.enemyShipsClass : board === store.PlayerBoard && coord === 1 ? 'info' : coord === 2 ? 'warning' : coord === 3 ? 'danger' : 'null'}`}
+          onClick={() => actions.handleClick(board, row, col)}  // style={{ backgroundColor: coord}}  // onClick={() => console.log('coord ' + row + ',' + col)}
+        >
+          {
+            board === store.PcBoard ?
+              ''
+              :
+              coord === 0 ?
+                ''
+                : coord
+
+
+          }
+        </div>
+      {/* {coord !== 0 ? 
           store.ships.map((item, i)=>{
             <div key={i} className={"square tile bg-danger"}>
             {item.name}
@@ -28,7 +42,7 @@ const Square = ({ shipp, coord, i, row, col, board }) => {
 
           }
         </div>
-      }
+      } */}
       {/* en el click rescatar el target value para las coordenadas.  */}
 
     </>

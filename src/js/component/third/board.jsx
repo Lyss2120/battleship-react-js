@@ -12,7 +12,7 @@ const Board = ({ board, user }) => {
   let ship = store.takenShips.map((item, i)=>{
     item
   })
-
+console.log(ship);
   return (
     <>
       <div className=''>

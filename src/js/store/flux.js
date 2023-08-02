@@ -59,6 +59,8 @@ const getState = ({ getStore, getActions, setStore }) => {
           length: 3,
           coords: [],
           shipState: 1,
+          setPcBoard: false,
+          setPlayerBoard: false //cambiar a true cuando esten puestos en el respectivo tablero
         }, // coords: [[1,1],[1,2]], maxpos es 10 - el ancho del barco si es horizontal si el barco mide 5 =maxpos => 5
         {
           name: "destroyer",
@@ -67,6 +69,8 @@ const getState = ({ getStore, getActions, setStore }) => {
           length: 4,
           coords: [],
           shipState: 1,
+          setPcBoard: false,
+          setPlayerBoard: false
         }, // si es vertical 100 - el ancho del barco * 10 =maxpos => 50
         {
           name: "battleship",
@@ -75,6 +79,8 @@ const getState = ({ getStore, getActions, setStore }) => {
           length: 5,
           coords: [],
           shipState: 1,
+          setPcBoard: false,
+          setPlayerBoard: false
         }, // diagonal 100 - el ancho del barco * 11 =maxpos => 45
         { 
           name: "carrier",
@@ -166,7 +172,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
       start: (board) => {
         const store = getStore();
-        // llama a place boards con cada tablero para poner dentro sus barcos
+        // llama a place boards con cada tablero para poner dentro sus barcos// 
        board? (board, console.log('board esta ok', {board})):( {board}, store.PlayerBoard) 
 
         store.ships.map((ship) => {

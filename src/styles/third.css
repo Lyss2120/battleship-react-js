@@ -1,9 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
+
 .wrapper{
   font-family: 'Bangers', cursive;
-    background: rgb(26, 29, 34) url('https://img.freepik.com/vector-premium/juego-agua-costuras-fondo-superficie-azul-liquido-disenadores-juegos-2d-oceano-rio-o-mar-olas_80590-7363.jpg?w=2000    ') no-repeat fixed center;
-    background-size: cover;
-    /* background-blend-mode: soft-light; */
+    background: rgb(26, 29, 34) url('https://www.kindpng.com/picc/m/55-551450_cartoon-ocean-background-ocean-waves-cartoon-png-transparent.png') no-repeat fixed bottom;
+    background-size:110% 105%;
+    background-blend-mode: screen;
 }
 
 /* div:nth-child(2) {
@@ -12,25 +13,49 @@
 
 :root{
     --blue: rgba(75, 75, 245, 0.733);
+    --aqua:  rgba(41, 172, 128, 0.623);
     --white:rgba(255, 255, 255, 0.329);
-    --transparent: rgba(102, 101, 101, 0.137);
+    --transparent: rgba(27, 109, 216, 0.856);
+    --semitransparent: rgba(7, 156, 167, 0.712);
     --orange: rgb(255, 136, 0);
     --square: 30px;
     --container: 700px;
+    --spacing: 6px;
+
+}
+.turn-display{
+    display: flex;
+    flex-direction: row;
+    color: rgb(255, 60, 0) !important;
+    background-color: var(--aqua);
+    letter-spacing: var(--spacing);
+    font-size: large;
+}
+.b{
+    background-color: rgba(41, 172, 128, 0.623);
+    color: rgb(255, 123, 0);
+    letter-spacing: var(--spacing);
+
+}
+.botones{
+    background-color: var(--semitransparent);
+    color: rgb(255, 60, 0) !important;
+    letter-spacing: var(--spacing);
+}
+.option-container{
+    padding-top: 80px;
+}
+.icon{
+    /* height: 20px; */
+justify-self: center;    
+color: rgb(255, 123, 0);
 }
 .wrapper{
     font-family: 'Bangers', cursive;
     display: grid;
     place-items: center;
 }
-.option-container{
-    height: 100px;
-    width: var(--container);
-    background-color: var(--transparent);
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-}
+
 /* .shipcolor{
 
 } */
@@ -93,7 +118,8 @@
 .game-board{
     background-color: var(--blue);
     width: 300px;
-    height: 300px;
+    /* height: 300px; */
+    height: fit-content;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
@@ -115,5 +141,5 @@
 .square-top{
     background-color: rgba(91, 95, 94, 0.11);
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
 }

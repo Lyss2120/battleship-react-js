@@ -7,8 +7,8 @@ const OptionContainer = () => {
 
 
   return (
-    <div className="bg-secondary m-2 p-3 d-flex justify-content-between">
-      {console.log(store.ships)}
+    <div className=" option-container m-2 flex-column">
+      {console.log(store.ships, 'ships desde <optionContainer/>')}
       {
         store.ships?.map((item, index) => {
           return (

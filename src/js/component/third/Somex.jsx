@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Context } from "../../store/appContext";
 import '../../../styles/third.css';
 import Board from './board.jsx';
@@ -11,61 +11,46 @@ const Somex = () => {
 
     const { store, actions } = useContext(Context);
     const { user, PcBoard, PlayerBoard } = store;
+    useEffect(() => {
+        actions.start(PcBoard)
+    }, [])
 
 
-    return (
+    return (<div className='d-flex wrapper justify-content-start'>
+        <OptionContainer />
+
         <div className='wrapper'>
-            <div className='game-info pt-5 '>
-                <p> turn  : <span className='turn-display mx-2'>{user}</span></p>
+
+            <div className='turn-display row mt-5 p-3 '>
+                <p> turn  : <span className=' mx-2'>{user}</span></p>
                 {/* <p> info: <span className='info'></span></p>  se muestra si hay ganador*/}
             </div>
             <div className='gamesBoard-container'>
-                <Board
-                    board={PcBoard}
-                    user={'pc'}
-                />
+                <Board  board={PcBoard} user={'pc'} />
 
-                <Board
-                    user={'player'}
-                    board={PlayerBoard}
-                />
+                <Board user={'player'} board={PlayerBoard} />
             </div>
             <div className='buttons row'>
-                <button
-                    className='btn btn-secondary start-button row m-1'
-                    onClick={() => { actions.inicio() }} //setear user y pedir poner los barcos
-                >
+                <button className='btn botones start-button row m-1' onClick={() => { actions.inicio() }}> 
+                {/* //setear user y pedir poner los barcos */}
                     Inicioo
                 </button>
-                <button
-                    className='btn btn-secondary start-button row m-1'
-                    onClick={() => { actions.changeUser(user) }} //setear user en la func firetorpedo
-                >
+                <button className='btn botones start-button row m-1' onClick={() => { actions.changeUser(user) }}> 
+                {/* //setear user en la func firetorpedo */}
                     Change turn
                 </button>
-                <button
-                    className='btn btn-secondary start-button row m-1'
-                    // onClick={() => { actions.changeUser(user)}} //setear user en la func firetorpedo
-                    onClick={() => { actions.start(user) }}
-                >
+                <button className='btn botones start-button row m-1' onClick={() => { actions.start(PlayerBoard) }}>
+                    {/* // onClick={() => { actions.changeUser(user)}} //setear user en la func firetorpedo */}
                     start!!
                 </button>
-                <button
-                    className='btn btn-secondary fire-button row m-1'
-                    onClick={actions.fireTorpedoPrompt} >
-
+                <button className='btn botones fire-button row m-1' onClick={actions.fireTorpedoPrompt} >
                     fire!!
-
                 </button>
-                <button className='btn btn-secondary showShips-button row m-1'
-                    onClick={actions.showEnemyShips}
-                >
+                <button className='btn botones showShips-button row m-1' onClick={actions.showEnemyShips} >
                     show enemy ships
                 </button>
-
-                <OptionContainer />
-
             </div>
+        </div>
         </div>
     )
 }

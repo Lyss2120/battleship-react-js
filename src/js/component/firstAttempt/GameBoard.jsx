@@ -16,36 +16,9 @@ const GameBoard = () => {
   const [bg, setBg] = useState(false) //cambia segun shipState puede tener animaciones y color vibrar para atacado agrandar achicar para hundido y algo mas para fallaste
   // const [shipState, setShipState]={empty:0, atacado:1, hundido:2, fallaste:3}//sera un classname para cambiar su aspecto ??
   const [board, setBoard] = ([])
-  // 0 = empty
-  // 1 = part of a ship
-  // 2 = a sunken part of a ship
-  // 3 = a missed shot
-  // let gameBoard = [
-  //   [1, 1, 1, 1, 1, 0, 0, 0, 0, 1],
-  //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  //   [1, 0, 0, 1, 1, 0, 0, 0, 0, 0],
-  //   [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  //   [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  //   [1, 1, 1, 1, 0, 0, 0, 0, 0, 0]
-  // ];
   const horizontal = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const vertical = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  let gameBoard = [
-    [1, 1, 1, 1, 1, 0, 0, 0, 0, 1],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [1, 0, 0, 1, 1, 0, 0, 0, 0, 0],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [1, 1, 1, 1, 0, 0, 0, 0, 0, 0]
-  ];
+ 
 
 console.log(store.demo2.square);
   // let board = []

@@ -1,26 +1,41 @@
 import React, { useContext } from 'react'
 import { Context } from '../../store/appContext'
 
-const Square = ({ shipp, coord, i, row, col, board }) => {
+const Square = ({ i, j, coord, row, col, board, item, funct }) => {
   const { store, actions } = useContext(Context)
-//   let shipfinder = store.ships.find((ship) =>  ship.coords === [row, col] )
-// console.log({shipfinder}); //da muchos undefined
+  // let ship = store.ships.map((ship, i) => {
+  //   if(ship.coords === [row, col]) console.log('ship encontrado', ship);
+  //   console.log({ship}, row, col);
+
+  //   return ship
+  // })
+
   return (
     <>
-     <div key={i} className={`square tile bg-${coord === 4 ? 'light bg-opacity-50' : board === store.PcBoard && coord != 0 ? store.enemyShipsClass : board === store.PlayerBoard && coord === 1 ? 'info' : coord === 2 ? 'warning' : coord === 3 ? 'danger' : 'null'}`}
-          onClick={() => actions.handleClick(board, row, col)}  // style={{ backgroundColor: coord}}  // onClick={() => console.log('coord ' + row + ',' + col)}
-        >
-          {
-            board === store.PcBoard ?
-              ''
-              :
-              coord === 0 ?
-                ''
-                : coord
+      <div key={i} className={`square tile bg-${coord === 4 ? 'light bg-opacity-50' : board === store.PcBoard && coord != 0 ? store.enemyShipsClass : board === store.PlayerBoard && coord != 0 ? store.ShipsClass : coord === 2 ? 'warning' : coord === 3 ? 'danger' : 'null'}`}
+        //  <div key={i} className={`square tile bg-${coord === 4 ? 'light bg-opacity-50' : board === store.PcBoard && coord != 0 ? store.enemyShipsClass : board === store.PlayerBoard && coord === 1 ? store.ships.ship.color : coord === 2 ? 'warning' : coord === 3 ? 'danger' : 'null'}`}
+        onClick={() => actions.handleClick(board, row, col)}  // style={{ backgroundColor: coord}}  // onClick={() => console.log('coord ' + row + ',' + col)}
+      >
+        {store.ships.map((ship, i) => {
+            if(ship.coords === [row, col]) console.log('ship encontrado', ship)
+            // else console.log(ship.name, row, col, 'square');//repite muchas veces todo
 
-
-          }
-        </div>
+            // return ship
+  })}
+        {board === store.PcBoard ? 
+          // ''
+         coord.name
+          
+          :
+          coord === 0 ?
+            ''  
+            : coord.name
+            // : store.ships.map((ship, i) => {
+            //   ship.coords === [row, col] ? console.log(i,'ship encontrado', ship):console.log('no');
+            // })
+          //si hay coord mostrar una pate del barco// alargar el svg encima del componente segun el largo del ship//aqui el barco o svg con el largo del barco// componente o parecido con css especial en el principio y final last first child..y que cambie de color
+        }
+      </div>
       {/* {coord !== 0 ? 
           store.ships.map((item, i)=>{
             <div key={i} className={"square tile bg-danger"}>

@@ -3,16 +3,16 @@ import { Context } from "../../store/appContext";
 import Square from './square.jsx';
 import SquareTop from './square-top.jsx';
 // import '../../../styles/gameboard.css'
-// , setBoard, setUser, setShipState, shipState, ships, setShips, fireTorpedo
+// , setBoard, setUser, setShipState, shipState, ships, setShips, fireTorpedo iconos para disparos:  BsFillRecordFill - BsFillRecord2Fill o BiBrightness con color bco y rojo , o impacto bala: GiScreenImpact - GiGooeyImpact- SiFireship cdo se hunde          
+{/* <a href="https://www.flaticon.com/free-animated-icons/fire" title="fire animated icons">Fire animated icons created by Freepik - Flaticon</a> */}
 
 const Board = ({ board, user }) => {
-  
+
   const { store, actions } = useContext(Context);
   let row = store.row
-  let ship = store.takenShips.map((item, i)=>{
-    item
-  })
-console.log(ship);
+  // let ship = board === store.PcBoard ? store.takenShipPC.map((item, i) => { item }) : store.takenShipPlayer.map((item, i) => { item })
+  // console.log('llamado desde board component',{ship});///como capturar ship... si no se actualiza el array de store.ships..
+
   return (
     <>
       <div className=''>
@@ -21,59 +21,35 @@ console.log(ship);
         <div className='d-flex'>
           <SquareTop row={row} clase={'flex-column  px-1 square-top'} />
           <div className='d-flex tablero game-board'>
-            {/* {row.map((col, i) => {
+            {new Array(10).fill(0).map((_, i) => {
               return (
-                <div key={i} className='columna '>
-                  {row.map((row, i) => {
-                    return (
-                      board[row][col]===0?
-                      <Square key={i} className="rowss square" 
-                      coord={board[row][col]} 
-                      row={row} 
-                      col={col} 
-                      board={board}
-                      funcion={actions.squareClick} 
-                      // squareClick={actions.hola} 
-                      />
-                      :
-                      store.ships.map((ship, i)=>{
-                        return(                      
-                        <Square 
-                        key={i} 
-                        className="rowss square" 
-                        coord={board[row][col]}
-                        ship={ship} 
-                        row={row} 
-                        col={col} 
-                        board={board}
-                        funcion={actions.squareClick} 
-                        // squareClick={actions.hola} 
+                <div key={i} className='d-flex justify-content-around'>
+              {board[i].map((item, j) => {
+                // console.log(board[i][j], board );
+                return(
+                  <>
+                  {board[i][j] === 0 ?
+                      <Square className="rowss square" 
+                              key={j} 
+                              coord={board[i][j]} 
+                              row={i} col={j} 
+                              item={item} 
+                              board={board}  
+                              funct={actions.squareClick}
                         />
-  )
-                      })
-                    )
-                  })}
-                </div>
-              )
-            })} */}
-             {row.map((col, i) => {
-              return (
-                <div key={i} className='columna '>
-                  {row.map((row, i) => {
-                    return (
-                      <Square 
-                        key={i} 
-                        className="rowss square" 
-                        coord={board[row][col]}
-                        ship={ship} 
-                        row={row} 
-                        col={col} 
-                        board={board}
-                        funcion={actions.squareClick} 
-                        // squareClick={actions.hola} 
+                        : 
+                        <Square className="rowss square" 
+                              key={j} 
+                              coord={board[i][j]} 
+                              row={i} col={j} 
+                              item={item} 
+                              board={board}  
+                              funct={actions.squareClick}
                         />
-                    )
-                  })}
+                        }
+                     </>
+               )
+              })}  
                 </div>
               )
             })}
@@ -83,7 +59,7 @@ console.log(ship);
       </div>
 
 
-    
+
     </>
   )
 }

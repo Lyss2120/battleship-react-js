@@ -3,10 +3,12 @@ import React from 'react'
 const SquareTop = ({ row, clase }) => {
     return (
         <>
-         <div className={`${clase}`}>
-            {row.map((row, i) => {
+         <div 
+         className={`${clase}`}
+         >
+            {new Array(10).fill(0).map((_, i) => {
                 return (
-                    <span key={i} >{row}</span>
+                    <span key={i}>{i}</span>
                 )
             })
             }

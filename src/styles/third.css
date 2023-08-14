@@ -12,38 +12,52 @@
   } */
 
 :root{
-    --blue: rgba(75, 75, 245, 0.733);
+    --blue: rgba(41, 142, 172, 0.623);
     --aqua:  rgba(41, 172, 128, 0.623);
     --white:rgba(255, 255, 255, 0.329);
     --transparent: rgba(27, 109, 216, 0.856);
     --semitransparent: rgba(7, 156, 167, 0.712);
     --orange: rgb(255, 136, 0);
-    --square: 30px;
-    --container: 700px;
+    --square: 50px;
+    --container: 1050px;
     --spacing: 6px;
+    --metalMilitar: rgb(26, 29, 34) 
+    /* url(https://img.freepik.com/foto-gratis/fondo-marco-metal-grunge_1048-11682.jpg?w=740&t=st=1691992751~exp=1691993351~hmac=7a7f61f69959ad875ece1554abfdedf58a6c65dbd823c48ff91bec76c9c5d14f) fixed center; */
+    url(https://img.freepik.com/fotos-premium/fondo-textura-metal-industrial-verde-abstracto-remaches-pernos_76080-7165.jpg) center top ;
+    --metalMilitar2: rgb(26, 29, 34) 
+    url(https://img.freepik.com/foto-gratis/fondo-marco-metal-grunge_1048-11682.jpg?w=740&t=st=1691992751~exp=1691993351~hmac=7a7f61f69959ad875ece1554abfdedf58a6c65dbd823c48ff91bec76c9c5d14f) center top ;
+    /* url(https://img.freepik.com/fotos-premium/fondo-textura-metal-industrial-verde-abstracto-remaches-pernos_76080-7165.jpg) center top content-box; */
+    --metalMilitar3: rgb(26, 29, 34) 
+    url( https://img.freepik.com/vector-gratis/puerta-metal-puertas-correderas-pasillo-nave-espacial_107791-3348.jpg?w=900&t=st=1691993209~exp=1691993809~hmac=beced92b4cde4ae233001f584e53732330ed299fd26fd296da2119b92faed075) no-repeat ;
+    /* url(https://img.freepik.com/fotos-premium/fondo-textura-metal-industrial-verde-abstracto-remaches-pernos_76080-7165.jpg) center top content-box; */
 
 }
 .turn-display{
-    display: flex;
+    /* display: flex; */
     flex-direction: row;
     color: rgb(255, 60, 0) !important;
-    background-color: var(--aqua);
+    background: var(--metalMilitar2);
     letter-spacing: var(--spacing);
     font-size: large;
+    object-fit: cover;
 }
 .b{
-    background-color: rgba(41, 172, 128, 0.623);
-    color: rgb(255, 123, 0);
+    background-color: rgba(90, 138, 122, 0.568);
+    /* background: var(--metalMilitar3);
+    background-size:cover ; */
+    /* color: rgb(255, 123, 0); */
     letter-spacing: var(--spacing);
 
 }
 .botones{
-    background-color: var(--semitransparent);
+    background: var(--metalMilitar);
     color: rgb(255, 60, 0) !important;
     letter-spacing: var(--spacing);
+    margin: inherit;
+    background-blend-mode: hard-light;
 }
 .option-container{
-    padding-top: 80px;
+    padding-top: 8em;
 }
 .icon{
     /* height: 20px; */
@@ -59,11 +73,25 @@ color: rgb(255, 123, 0);
 /* .shipcolor{
 
 } */
+.ship-3{
+    width:calc(30px*3);
+    margin: inherit;
+    border-radius: 35% 50% 50% 35%;}
+.ship-4{
+    width:calc(30px*4);
+    margin: inherit;
+    border-radius: 35% 50% 50% 35%;
+}
+.ship-5{
+    width:calc(30px*5);
+    margin: inherit;
+    border-radius: 35% 50% 50% 35%;
+}
 .destroyer{
-    background-color: rgb(12, 38, 85);
+    background-color: rgb(17, 50, 112);
 }
 .submarine{
-    background-color: rgb(17, 50, 112);
+    background-color: rgb(12, 38, 85);
 }
 .cruiser{
     background-color: rgb(24, 67, 148);
@@ -99,25 +127,26 @@ color: rgb(255, 123, 0);
     height: 15px;
     margin: 3px;
     }
-.fliped{
+.align-vertical{
     transform: rotate(90deg);
 }
-.morefliped{
+.align-horixzontal{
+    transform: rotate(180deg);
+}
+.align-diagonal{
     transform: rotate(45deg);
 }
-.leftfliped{
-    transform: rotate(-45deg);
-}
 .gamesBoard-container{
+
     width: var(--container);
     height: fit-content;
     margin-bottom: 2em; 
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 .game-board{
-    background-color: var(--blue);
-    width: 300px;
+    background-color: var(--aqua);
+    width: 500px;
     /* height: 300px; */
     height: fit-content;
     display: flex;

@@ -8,7 +8,7 @@ import "../../styles/home.css";
 
 
 export const Home = () => (
-	<div className="text-center board-container ">
+	<div className="text-center py-5 wrapper board-container ">
 		{/* <Game /> */}
 		{/* <MyTicTacToe /> */}
 		<Somex />

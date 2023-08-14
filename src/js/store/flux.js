@@ -14,12 +14,9 @@ const getState = ({ getStore, getActions, setStore }) => {
         },
       ],
       row: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      selfAlign: {},
+      flip: 'horizontal',
 
-      horizontal: 'transform: rotate(180deg);',
-      vertical: 'transform: rotate(90deg);',
-      diagonal: 'transform: rotate(45deg);',
-      flip: 'transform: rotate(180deg);',
-      selfAlign: null,
       // gameBoard: [0= empty, 1 = ship, 2 = shoot, 3= sunken, 4= miss],
       PlayerBoard: [
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -120,8 +117,9 @@ const getState = ({ getStore, getActions, setStore }) => {
           name: "submarine",
           color: "Orchid",
           taken: false,
+          flip: 'horizontal',
           length: 3,
-          align: flip,
+          // align:null, //ponerlo en null o solo agregarlo despues al seleccionar manualmente o con random align
           coords: [],
           shipState: 1,
           setPlayerBoard: false, //cambiar a true cuando esten puestos en el respectivo tablero
@@ -131,6 +129,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           name: "destroyer",
           color: "HotPink",
           taken: false,
+          flip: 'horizontal',
           length: 4,
           coords: [],
           shipState: 1,
@@ -142,6 +141,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           name: "battleship",
           color: "IndianRed",
           taken: false,
+          flip: 'horizontal',
           length: 5,
           coords: [],
           shipState: 1,
@@ -153,6 +153,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           name: "carrier",
           color: "Salmon",
           taken: false,
+          flip: 'horizontal',
           length: 5,
           coords: [],
           shipState: 1,
@@ -284,7 +285,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
             return valid
           },//revisa que no se salga del tablero
-          handleShipData: (newShip, row, col, func, board) => {
+          handleShipData: (newShip, row, col, func, board, changeMe=null) => {
             const store = getStore()
 
             func === 'handleSetBoard' ?
@@ -309,6 +310,11 @@ const getState = ({ getStore, getActions, setStore }) => {
                 //     newShip.PlayerBoard.taken = true,
                 //     newShip.PlayerBoard.shipState = 1)
               )
+              :  func === 'flipShips' ?
+              (
+                newShip.flip = changeMe,
+                console.log(board, 'prueba')
+              )
               :
               (
                 console.log('firetorpedo')
@@ -316,6 +322,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 // newShip.shipState === 1 ? 'cool' : newShip.shipState === 2 ? 'hit' : newShip.shipState === 3 ? 'sunk' : 'miss'
               ) //solo puede estar en sunk-3 cuando todos los espacios que componen el barco esten en hit-2
             //  console.log(newShip?.taken, newShip?.name, newShip?.coords,'hadlenewShipdata');
+
             return newShip
           },
           handleSetBoard: (board, ship, row, col, align) => {
@@ -373,20 +380,38 @@ const getState = ({ getStore, getActions, setStore }) => {
           }, //traer las coordenadas al clickear, y tambien al clickear cambiar store.flip para traer align tmb, con eso verificar y enviar uno por uno los barcos a placeSHIPS, 
           ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
          
-          flipShips: (board, ship) => {
+          flipShips: (ship) => {
             const {flip, horizontal, vertical, diagonal} = getStore();
-// segun el align del barco en options cambiar el align de los ships
+            const store = getStore();
+
+// segun el align del barco en options cambiar el align de los ships//prepara el barco con su align para ponerle las coordenadas en la sigte funcion donde habra que seleccionar el tablero de player.
             let newFlip= flip
+            console.log({flip} ,ship.name, store.selfAlign);
 
-            console.log({flip});
-
-            flip === 'transform: rotate(180deg);' ? newFlip= vertical : newFlip === vertical ? newFlip= diagonal : newFlip === horizontal ? newFlip= horizontal : console.log('error con flip');
+            newFlip === 'horizontal' ? newFlip= 'vertical' : 
+            newFlip === 'vertical' ? newFlip= 'diagonal' : 
+            newFlip === 'diagonal' ? newFlip= 'horizontal' : 
+            console.log('error con flip');
             
-            ship.align = newFlip       
+            setStore({selfAlign :{ shipName: ship.name, align: newFlip}})
+            setStore({ flip: newFlip })
+            console.log({newFlip}, {flip}, ship.name, 'yess');
+
+
+
+
+            // newShip = getActions().handleShipData(newShip, null, null, 'flipShips', prueba, newFlip) 
+            
+            // flip === 'transform: rotate(180deg);' ? newFlip = 'hola'  : newFlip = 'chao' 
+
+      
+           
+            // ship.align = newFlip
+            // console.log({newFlip},ship.align );       
          
             // newflip es un estilo de css paara el componente ship en shipcontainer y cambia el align de los barcos podria usar selfalign true para avisar en la funcion de start que ya trae su align o en placeships
             // setStore({ cambiar el align del array ships y rotar el ship en shipcontainer ocn estilos css })
-
+            //en componente board mostrar un square normaal o un ship con su forma css segun si hay o no barco en board[i][j], en squar4e recibir el info del ship y moostrar su color segun su sipstate qu7e se modifica con handleshipdata  cada vez que se dispara. tmb con eso marcar los disparos al agua como miss 
           },
           handleClick: (board, row, col) => {
             const { user, selectedShip } = getStore();

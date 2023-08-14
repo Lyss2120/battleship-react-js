@@ -4,7 +4,7 @@ import Square from './square.jsx';
 import SquareTop from './square-top.jsx';
 // import '../../../styles/gameboard.css'
 // , setBoard, setUser, setShipState, shipState, ships, setShips, fireTorpedo iconos para disparos:  BsFillRecordFill - BsFillRecord2Fill o BiBrightness con color bco y rojo , o impacto bala: GiScreenImpact - GiGooeyImpact- SiFireship cdo se hunde          
-{/* <a href="https://www.flaticon.com/free-animated-icons/fire" title="fire animated icons">Fire animated icons created by Freepik - Flaticon</a> */}
+{/* <a href="https://www.flaticon.com/free-animated-icons/fire" title="fire animated icons">Fire animated icons created by Freepik - Flaticon</a> */ }
 
 const Board = ({ board, user }) => {
 
@@ -15,8 +15,8 @@ const Board = ({ board, user }) => {
 
   return (
     <>
-      <div className=''>
-        <span>{user}</span>
+      <div className='' >
+        <span className='fs-4'>{user}</span>
         <SquareTop row={row} clase={'flex-row  ms-2 square-top'} />
         <div className='d-flex'>
           <SquareTop row={row} clase={'flex-column  px-1 square-top'} />
@@ -24,11 +24,37 @@ const Board = ({ board, user }) => {
             {new Array(10).fill(0).map((_, i) => {
               return (
                 <div key={i} className='d-flex justify-content-around'>
-              {board[i].map((item, j) => {
-                // console.log(board[i][j], board );
-                return(
-                  <>
-                  {board[i][j] === 0 ?
+                  {board[i].map((item, j) => {
+                    // console.log(board[i][j], board );
+                    return (
+
+                      <Square className="rowss square"
+                        key={j}
+                        coord={board[i][j]}
+                        row={i} col={j}
+                        item={item}
+                        board={board}
+                        funct={actions.squareClick}
+                      />
+
+                    )
+                  })}
+                </div>
+              )
+            })}
+          </div>
+
+        </div>
+      </div>
+
+
+
+    </>
+  )
+}
+
+export default Board
+{/* {board[i][j] === 0 ?
                       <Square className="rowss square" 
                               key={j} 
                               coord={board[i][j]} 
@@ -46,24 +72,7 @@ const Board = ({ board, user }) => {
                               board={board}  
                               funct={actions.squareClick}
                         />
-                        }
-                     </>
-               )
-              })}  
-                </div>
-              )
-            })}
-          </div>
+                        } */}
 
-        </div>
-      </div>
-
-
-
-    </>
-  )
-}
-
-export default Board
 
 

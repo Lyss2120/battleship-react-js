@@ -3,7 +3,7 @@
 .wrapper{
   font-family: 'Bangers', cursive;
     background: rgb(26, 29, 34) url('https://www.kindpng.com/picc/m/55-551450_cartoon-ocean-background-ocean-waves-cartoon-png-transparent.png') no-repeat fixed bottom;
-    background-size:110% 105%;
+    background-size:110% 110%;
     background-blend-mode: screen;
 }
 
@@ -37,6 +37,8 @@
     flex-direction: row;
     color: rgb(255, 60, 0) !important;
     background: var(--metalMilitar2);
+    /* background-position-y: center; */
+
     letter-spacing: var(--spacing);
     font-size: large;
     object-fit: cover;
@@ -55,6 +57,7 @@
     letter-spacing: var(--spacing);
     margin: inherit;
     background-blend-mode: hard-light;
+    text-align:end;
 }
 .option-container{
     padding-top: 8em;
@@ -73,34 +76,56 @@ color: rgb(255, 123, 0);
 /* .shipcolor{
 
 } */
+.backgr{
+    background: var(--white);
+    /* background-position: center; */
+    text-align: end;
+    color: rgb(255, 60, 0) !important;
+
+}
 .ship-3{
-    width:calc(30px*3);
+    width:calc(50px*3);
     margin: inherit;
     border-radius: 35% 50% 50% 35%;}
 .ship-4{
-    width:calc(30px*4);
+    width:calc(50px*4);
     margin: inherit;
     border-radius: 35% 50% 50% 35%;
 }
 .ship-5{
-    width:calc(30px*5);
+    width:calc(50px*5);
     margin: inherit;
     border-radius: 35% 50% 50% 35%;
 }
 .destroyer{
-    background-color: rgb(17, 50, 112);
+    /* background-color: rgb(17, 50, 112); */
+    background: var(--metalMilitar2);
+    background-position-y: center;
+
 }
 .submarine{
     background-color: rgb(12, 38, 85);
+    /* background: var(--metalMilitar2); */
+    background-position-y: center;
+
 }
 .cruiser{
-    background-color: rgb(24, 67, 148);
+    /* background-color: rgb(24, 67, 148); */
+    background: var(--metalMilitar2);
+    background-position-y: center;
+
 }
 .battleship{
-    background-color: rgb(31, 86, 187);
+    /* background-color: rgb(31, 86, 187); */
+    background: var(--metalMilitar2);
+    background-position-y: center;
+
 }
 .carrier{
-    background-color: rgb(41, 108, 233);
+    /* background-color: rgb(41, 108, 233); */
+    background: var(--metalMilitar2);
+    background-position-y: center;
+
 }
 .destroyer-preview{
     width: 20px;
@@ -146,6 +171,10 @@ color: rgb(255, 123, 0);
 }
 .game-board{
     background-color: var(--aqua);
+    /* background: url( https://media.istockphoto.com/id/1170947236/video/drone-view-of-the-ocean-waves-splashing.jpg?b=1&s=640x640&k=20&c=E26TQJhFJMatApuiI3hd9cnw-vpYt9R9XF-lSYqkDdk=) no-repeat;
+    background-size:cover;
+    background-blend-mode:darken; */
+    /* https://media.istockphoto.com/id/930686884/vector/waves-seamless-pattern-vector-ocean-sea-water-blue-cut-out-paper-style.jpg?s=612x612&w=0&k=20&c=YtlZKLzo2quyn4I77jyBDHAeaGaVtFyk-ib0SCIPJU4= */
     width: 500px;
     /* height: 300px; */
     height: fit-content;

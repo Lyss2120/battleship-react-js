@@ -12,7 +12,7 @@ const Board = ({ board, user }) => {
   let row = store.row
   // let ship = board === store.PcBoard ? store.takenShipPC.map((item, i) => { item }) : store.takenShipPlayer.map((item, i) => { item })
   // console.log('llamado desde board component',{ship});///como capturar ship... si no se actualiza el array de store.ships..
-
+console.log(store.flip, store.selfAlign);
   return (
     <>
       <div className='' >
@@ -20,10 +20,11 @@ const Board = ({ board, user }) => {
         <SquareTop row={row} clase={'flex-row  ms-2 square-top'} />
         <div className='d-flex'>
           <SquareTop row={row} clase={'flex-column  px-1 square-top'} />
-          <div className='d-flex tablero game-board'>
+          <div className='d-flex tablero game-board' >
             {new Array(10).fill(0).map((_, i) => {
               return (
-                <div key={i} className='d-flex justify-content-around'>
+                <div key={i} className='d-flex justify-content-around'
+                >
                   {board[i].map((item, j) => {
                     // console.log(board[i][j], board );
                     return (

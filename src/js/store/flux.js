@@ -207,6 +207,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             alert('elige un barco o presiona start para random position')
             //Posicionar los barcos manualmente o con el boton start para hacerlo automatico 
           },//start es para cuando no se quiere elegir los barcos y posicionarlos manualmente, ahi se cargan los dos tableros automaticamente sino uno solo
+          //playerboardl y tkenshi8ps no estandefinidos
           start: (arg) => {
             const store = getStore();
             // llama a place boards con cada tablero para poner dentro sus barcos// 
@@ -379,7 +380,12 @@ const getState = ({ getStore, getActions, setStore }) => {
             // getActions().placeShips(board, ship, row, col)
           }, //traer las coordenadas al clickear, y tambien al clickear cambiar store.flip para traer align tmb, con eso verificar y enviar uno por uno los barcos a placeSHIPS, 
           ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
-         
+          setSelectedShip: (e, ship)=>{
+            const store = getStore()
+
+            setStore({ selectedShip : ship.name }),// SETEA selectedShip como el ship qeu se tomo, con eso usar selectedship para modificar su align y despues en dragover su row y col
+            console.log('dragStart ship', ship.name, 'SELECTED', store.selectedShip, e.target) 
+          },
           flipShips: (ship) => {
             const {flip, horizontal, vertical, diagonal} = getStore();
             const store = getStore();

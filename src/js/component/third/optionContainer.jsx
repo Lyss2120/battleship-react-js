@@ -6,11 +6,12 @@ const OptionContainer = () => {
   const { store, actions } = useContext(Context);
 
   return (
-    <div className="pt-5 mt-5 ">
+    <div className="pt-5 fs-5 mt-5 d-flex flex-column">
       {/* {console.log(store.ships, 'ships desde <optionContainer/>')} */}
-      <button className='btn botones start-button row m-3 fs-5' >
+      {/* <div className=" mt-5 backgr"> */}
+      <span className='btn botones start-button row m-3 fs-4' >
         Place your ships
-      </button>
+      </span>
       {
         store.ships?.map((ship, index) => {
           // console.log('selfalign', store.selfAlign, ship.name, '<optionContainer/>')
@@ -28,7 +29,7 @@ const OptionContainer = () => {
           );
         })
       }
-
+{/* </div> */}
     </div>
 
 

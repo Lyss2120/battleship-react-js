@@ -2,9 +2,12 @@
 
 .wrapper{
   font-family: 'Bangers', cursive;
-    background: rgb(26, 29, 34) url('https://www.kindpng.com/picc/m/55-551450_cartoon-ocean-background-ocean-waves-cartoon-png-transparent.png') no-repeat fixed bottom;
+    /* background: rgb(26, 29, 34) url('https://www.kindpng.com/picc/m/55-551450_cartoon-ocean-background-ocean-waves-cartoon-png-transparent.png') no-repeat fixed bottom; */
+    background: var(--metalMilitar);
     background-size:110% 110%;
-    background-blend-mode: screen;
+    /* background-blend-mode: screen; */
+    background-blend-mode: hard-light;
+
 }
 
 /* div:nth-child(2) {
@@ -21,6 +24,8 @@
     --square: 50px;
     --container: 1050px;
     --spacing: 6px;
+    --sea: rgb(26, 29, 34)  url( https://media.istockphoto.com/id/1170947236/video/drone-view-of-the-ocean-waves-splashing.jpg?b=1&s=640x640&k=20&c=E26TQJhFJMatApuiI3hd9cnw-vpYt9R9XF-lSYqkDdk=);
+    /* https://media.istockphoto.com/id/930686884/vector/waves-seamless-pattern-vector-ocean-sea-water-blue-cut-out-paper-style.jpg?s=612x612&w=0&k=20&c=YtlZKLzo2quyn4I77jyBDHAeaGaVtFyk-ib0SCIPJU4= */
     --metalMilitar: rgb(26, 29, 34) 
     /* url(https://img.freepik.com/foto-gratis/fondo-marco-metal-grunge_1048-11682.jpg?w=740&t=st=1691992751~exp=1691993351~hmac=7a7f61f69959ad875ece1554abfdedf58a6c65dbd823c48ff91bec76c9c5d14f) fixed center; */
     url(https://img.freepik.com/fotos-premium/fondo-textura-metal-industrial-verde-abstracto-remaches-pernos_76080-7165.jpg) center top ;
@@ -52,11 +57,11 @@
 
 }
 .botones{
-    background: var(--metalMilitar);
+    background: var(--metalMilitar2);
     color: rgb(255, 60, 0) !important;
     letter-spacing: var(--spacing);
     margin: inherit;
-    background-blend-mode: hard-light;
+    /* background-blend-mode: hard-light; */
     text-align:end;
 }
 .option-container{
@@ -127,31 +132,6 @@ color: rgb(255, 123, 0);
     background-position-y: center;
 
 }
-.destroyer-preview{
-    width: 20px;
-    height: 15px;
-    margin: 3px;
-    }
-.submarine-preview{
-    width: 40px;
-    height: 15px;
-    margin: 3px;
-    }
-.cruiser-preview{
-    width: 60px;
-    height: 15px;
-    margin: 3px;
-    }
-.battleship-preview{
-    width: 60px;
-    height: 15px;
-    margin: 3px;
-    }
-.carrier-preview{
-    width: 80px;
-    height: 15px;
-    margin: 3px;
-    }
 .align-vertical{
     transform: rotate(90deg);
 }
@@ -161,8 +141,11 @@ color: rgb(255, 123, 0);
 .align-diagonal{
     transform: rotate(45deg);
 }
+.sea{
+    background: var(--sea);
+    background-size: cover;
+}
 .gamesBoard-container{
-
     width: var(--container);
     height: fit-content;
     margin-bottom: 2em; 
@@ -171,10 +154,6 @@ color: rgb(255, 123, 0);
 }
 .game-board{
     background-color: var(--aqua);
-    /* background: url( https://media.istockphoto.com/id/1170947236/video/drone-view-of-the-ocean-waves-splashing.jpg?b=1&s=640x640&k=20&c=E26TQJhFJMatApuiI3hd9cnw-vpYt9R9XF-lSYqkDdk=) no-repeat;
-    background-size:cover;
-    background-blend-mode:darken; */
-    /* https://media.istockphoto.com/id/930686884/vector/waves-seamless-pattern-vector-ocean-sea-water-blue-cut-out-paper-style.jpg?s=612x612&w=0&k=20&c=YtlZKLzo2quyn4I77jyBDHAeaGaVtFyk-ib0SCIPJU4= */
     width: 500px;
     /* height: 300px; */
     height: fit-content;

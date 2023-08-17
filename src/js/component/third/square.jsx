@@ -3,18 +3,15 @@ import { Context } from '../../store/appContext'
 
 const Square = ({ i, j, coord, row, col, board, item, funct }) => {
   const { store, actions } = useContext(Context)
-  // let ship = store.ships.map((ship, i) => {
-  //   if(ship.coords === [row, col]) console.log('ship encontrado', ship);
-  //   console.log({ship}, row, col);
-  //   return ship
-  // }) setear selected ship al click y sacar el align para pasarselo a onclicksetShips con su align  mas row y col que va a capturar con onDragOver y llamar a la funcion onclicksetShips ahi o con onDrop
+
+  // setear selected ship al click y sacar el align para pasarselo a onclicksetShips con su align  mas row y col que va a capturar con onDragOver y llamar a la funcion onclicksetShips ahi o con onDrop
 
   return (
     <>
       <div key={i} className={`square tile bg-${coord === 4 ? 'light bg-opacity-50' : board === store.PcBoard && coord != 0 ? store.enemyShipsClass : board === store.PlayerBoard && coord != 0 ? store.ShipsClass : coord === 2 ? 'warning' : coord === 3 ? 'danger' : 'null'}`}
         onDragOver={(e) => { e.preventDefault(), console.log('draggOveer ship',e.target, row, col) }}//permite arrastrar el barco hacia el tablero
-        onDrop={(e) => console.log('drop ship', e.target, col, row)}
-        onClick={() => actions.handleClick(board, row, col)}  // style={{ backgroundColor: coord}}  // onClick={() => console.log('coord ' + row + ',' + col)}
+        onDrop={(e) =>  actions.handleDrop(ship, row, col)}//solo playerboard tiene que tener esta posibilidad
+        onClick={() => actions.handleClick(board, row, col)}// solo pcBoard puede tener esta posibilidad de disparar al tablero  // style={{ backgroundColor: coord}}  // onClick={() => console.log('coord ' + row + ',' + col)}
       >
         {store.ships.map((ship, i) => {
           if (ship.coords === [row, col]) console.log('ship encontrado', ship)

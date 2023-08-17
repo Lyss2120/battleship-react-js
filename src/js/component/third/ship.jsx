@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Context } from '../../store/appContext';
 import '../../../styles/third.css';
-import { GiIronHulledWarship } from 'react-icons/gi';
+import { GiIronHulledWarship, GiLog } from 'react-icons/gi';
 
 
 

@@ -7,13 +7,15 @@
     background-size:110% 110%;
     /* background-blend-mode: screen; */
     background-blend-mode: hard-light;
-
 }
 
 /* div:nth-child(2) {
     background: red;
   } */
-
+/* 
+crear efectos para los barcos flotando, para los disparos salpicando, para sunken con fuego, para miss en otro color o una valla flotando
+para la pag de inicio al apretar start que tenga una hacia el juego, y restart que ponga todo en 0
+*/
 :root{
     --blue: rgba(41, 142, 172, 0.623);
     --aqua:  rgba(41, 172, 128, 0.623);

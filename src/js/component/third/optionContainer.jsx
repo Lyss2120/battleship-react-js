@@ -18,13 +18,14 @@ const OptionContainer = () => {
           return (
             <Ship
               key={index}
-              name={ship.name}
               color={ship.color}
+              name={ship.name}
+
               taken={ship.taken}
               length={ship.length}
               coords={ship.coords}
-              align={store.flip}
               shipState={ship.shipState}
+              align={store.flip}
             />
           );
         })

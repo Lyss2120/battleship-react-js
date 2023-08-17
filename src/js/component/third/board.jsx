@@ -10,11 +10,10 @@ const Board = ({ board, user }) => {
 
   const { store, actions } = useContext(Context);
   const { selfAlign} = store;//se marca solo cuando se cambia el align se tiene que marcar al drop
-  console.log(selfAlign);
   let row = store.row
   // let ship = board === store.PcBoard ? store.takenShipPC.map((item, i) => { item }) : store.takenShipPlayer.map((item, i) => { item })
   // console.log('llamado desde board component',{ship});///como capturar ship... si no se actualiza el array de store.ships..
-console.log(store.flip, store.selfAlign);
+  // console.log(store.flip, store.selfAlign);
   return (
     <>
       <div className='' >

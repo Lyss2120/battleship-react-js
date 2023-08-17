@@ -5,10 +5,10 @@ import { GiIronHulledWarship, GiLog } from 'react-icons/gi';
 
 
 
-const Ship = (ship, key, name, color, taken, length, coords, shipState, align) => {
+const Ship = (ship, align) => {
     const { store, actions } = useContext(Context);
 
-    // console.log('sera?', store.selfAlign.shipName); modificar align correctamente!
+    // console.log('sera?', ship); //props??? no se puede enviar ship entero pero si funciona como esta
  
     return (
         <div className={`m-3 align-${align} botones d-flex justify-content-between rounded`}/*bg-warning*/// // onClick={() => { actions.selectedShip(ship) }}
@@ -22,10 +22,7 @@ const Ship = (ship, key, name, color, taken, length, coords, shipState, align) =
                     {ship.length}
                 </span>
             </span>
-
-
             <span className=' pe-3'>{ship.name}</span>
-
         </div>
     )
 }

@@ -20,7 +20,6 @@ const OptionContainer = () => {
               key={index}
               color={ship.color}
               name={ship.name}
-
               taken={ship.taken}
               length={ship.length}
               coords={ship.coords}

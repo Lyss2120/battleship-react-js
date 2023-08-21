@@ -10,7 +10,7 @@ const Square = ({ i, j, coord, row, col, board, item, funct }) => {
     <>
       <div key={i} className={`square tile bg-${coord === 4 ? 'light bg-opacity-50' : board === store.PcBoard && coord != 0 ? store.enemyShipsClass : board === store.PlayerBoard && coord != 0 ? store.ShipsClass : coord === 2 ? 'warning' : coord === 3 ? 'danger' : 'null'}`}
         onDragOver={(e) => { e.preventDefault(), console.log('draggOveer ship',e.target, row, col) }}//permite arrastrar el barco hacia el tablero
-        onDrop={(e) =>  actions.handleDrop(e, ship, row, col)}//solo playerboard tiene que tener esta posibilidad
+        onDrop={(e) => { actions.handleDrop(e, ship, row, col), console.log('onDrop',store.selfAlign);}}//solo playerboard tiene que tener esta posibilidad
         onClick={() => actions.handleClick(board, row, col)}// solo pcBoard puede tener esta posibilidad de disparar al tablero  // style={{ backgroundColor: coord}}  // onClick={() => console.log('coord ' + row + ',' + col)}
       >
         {store.ships.map((ship, i) => {

@@ -1,22 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
 
 .wrapper{
-  font-family: 'Bangers', cursive;
+    font-family: 'Bangers', cursive;
+    width: fit-content;
     /* background: rgb(26, 29, 34) url('https://www.kindpng.com/picc/m/55-551450_cartoon-ocean-background-ocean-waves-cartoon-png-transparent.png') no-repeat fixed bottom; */
-    background: var(--metalMilitar);
+    background: var(--sea);
+    background-color: var(--black);
     background-size:110% 110%;
     /* background-blend-mode: screen; */
     background-blend-mode: hard-light;
 }
-
-/* div:nth-child(2) {
-    background: red;
-  } */
-/* 
-crear efectos para los barcos flotando, para los disparos salpicando, para sunken con fuego, para miss en otro color o una valla flotando
+/*crear efectos para los barcos flotando, para los disparos salpicando, para sunken con fuego, para miss en otro color o una valla flotando
 para la pag de inicio al apretar start que tenga una hacia el juego, y restart que ponga todo en 0
 */
 :root{
+    --black: rgba(2, 15, 19, 0.308);
     --blue: rgba(41, 142, 172, 0.623);
     --aqua:  rgba(41, 172, 128, 0.623);
     --white:rgba(255, 255, 255, 0.329);
@@ -66,8 +64,21 @@ para la pag de inicio al apretar start que tenga una hacia el juego, y restart q
     /* background-blend-mode: hard-light; */
     text-align:end;
 }
+.ship{
+    background: transparent !important;
+    color: rgb(19, 18, 18) !important;
+
+}
+.lala{
+    /* background: transparent !important; */
+
+}
 .option-container{
     padding-top: 8em;
+    /* background: var(--metalMilitar3);
+    background-size: cover; */
+    background-color: var(--black);
+
 }
 .icon{
     /* height: 20px; */
@@ -79,10 +90,6 @@ color: rgb(255, 123, 0);
     display: grid;
     place-items: center;
 }
-
-/* .shipcolor{
-
-} */
 .backgr{
     background: var(--white);
     /* background-position: center; */
@@ -106,7 +113,7 @@ color: rgb(255, 123, 0);
 }
 .destroyer{
     /* background-color: rgb(17, 50, 112); */
-    background: var(--metalMilitar2);
+    background: var(--metalMilitar3);
     background-position-y: center;
 
 }
@@ -118,19 +125,19 @@ color: rgb(255, 123, 0);
 }
 .cruiser{
     /* background-color: rgb(24, 67, 148); */
-    background: var(--metalMilitar2);
+    background: var(--metalMilitar3);
     background-position-y: center;
 
 }
 .battleship{
     /* background-color: rgb(31, 86, 187); */
-    background: var(--metalMilitar2);
+    background: var(--metalMilitar3);
     background-position-y: center;
 
 }
 .carrier{
     /* background-color: rgb(41, 108, 233); */
-    background: var(--metalMilitar2);
+    background: var(--metalMilitar3);
     background-position-y: center;
 
 }
@@ -163,6 +170,15 @@ color: rgb(255, 123, 0);
     flex-wrap: wrap;
     flex-direction: column;
 }
+.lightSquare{
+    background: var(--white)!important;
+}
+.wrongSquare{
+    background: var(--orange)!important;
+}
+.square .lightSquare {
+    background-color: rgba(240, 248, 255, 0.685);
+}/*que se ilumine on hover al pasar el barco por encima, red si esta mal y blanco si esta bien*/
 
 .square{
     width: var(--square);

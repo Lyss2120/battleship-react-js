@@ -18,7 +18,7 @@ const Board = ({ board, user }) => {
     <>
       <div className='' >
         <div className='fs-4 turn-display'>{user}</div>
-        <SquareTop row={row} clase={'flex-row  ms-2 square-top'} />
+        <SquareTop row={row} clase={'flex-row  mx-3 square-top'} />
         <div className='d-flex'>
           <SquareTop row={row} clase={'flex-column  px-1 square-top'} />
           <div className='d-flex tablero sea  game-board' >

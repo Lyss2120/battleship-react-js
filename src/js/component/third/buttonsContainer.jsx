@@ -7,7 +7,7 @@ const ButtonsContainer = () => {
   const { user, PcBoard, PlayerBoard } = store;
            
   return (
-    <div className='pt-5 mt-5 buttons  d-flex flex-column'>
+    <div className='pt-5 mt-2 buttons d-flex flex-column option-container'>
     <button className='btn botones start-button row m-3 fs-5' onClick={() => { actions.inicio() }}> 
     {/* //setear user y pedir poner los barcos */}
         Inicioo

@@ -11,7 +11,7 @@ const Ship = (ship, align) => {
     // console.log('sera?', ship); //props??? no se puede enviar ship entero pero si funciona como esta
  
     return (
-        <div className={`m-3 botones d-flex justify-content-between rounded`}/*bg-warning*/// // onClick={() => { actions.selectedShip(ship) }}
+        <div className={`m-3 botones ship d-flex justify-content-between rounded`}/*bg-warning*/// // onClick={() => { actions.selectedShip(ship) }}
         >
             <span className={`${ship.name} ship-${ship.length} btn align-${align}`}
                 draggable='true'

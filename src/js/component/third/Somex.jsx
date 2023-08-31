@@ -17,7 +17,7 @@ const Somex = () => {
     }, [])
 
 
-    return (<div className='b d-flex pb-5'>
+    return (<div className='b d-flex option-container pb-5'>
         <ButtonsContainer />
 
         <div className='' >

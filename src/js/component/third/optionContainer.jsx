@@ -4,12 +4,12 @@ import Ship from './ship.jsx';
 
 const OptionContainer = () => {
   const { store, actions } = useContext(Context);
-
+// console.log(store.shipsPlayer, 'lll');
   return (
-    <div className="pt-5 fs-5 mt-5 d-flex flex-column">
+    <div className="pt-5 fs-5 mt-2 d-flex flex-column option-container">
       {/* {console.log(store.ships, 'ships desde <optionContainer/>')} */}
       {/* <div className=" mt-5 backgr"> */}
-      <span className='btn botones start-button row m-3 fs-4' >
+      <span className='btn botones lala  start-button row m-3 fs-4' >
         Place your ships
       </span>
       {

@@ -4,7 +4,7 @@ import Ship from './ship.jsx';
 
 const OptionContainer = () => {
   const { store, actions } = useContext(Context);
-console.log(store.shipsPlayer, 'lll', store.shipsPc);
+// console.log(store.shipsPlayer, 'lll', store.shipsPc);
   return (
     <div className="pt-5 fs-5 mt-2 d-flex flex-column option-container">
       {/* {console.log(store.ships, 'ships desde <optionContainer/>')} */}

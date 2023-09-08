@@ -250,12 +250,15 @@ const getState = ({ getStore, getActions, setStore }) => {
                 newShip.taken = true,
                 console.log('HandleShipData!!', newShip.name, 'taken', newShip.taken, 'state', newShip.shipState)//con esto se tiene que setear un newShips copia de ships en shipsPlayer. shipsPs se setea automaticamente con handleSetBoard
               )
-              :
+              : func === 'fireTorpedo' ?
               (
-                newShip.fire = [[row, col], ...newShip.fire],// si ya esta aqui no se puede disparr alert de disparar en otro lado
+                newShip.fire = [...newShip.fire, [row, col]],// si ya esta aqui no se puede disparr alert de disparar en otro lado
                 console.log('disparaste', '-> fire content', newShip.fire),
-                newShip.fire.lenght === newShip.lenght ? newShip.shipState++ : console.log('handleshipdata firetorpedo', newShip.name, newShip.fire, newShip.shipState)
-              )
+                newShip.fire.lenght === newShip.coords ? newShip.shipState++ : console.log('handleshipdata firetorpedo', newShip.name, newShip.fire, newShip.shipState)
+                // ship.fire
+                )
+              : 
+              console.log('cual es la función en handelshipdata?')
 
         return newShip
       },
@@ -412,15 +415,15 @@ const getState = ({ getStore, getActions, setStore }) => {
       /************************************************* */
       handleClick: (board, row, col) => {
         const store = getStore();
-        const { shipsPlayer, PcBoard } = getStore();
-        let newBoard = [...board];
         // let ship = newBoard[row][col]
-        // let findShoot//checkea si las coordenadas clickeadas se repiten en el array fire de squares golpeados
-
-//al clickear llama a firetorpedo, si firetorpedo se llama en el boton llama a fireprompt para sacar los datos, handleshipdata solo cambia cuadno es necesario las validacones se hacen antes de llamar a esa func
-
-        if (board === PcBoard) { getActions().fireTorpedo(row, col) }
-        else alert('debes disparar al tablero enemigo!')
+        // console.log({barcoslistos});
+        //al clickear llama a firetorpedo, si firetorpedo se llama en el boton llama a fireprompt para sacar los datos, handleshipdata solo cambia cuadno es necesario las validacones se hacen antes de llamar a esa func
+        if (store.shipsPlayer.length === store.ships.length ) {
+          console.log('barcos listos', store.shipsPlayer)
+          board === store.PcBoard ? getActions().fireTorpedo(row, col)
+            :
+            alert('debes disparar al tablero enemigo!')
+        } else alert('debes posicionar tus barcos en el tablero')
         // if(board === PcBoard){
         //   shipsPlayer !== [] ? findShoot = ship.fire.find(item => item === [row, col]) : alert('debes posicionar tus barcos en el tablero') 
 
@@ -469,32 +472,52 @@ const getState = ({ getStore, getActions, setStore }) => {
         //   //     getActions().whoIsTheWinner(board, row, col); //guarda todos los barcos que estan en 4 solo se pone en 4 si el barco entero se hundio. guarda los barcos hundidos de cada board y si uno tiene todos sus barcos en 4 es el perdedor  y automaticamente el dueño del otro tablero gana tiene que recibir player board y sus ships?
       },
       fireTorpedo: (row, col) => {
-        const store = getStore()
-        const [user, pcBoard, playerBoard] = store
-        const board = user === "Player" ? pcBoard : playerBoard //dispara al tablero ocntrario del jugador de turno
-        const newBoard = [...board]; //si los datos existen usarlos, sino pedirlos con un prompt
-        let ship = newBoard[row][col]
-        let data
-        let findShoot
+      //recibe las coordenadas desde el click o las llama desde firetorpedoprompt... al clickear el boton fire de inmediato llama coordenadas desde ahi llamar a firetorpedo
+      !!row?console.log(row, col, 'coords fire torpedo'):console.log('no esta row');
 
-        row && col ? (row, col) : (data = getActions().fireTorpedoPrompt(), [row, col] = data)
+      },
+//       fireTorpedo: (row, col) => {
+//         const store = getStore()
+//         const board = store.user === "Player" ? store.PcBoard : "Pc" ? store.PlayerBoard : console.log('player o pc?'); //dispara al tablero ocntrario del jugador de turno
+//         const newBoard = [...board]; //si los datos existen usarlos, sino pedirlos con un prompt
+//         let newShips = [...store.pcShips]
+//         let ship1 = newBoard[row][col]
+//         let ship = newShips[ship1]
+//         let coords = [row,col]
+//         let findShoot 
 
-        shipsPlayer !== [] ? findShoot = ship.fire.find(item => item === [row, col]) : alert('debes posicionar tus barcos en el tablero')
-        newBoard[row][col] === 0 ? (console.log(miss), newBoard[row][col] = 'miss', setStore({ board: newBoard }))
-          :
-          ship.shipState === 1 ? (!findShoot ? (console.log('disparar a :', ship.name), getActions().handleShipData(ship, row, col, 'handleClick', newBoard, ship.align)) : alert('ya disparaste en este lugar'))
-            :
-            ship.shipState === 2 && (console.log(ship.shipState, 'state del ship'), setStore({ shipStatePc: [...store.shipStatePc, ship.name] })) //agrega el nombre de cada barco que ha sido hundido
+// console.log(findShoot, ship.fire, 'ship.fire');
+
+//         // if (findShoot === false) { console.log(ship.fire, 'findShoot', findShoot); }
+//         // else console.log('findshoot before row', findShoot);
+
+//         !row && getActions().fireTorpedoPrompt()
 
 
-        if (store.shipStatePc.lenght === 4 || store.shipStatePlayer.lenght === 4) { getActions().whoIsTheWinner() }//si alguno de los dos jugadores tiene todos sus barcos hundidos gana el oponente
-        console.log({ findShoot })
-      },//en proceso
+//         newBoard[row][col] === 0 ? (console.log('miss'), newBoard[row][col] = 'miss')
+//           :
+//           ship.shipState === 1 ? (!findShoot ? (console.log('disparar a :', ship.name), ship = getActions().handleShipData(ship, row, col, 'fireTorpedo', newBoard, ship.align)) : alert('ya disparaste en este lugar'))
+//             :
+//             ship.shipState === 2 && (console.log(ship.shipState, 'state del ship'), setStore({ shipStatePc: [...store.shipStatePc, ship.name] })) //agrega el nombre de cada barco que ha sido hundido
+
+
+//         if (store.shipStatePc.lenght === 4 || store.shipStatePlayer.lenght === 4) { getActions().whoIsTheWinner() }//si alguno de los dos jugadores tiene todos sus barcos hundidos gana el oponente
+//         console.log({ findShoot })
+
+//         setStore({ board: newBoard, pcShips: newShips })
+
+//        findShoot = ship.fire.every(item=> item!==coords) // si encuentra algo true
+ 
+
+
+//        console.log('some',ship.fire.includes([row,col]), 'filter', ship.fire.filter(item=> item === coords), 'ship.fire', ship.fire, 'ship', ship,'newShips', newShips)
+//       },//en proceso
       fireTorpedoPrompt: () => {
         // const store = getStore();
         let row = parseInt(prompt("Type a coord x"));
         let col = parseInt(prompt("Type a coord y"));
-        return row, col
+        getActions().fireTorpedo(row, col)
+//llama a firetorpedo para pc... el tablero dependeria del usuario
       },//en proceso
       showEnemyShips: (coord, board) => {
         const { enemyShipsClass } = getStore();

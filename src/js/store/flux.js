@@ -105,8 +105,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       shipsPlayer: [],//usar como taken ship tmb y ver si el barco ya se ha incluido aca o no 
       desdeElClickdata: { row: 0, col: 2, align: 'horizontal' },
       selectedShip: {},
-      shipStatePlayer: [],//cambiar de nro cada posicion segun el barco correspondiente y si estan en 'sunken' ponerlo en string
-      shipStatePc: [],
+      shipStatePlayer: 10,//cambiar de nro cada posicion segun el barco correspondiente y si estan en 'sunken' ponerlo en string
+      shipStatePc: 0,
+      coordsArray:[],
       fire: false, //nose si ocupe este estado // si todos los squares del barco estan en fire se cambia el shipState dentro de ship a sunk, si son menos el shipState queda en hit pero cada square puede cambiar su apariencia para mostrar los squares golpeados
       sunken: false,//nose si ocupe este estado //si shipState esta en 3 se activa sunken para cambiar la apariencia del barco o todos sus squares.. si no se puede acceder en el componente a las propiedades de cada barco dentro de ships
 
@@ -229,7 +230,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       },//revisa que no se salga del tablero
       handleShipData: (newShip, row, col, func, board, align = null) => {
         const store = getStore()
-        let stateship
+        let newShipState  
+        store.user === 'Player' ? newShipState = store.shipStatePc++ : newShipState = store.shipStatePlayer++
+        console.log('cual ess', newShipState );// se repite la cantidad de coordenadas que ocupan los barcos??????17veces
 
         func === 'handleSetBoard' ?
           (
@@ -252,13 +255,19 @@ const getState = ({ getStore, getActions, setStore }) => {
               )
               : func === 'fireTorpedo' ?
               (
-                newShip.fire = [...newShip.fire, [row, col]],// si ya esta aqui no se puede disparr alert de disparar en otro lado
-                console.log('disparaste', '-> fire content', newShip.fire),
-                newShip.fire.lenght === newShip.coords ? newShip.shipState++ : console.log('handleshipdata firetorpedo', newShip.name, newShip.fire, newShip.shipState)
+                newShip.fire = [...newShip.fire, [row, col]], console.log('disparaste a :', newShip.name,'fire content', newShip.fire, 'state', newShip.shipState, newShip.fire, newShip.coords),
+                newShip.fire.length === newShip.coords.length ? 
+                 ( console.log('sunken ship', newShip.fire.length, newShip.coords.length, newShip.shipState),
+                  store.user === 'Player'? setStore({shipStatePc : 2}) : setStore({shipStatePlayer : 2}), 
+                  newShip.shipState++, 
+                  alert(newShip.name + ' is now sunk!!')
+                  )
+                  : 
+                  console.log('fire, state of ', newShip.name,  newShip.shipState)
                 // ship.fire
                 )
               : 
-              console.log('cual es la función en handelshipdata?')
+              console.log('cual es la función en handleshipdata?')
 
         return newShip
       },
@@ -413,17 +422,22 @@ const getState = ({ getStore, getActions, setStore }) => {
         console.log('ShipsPlayer', store.shipsPlayer);
       },
       /************************************************* */
+      fireTorpedoPrompt: () => {
+        // const store = getStore();
+        let row = parseInt(prompt("Type a coord x"));
+        let col = parseInt(prompt("Type a coord y"));
+        getActions().fireTorpedo(row, col)
+        //llama a firetorpedo para pc... el tablero dependeria del usuario
+      },
       handleClick: (board, row, col) => {
         const store = getStore();
-        // let ship = newBoard[row][col]
-        // console.log({barcoslistos});
-        //al clickear llama a firetorpedo, si firetorpedo se llama en el boton llama a fireprompt para sacar los datos, handleshipdata solo cambia cuadno es necesario las validacones se hacen antes de llamar a esa func
+        //al clickear llama a firetorpedo, si firetorpedo se llama en el boton fireprompt envia los datos, handleshipdata solo cambia cuadno es necesario las validacones se hacen antes de llamar a esa func
         if (store.shipsPlayer.length === store.ships.length ) {
-          console.log('barcos listos', store.shipsPlayer)
+          // console.log('barcos listos', store.shipsPlayer)
           board === store.PcBoard ? getActions().fireTorpedo(row, col)
             :
-            alert('debes disparar al tablero enemigo!')
-        } else alert('debes posicionar tus barcos en el tablero')
+            console.log('debes disparar al tablero enemigo!')
+        } else console.log('debes posicionar tus barcos en el tablero')
         // if(board === PcBoard){
         //   shipsPlayer !== [] ? findShoot = ship.fire.find(item => item === [row, col]) : alert('debes posicionar tus barcos en el tablero') 
 
@@ -471,10 +485,49 @@ const getState = ({ getStore, getActions, setStore }) => {
         //   //   : board[row][col] === 4 && //enviar los que estan en 4
         //   //     getActions().whoIsTheWinner(board, row, col); //guarda todos los barcos que estan en 4 solo se pone en 4 si el barco entero se hundio. guarda los barcos hundidos de cada board y si uno tiene todos sus barcos en 4 es el perdedor  y automaticamente el dueño del otro tablero gana tiene que recibir player board y sus ships?
       },
-      fireTorpedo: (row, col) => {
-      //recibe las coordenadas desde el click o las llama desde firetorpedoprompt... al clickear el boton fire de inmediato llama coordenadas desde ahi llamar a firetorpedo
-      !!row?console.log(row, col, 'coords fire torpedo'):console.log('no esta row');
+      fastwinner:()=>{
+        const store = getStore();
+        let userShipState = store.user === 'Player' ? store.shipStatePc : store.shipStatePlayer
 
+      store.user === 'Player' ? 
+       setStore({ shipStatePc  : 4})
+        : 
+        setStore({ shipStatePlayer : 4})
+
+        console.log(store.shipStatePlayer, store.shipStatePc, )
+
+        // getActions().whoIsTheWinner()
+      },
+      fireTorpedo: (row, col) => {
+        const store = getStore();
+        //recibe las coordenadas desde el click o las llama desde firetorpedoprompt... al clickear el boton fire de inmediato llama coordenadas desde ahi llamar a firetorpedo
+      //validar quien es el jugador para asignar el board como tablero enemigo
+        let board = store.user === 'Player' ? store.PcBoard : store.PlayerBoard // si el user es player el tablero a disparar sería pcBoard y viceversa
+        let userShips = store.user === 'Player' ? store.shipsPc : store.shipsPlayer
+        let newBoard = [...board]
+        let newUserShips = [...userShips] 
+        let ship
+        let newShip 
+        let coords = row +','+ col
+        let repeated = store.coordsArray.includes(coords)//se crea un nuevo elemento cada vez qeu se llama a la func. 
+        console.log(repeated, coords, store.coordsArray)
+
+        
+        newBoard[row][col] === 0 ? (console.log('miss'), newBoard[row][col] = 'miss', setStore({board: newBoard})) // si el contendio es 0 se marca como miss, sino significa que hay un ship en el lugar
+        : 
+        ( ship = newBoard[row][col],
+          repeated ? console.log('this coords has been shooted before :', repeated, store.coordsArray) // coordsarray contiene las coords golpeadas  
+          :
+          (
+            newShip = newUserShips[ship],
+            newShip = getActions().handleShipData(ship, row, col, 'fireTorpedo', newBoard, ship.align),// si las coords no se repiten, se modifica el barco guardando dentro las coords golpeadas
+            setStore({coordsArray: [...store.coordsArray, coords], userShips: newUserShips, board: newBoard}) // guardo las coords golpeadas en su estado / guardo ship y tablero modificados
+          )  
+        )      
+        console.log(store.shipStatePc, store.shipStatePlayer)
+
+        store.shipStatePc === 4 ? console.log('gano player') :  store.shipStatePlayer === 4 ? console.log('gano pc')  : console.log(store.shipStatePlayer, '-',store.shipStatePc ,'aún buscando el ganador');
+        // console.log('row, col:', [row,col], store.coordsArray);
       },
 //       fireTorpedo: (row, col) => {
 //         const store = getStore()
@@ -512,13 +565,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 //        console.log('some',ship.fire.includes([row,col]), 'filter', ship.fire.filter(item=> item === coords), 'ship.fire', ship.fire, 'ship', ship,'newShips', newShips)
 //       },//en proceso
-      fireTorpedoPrompt: () => {
-        // const store = getStore();
-        let row = parseInt(prompt("Type a coord x"));
-        let col = parseInt(prompt("Type a coord y"));
-        getActions().fireTorpedo(row, col)
-//llama a firetorpedo para pc... el tablero dependeria del usuario
-      },//en proceso
       showEnemyShips: (coord, board) => {
         const { enemyShipsClass } = getStore();
 
@@ -526,14 +572,13 @@ const getState = ({ getStore, getActions, setStore }) => {
           ? setStore({ enemyShipsClass: "transparent" })
           : setStore({ enemyShipsClass: "transparent border border-danger" });
       },//listo solo muestra los barcos enemigos cambiando el estilo segun el estado
-      whoIsTheWinner: () => {
-        const store = getStore();
-        const [shipStatePc] = store;
-        const winner = shipStatePc.length === 4 ? 'Player' : 'Pc'
+      // whoIsTheWinner: () => {
+      //   const store = getStore();
+      //   const winner = store.shipStatePc === 4 ? 'Player' : 'Pc'
 
-        winner = 'Player' ? console.log('GANASTE') : console.log('PERDISTE')
-        return winner
-      }	// complete los ships con 3, ganará
+      //   console.log('GANO '+ winner + '!!')
+       
+      // }	// complete los ships con 3, ganará
     },
   };
 };

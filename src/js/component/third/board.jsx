@@ -32,7 +32,7 @@ const Board = ({ board, user }) => {
 
                       <Square className="rowss square"
                         key={j}
-                        coord={board[i][j]}
+                        coordenada={board[i][j]}
                         row={i} col={j}
                         item={item}
                         board={board}

@@ -5,10 +5,15 @@ import Ship from './ship.jsx';
 const ButtonsContainer = () => {
   const { store, actions } = useContext(Context);
   const { user, PcBoard, PlayerBoard } = store;
-           
+
+
   return (
     <div className='pt-5 mt-2 buttons d-flex flex-column option-container'>
-    <button className='btn botones start-button row m-3 fs-5' onClick={() => { actions.fastwinner(user) }}> 
+    <button className='btn botones start-button row m-3 fs-5' onClick={() => { actions.empezar() }}> 
+    {/* //setear user en la func firetorpedo */}
+        start
+    </button>
+    <button className='btn botones start-button row m-3 fs-5' onClick={() => { actions.disparaPc(user) }}> 
     {/* //setear user en la func firetorpedo */}
         fastwinner
     </button>
@@ -16,13 +21,9 @@ const ButtonsContainer = () => {
     {/* //setear user y pedir poner los barcos */}
         Inicioo
     </button>
-    <button className='btn botones start-button row m-3 fs-5' onClick={() => { actions.changeUser(user) }}> 
-    {/* //setear user en la func firetorpedo */}
-        Change turn
-    </button>
     <button className='btn botones start-button row m-3 fs-5' onClick={() => { actions.start(PlayerBoard) }}>
         {/* // onClick={() => { actions.changeUser(user)}} //setear user en la func firetorpedo */}
-        start!!
+        Set your ships! 
     </button>
     <button className='btn botones fire-button row m-3 fs-5' onClick={actions.fireTorpedoPrompt} >
         fire!!

@@ -13,7 +13,7 @@ const Somex = () => {
     const { store, actions } = useContext(Context);
     const { user, PcBoard, PlayerBoard } = store;
     useEffect(() => {
-        actions.start(PcBoard)
+        actions.empezar()
     }, [])
 
 

@@ -12,9 +12,9 @@ const Somex = () => {
 
     const { store, actions } = useContext(Context);
     const { user, PcBoard, PlayerBoard } = store;
-    useEffect(() => {
-        actions.empezar()
-    }, [])
+    // useEffect(() => {
+    //     actions.empezar()
+    // }, [])
 
 
     return (<div className='b d-flex option-container pb-5'>

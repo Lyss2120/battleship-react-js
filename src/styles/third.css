@@ -4,7 +4,7 @@
     font-family: 'Bangers', cursive;
     width: fit-content;
     /* background: rgb(26, 29, 34) url('https://www.kindpng.com/picc/m/55-551450_cartoon-ocean-background-ocean-waves-cartoon-png-transparent.png') no-repeat fixed bottom; */
-    background: var(--sea);
+    /* background: var(--sea); */
     background-color: var(--black);
     background-size:110% 110%;
     /* background-blend-mode: screen; */
@@ -77,7 +77,7 @@ para la pag de inicio al apretar start que tenga una hacia el juego, y restart q
     padding-top: 8em;
     /* background: var(--metalMilitar3);
     background-size: cover; */
-    background-color: var(--black);
+    /* background-color: var(--black); */
 
 }
 .icon{

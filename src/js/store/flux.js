@@ -114,7 +114,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       fire: false, //nose si ocupe este estado // si todos los squares del barco estan en fire se cambia el shipState dentro de ship a sunk, si son menos el shipState queda en hit pero cada square puede cambiar su apariencia para mostrar los squares golpeados
       sunken: false,//nose si ocupe este estado //si shipState esta en 3 se activa sunken para cambiar la apariencia del barco o todos sus squares.. si no se puede acceder en el componente a las propiedades de cada barco dentro de ships
-      winner: ''
+      winner: null
       // coordArray:[],// guarda las coordenadas ocupadas en arrays dentro de coordAarray para poder ubicar solo los lugares disponibles
       // takenCoords: [],
     },
@@ -145,22 +145,26 @@ const getState = ({ getStore, getActions, setStore }) => {
         //  cuando firetorpedo encuentre el winner se deberia bloquear firetorpedo y preguntar si quiere volver a jugar para activar esta funcion nuevamente 
         //evitar que se posicionen los barcos por segunda vez
         const store = getStore()
-        const { PcBoard, PlayerBoard, board,shipsPc} = store
+        const { PcBoard, PlayerBoard, board, shipsPc, winner} = store
+        let newPlayerBoard = board
+        let newPcBoard = board
+        setStore({ PcBoard: board, PlayerBoard : board })
+        //iniciar los tableros en 0 // dar la opcion de llamar a esta funcion despues de winner // Poner todos los barcos en 0 setboard, setear los barcos de pc pedir setear los de player y setear el player al final
+        
+        console.log(newPcBoard, newPlayerBoard); //se cambian nlos dos tableros a la dejarlos en board
 
-        // setStore({ PlayerBoard: board, PcBoard: board }) // iniciar los tableros en 0 // dar la opcion de llamar a esta funcion despues de winner
-
-        getActions().start(PcBoard),//setear los barcos de pc
-
-         store.shipsPc.length === 4 ? // cuando esten seteados pedir setear los de player
-            (console.log('seteados PcBoard ahora playerboard', { PcBoard }, {shipsPc}, store.shipsPc),// no se ven los barcos en shipsPc?, pero si en setBoard//setear los barcos de player
+        if (shipsPc.length === 4){return}
+        else {
+        getActions().start(newPcBoard),//setear los barcos de pc
+        store.shipsPc.length === 4 ? // cuando esten seteados pedir setear los de player
+            (console.log('seteados PcBoard ahora playerboard', { PcBoard }, { shipsPc }, store.shipsPc),// no se ven los barcos en shipsPc?, pero si en setBoard//setear los barcos de player
               store.shipsPlayer.length !== 4 ? //si estan seteados
                 console.log('please set your ships', { PlayerBoard })//cambiar el user / avisar que player dispare // cuando player dispare cambiara el user si el user es pc se llama a randomfire cdo randomfire dispare con firetorpedo se cambia denuevo user y le toca a player hasta que haya un winner y se vuelva a empezar 
                 :
-                (setStore({ user: 'Player' }), console.log('seteados PlayerBoard, your turn to fire', { PlayerBoard }, { PcBoard }))
-            )
+                (setStore({ user: 'Player' }), console.log('seteados PlayerBoard, your turn to fire', { PlayerBoard }, { PcBoard })))
             :
-            null
-
+        null
+        }
         //revisar que todo funcione, corregir fallas que puedan aparecer.. revisar y probar..luego css
       },
       randomNumber: (maxNum) => {
@@ -173,23 +177,21 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
       start: (arg) => {
         const store = getStore();
+        const {shipsPlayer, shipsPc} = getStore(); 
         //start es para cuando no se quiere elegir los barcos y posicionarlos manualmente, ahi se cargan los dos tableros automaticamente sino uno solo
         // llama a place boards con cada tablero para poner dentro sus barcos// //mapea los barcos los posiciona y les da row y col
         let board = arg
-        // ? arg  : store.PcBoard 
 
         store.ships.map((ship) => {
           let row = getActions().randomNumber(10)
           let col = getActions().randomNumber(10)
           let randAlign = getActions().randomNumber(3)
           let align = randAlign === 0 ? 'horizontal' : randAlign === 1 ? 'vertical' : randAlign === 2 && 'diagonal';
-          let takenshipsPc = store.shipsPc.find(item => item.name === ship.name)//ship.name o ship
-          let takenshipsPlayer = store.shipsPlayer.find(item => item.name === ship.name)
-          // let shipsPc = ship.pcBoard.taken
-          // let shipsPlayer = ship.playerBoard.taken //booleano//crear shipspc shipsplayer?      
-
-          if (takenshipsPc && takenshipsPlayer) {
-            console.log('barcos posicionados en tablero pc', { shipsPc }, { shipsPlayer });
+          let takenshipsPlayer = shipsPlayer.find(item => item.name === ship.name)
+          let takenshipsPc = shipsPc.find(item => item.name === ship.name)
+          
+          if (!!takenshipsPlayer && !!takenshipsPc) {
+            console.log('los barcos ya están posicionados', 'shipssPlayer', shipsPlayer, 'shipssPc', shipsPc, takenshipsPlayer);
             return
           }
 
@@ -291,23 +293,26 @@ const getState = ({ getStore, getActions, setStore }) => {
       handleSetBoard: (board, ship, row, col, align) => {
         const store = getStore()
         let newBoard = [...board]
-        let newShips = []// solo una copia de ships para modificar y guardar como shipsPC O ShipsPlayer
         let newShip = { ...ship }
-        let takenShip = newShips.includes(newShip)
+        let takenShipsPlayer = store.shipsPlayer.find(item => item.name === ship.name )
 
         for (let i = 0; i < ship.length; i++) {
           if (newBoard[row][col] !== 0) { console.log(newBoard[row][col], 'newBoard[row][col] !==0, en handleSetBoard') }
-          newShip = getActions().handleShipData(newShip, row, col, 'handleSetBoard', board, align)//enviar esto mismo con una funcion para hacerlo uno por uno
+          newShip = getActions().handleShipData(ship, row, col, 'handleSetBoard', board, align)//enviar esto mismo con una funcion para hacerlo uno por uno
           newBoard[row][col] = newShip
           align === 'vertical' ? row += 1 : align === 'horizontal' ? col += 1 : (row += 1, col += 1)
         }
-        !takenShip && newShips.push(newShip)
-        board === store.PcBoard ?
-          setStore({ shipsPc: [...store.shipsPc, newShips], board: newBoard })//agregar mejor lso ships de cada player a un array aparte. shipsPc shipsPlayer para que tengan toda su info actualizada
-          :
-          setStore({ shipsPlayer: [...store.shipsPlayer, newShips], board: newBoard })
-          console.log({newShips}, store.shipsPc);
-        },//setea el tablero
+      
+        if (!!takenShipsPlayer){
+        return
+        } 
+        else if (!takenShipsPlayer){      
+          board === store.PcBoard ? 
+          setStore({ shipsPc: [...store.shipsPc, newShip], board: newBoard }) 
+          : 
+          setStore({ shipsPlayer: [...store.shipsPlayer, newShip], board: newBoard })
+        }
+      },//setea el tablero
       ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
       handleOver: (e, ship, row, col) => {
         const store = getStore();

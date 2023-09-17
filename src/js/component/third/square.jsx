@@ -33,7 +33,7 @@ const Square = ({ i, j, coordenada, row, col, board, item, funct }) => {
         onDragOver={(e) => { actions.handleOver(e, ship, row, col) }}//permite arrastrar el barco hacia el tablero
         onDrop={(e) => { actions.handleDrop(e, ship, row, col)}}//solo playerboard tiene que tener esta posibilidad
       >
-        { coordenada === 'miss' ? 'sea' : coordenada.length 
+        { coordenada === 'miss' ? 'sea' : coordenada.name 
         } 
       </div>
 }

@@ -7,22 +7,6 @@ let row = [1, 2, 3]//en cada row 3 col// el primer map genera 3 columnas y el se
 // let squareValue=[] aqui el for anidado para sacar las coordenadas... a cada square le toca una..
 
 
-// 0 = empty
-// 1 = part of a ship
-// 2 = a sunken part of a ship
-// 3 = a missed shot
-let gameBoard = [
-  [1, 1, 1, 1, 1, 0, 0, 0, 0, 1],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [1, 0, 0, 1, 1, 0, 0, 0, 0, 0],
-  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [1, 1, 1, 1, 0, 0, 0, 0, 0, 0]
-];
 
 const Board = ({ squares }) => {
   return (

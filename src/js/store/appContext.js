@@ -32,7 +32,7 @@ const injectContext = PassedComponent => {
 			 *
 			 **/
 			// state.actions.getCoord(item.position);
-			state.actions.empezar()
+			// state.actions.start(state.store.PcBoard)
 
 		}, []);
 

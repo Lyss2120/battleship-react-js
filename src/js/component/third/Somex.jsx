@@ -4,6 +4,7 @@ import '../../../styles/third.css';
 import Board from './board.jsx';
 import OptionContainer from './optionContainer.jsx';
 import ButtonsContainer from './buttonsContainer.jsx';
+import WinnerResetModal from './winnerResetModal.jsx';
 // import Ship from './ship.jsx';
 
 // SQUARECLIK= SI ESTA EN 0 TIENE QUE LLAMAR A PLACESHIPS, SI ESTA EN 1 TIENE QUE LLAMAR A FIRETORPEDO, SI ESTA TODO EL BARCO EN 3 TIENE QUE AGREGARSE A UN ARRAY CON BARCOS ATACADOS O CAMBIAR EL ESTADO DE LOS BARCOS DEL JUGADOR, CUANDO TODOS SUS BARCOS ESTAN EN 3 DEBE LLAMAR A WIN
@@ -11,31 +12,35 @@ import ButtonsContainer from './buttonsContainer.jsx';
 const Somex = () => {
 
     const { store, actions } = useContext(Context);
-    const { user, PcBoard, PlayerBoard } = store;
-    // useEffect(() => {
-    //     actions.empezar()
-    // }, [])
+    const { user, PcBoard, PlayerBoard, winner } = store;
+    useEffect(() => {
+       actions.start(PcBoard) 
+     
+    }, [store.reset])
 
+    return (
+        <>
+            <div className='b d-flex option-container pb-5'>
+                
+                <ButtonsContainer />
 
-    return (<div className='b d-flex option-container pb-5'>
-        <ButtonsContainer />
+                <div className='' >
+                    <div className='turn-display mt-2 fs-3 p-3 '>
+                        <p> turn  : <span className='mx-2'>{user}</span></p>
+                        {/* <p> info: <span className='info'></span></p>  se muestra si hay ganador*/}
+                    </div>
 
-        <div className='' >
-            <div className='turn-display mt-2 fs-3 p-3 '>
-                <p> turn  : <span className='mx-2'>{user}</span></p>
-                {/* <p> info: <span className='info'></span></p>  se muestra si hay ganador*/}
+                    <div className=' gamesBoard-container'>
+                        <Board board={PcBoard} user={'pc'} />
+                        <Board board={PlayerBoard} user={'player'} />
+                    </div>
+
+                </div>
+
+                <OptionContainer />
+
             </div>
-            
-            <div className=' gamesBoard-container'>
-                <Board board={PcBoard} user={'pc'} />
-                <Board board={PlayerBoard} user={'player'} />
-            </div>
-            
-        </div>
-
-        <OptionContainer />
-
-        </div>
+        </>
     )
 }
 

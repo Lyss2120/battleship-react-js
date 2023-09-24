@@ -5,6 +5,7 @@ import Board from './board.jsx';
 import OptionContainer from './optionContainer.jsx';
 import ButtonsContainer from './buttonsContainer.jsx';
 import WinnerResetModal from './winnerResetModal.jsx';
+import ReactCanvasConfetti from 'react-canvas-confetti';
 // import Ship from './ship.jsx';
 
 // SQUARECLIK= SI ESTA EN 0 TIENE QUE LLAMAR A PLACESHIPS, SI ESTA EN 1 TIENE QUE LLAMAR A FIRETORPEDO, SI ESTA TODO EL BARCO EN 3 TIENE QUE AGREGARSE A UN ARRAY CON BARCOS ATACADOS O CAMBIAR EL ESTADO DE LOS BARCOS DEL JUGADOR, CUANDO TODOS SUS BARCOS ESTAN EN 3 DEBE LLAMAR A WIN
@@ -14,9 +15,19 @@ const Somex = () => {
     const { store, actions } = useContext(Context);
     const { user, PcBoard, PlayerBoard, winner } = store;
     useEffect(() => {
-       actions.start(PcBoard) 
-     
+       actions.start(PcBoard)
+
+
     }, [store.reset])
+
+    const canvasStyles = {
+        position: "fixed",
+        pointerEvents: "none",
+        width: "100%",
+        height: "100%",
+        top: 0,
+        left: 0
+      };
 
     return (
         <>
@@ -29,7 +40,11 @@ const Somex = () => {
                         <p> turn  : <span className='mx-2'>{user}</span></p>
                         {/* <p> info: <span className='info'></span></p>  se muestra si hay ganador*/}
                     </div>
+{/* {                    store.reset && 
+    //    <Confetti numberOfPieces={150} width={width} height={height} />
+       <ReactCanvasConfetti style={canvasStyles} />
 
+} */}
                     <div className=' gamesBoard-container'>
                         <Board board={PcBoard} user={'pc'} />
                         <Board board={PlayerBoard} user={'player'} />

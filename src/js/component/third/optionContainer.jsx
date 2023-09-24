@@ -4,17 +4,16 @@ import Ship from './ship.jsx';
 
 const OptionContainer = () => {
   const { store, actions } = useContext(Context);
+  let alignx
 // console.log(store.shipsPlayer, 'lll', store.shipsPc);
   return (
     <div className="pt-5 fs-5 mt-2 d-flex flex-column option-container">
-      {/* {console.log(store.ships, 'ships desde <optionContainer/>')} */}
       {/* <div className=" mt-5 backgr"> */}
       <span className='btn botones lala  start-button row m-3 fs-4' >
         Place your ships
       </span>
       {
-        store.ships?.map((ship, index) => {
-          // console.log('selfalign', store.selfAlign, ship.name, '<optionContainer/>')
+        store.ships?.map((ship, index) => {         
           return (
             <Ship
               key={index}
@@ -24,9 +23,8 @@ const OptionContainer = () => {
               length={ship.length}
               coords={ship.coords}
               shipState={ship.shipState}
-              align={store.flip}
             />
-          );
+          )
         })
       }
 {/* </div> */}

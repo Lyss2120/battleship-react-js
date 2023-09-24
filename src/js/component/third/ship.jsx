@@ -5,18 +5,23 @@ import { GiIronHulledWarship, GiLog } from 'react-icons/gi';
 
 
 
-const Ship = (ship, align) => {
+const Ship = (ship) => {
     const { store, actions } = useContext(Context);
-    // console.log(store.selfAlign, 'selafgaliflak');
-    // console.log('sera?', ship); //props??? no se puede enviar ship entero pero si funciona como esta
- 
+    let align2 
+    if(store.selfAlign.shipName === ship.name ){
+        align2 = store.selfAlign.align
+        if (store.shipsPlayer.length === 4){          
+            align2 = 'horizontal' 
+          }
+    }
+
     return (
-        <div className={`m-3 botones ship d-flex justify-content-between rounded`}/*bg-warning*/// // onClick={() => { actions.selectedShip(ship) }}
+        <div className={`m-auto mx-3 botones ship d-flex justify-content-between rounded bg-warning`}/*bg-warning*/// // onClick={() => { actions.selectedShip(ship) }}
         >
-            <span className={`${ship.name} ship-${ship.length} btn align-${align}`}
+            <span className={`${ship.name} bg-warning ship-${ship.length} btn align-${align2}`}
                 draggable='true'
-                onClick={()=>{actions.flipShips(ship)}}//cambiar el align que por defecto en flip es horizontal, aqui cambia flip para setear selfalign segun flip vaya girando. selfalign guarda el align y el barco al que corresponde
-                onDragStart={(e) => {actions.setSelectedShip(e, ship)}}// actualiza el align del barco y a con eso actualizar los ships para que ese barco quede cambiado //set selectedShip a ship// permite levantar el barco para llevarlo al tablero// onClick={() => actions.flipShips(ship)}// onClick={(e) => console.log('ship', e.target)}
+                onClick={()=>{actions.flipShips(ship)}}//cambiar el align que por defecto en flip es horizontal
+                onDragStart={(e) => {actions.setSelectedShip(e, ship)}}//barco seleccionado
             >
                 <span className={``}>
                     {ship.length}

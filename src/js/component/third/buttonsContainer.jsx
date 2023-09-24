@@ -28,10 +28,8 @@ const ButtonsContainer = () => {
         {/* // onClick={() => { actions.changeUser(user)}} //setear user en la func firetorpedo */}
         Set your ships! 
     </button>
-    <button className='btn botones fire-button row m-3 fs-5' onClick={actions.fireTorpedoPrompt} >
-        fire!!
-    </button>
-    <button className='btn botones showShips-button row m-3 fs-5' onClick={actions.showEnemyShips} >
+  //fire
+    <button className='btn botones showShips-button row m-3 fs-5' onClick={() => actions.showEnemyShips()} >
         show enemy ships
     </button>
 </div>

@@ -90,7 +90,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       lightSquare: { color: 'null', coords: [] },
       user: "",
       enemyShipsClass: false,//verde
-      ShipsClass: "warning bg-opacity-50",//amarillo
+      ShipsClass: "danger bg-opacity-50",//amarillo
       squareColor: "light bg-opacity-50",
       wrongSquareColor: "danger bg-opacity-50",
       selfAlign: {},
@@ -504,7 +504,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           (
             newBoard[row][col] === 0 ?
               (
-                sea = 'miss', newBoard[row][col] = sea, setStore({ board: newBoard }), console.log('you miss', newBoard[row][col]) //coords se sea
+                sea = 'miss', newBoard[row][col] = sea, setStore({ board: newBoard }), console.log('you miss ', user,newBoard[row][col]) //coords se sea
               )
               :
               (ship = newBoard[row][col],
@@ -517,12 +517,12 @@ const getState = ({ getStore, getActions, setStore }) => {
                     newShip = getActions().handleShipData(ship, row, col, 'fireTorpedo', newBoard, ship.align),// si las coords no se repiten, se modifica el barco guardando dentro las coords golpeadas
                     board === store.PcBoard ? setStore({ pcFired: [[row, col], ...store.pcFired] }) : setStore({ playerFired: [[row, col], ...store.playerFired] }),
                     newShip.shipState === 2 && store.user === 'Player' ? (newshipStatePc++, setStore({ shipStatePc: newshipStatePc, coordsArrayPc: [...store.coordsArrayPc, coords] })) : (newshipStatePlayer, setStore({ shipStatePlayer: newshipStatePlayer, coordsArrayPlayer: [...store.coordsArrayPlayer, coords] })),
-                    setStore({ userShips: newUserShips, board: newBoard }) // cambiando el user cada vez que dispare // guardo las coords golpeadas en su estado / guardo ship y tablero modificados
+                    setStore({ userShips: newUserShips, board: newBoard }, console.log('disparo '+user+'  en las coordenadas : ', row,col, newBoard[row][col])                    ) // cambiando el user cada vez que dispare // guardo las coords golpeadas en su estado / guardo ship y tablero modificados
                   )
               )
           )
 
-
+        console.log('disparo '+user+' ', row,col)
         store.shipStatePc === 4 ?
           (
             setStore({ winner: 'Player' }), console.log('GANO ' + user),

@@ -115,6 +115,7 @@ color: rgb(255, 123, 0);
 .PcShipBorder{
 border: 3px dashed yellow !important;
 color: rgb(49, 48, 48);
+z-index: -1;
 }
 .ship-3{
     width:calc(50px*3);

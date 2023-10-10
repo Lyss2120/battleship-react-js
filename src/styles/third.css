@@ -35,7 +35,6 @@ para la pag de inicio al apretar start que tenga una hacia el juego, y restart q
     --metalMilitar3: rgb(26, 29, 34) 
     url( https://img.freepik.com/vector-gratis/puerta-metal-puertas-correderas-pasillo-nave-espacial_107791-3348.jpg?w=900&t=st=1691993209~exp=1691993809~hmac=beced92b4cde4ae233001f584e53732330ed299fd26fd296da2119b92faed075) no-repeat ;
     /* url(https://img.freepik.com/fotos-premium/fondo-textura-metal-industrial-verde-abstracto-remaches-pernos_76080-7165.jpg) center top content-box; */
-
 }
 .turn-display{
     /* display: flex; */
@@ -97,56 +96,88 @@ color: rgb(255, 123, 0);
     color: rgb(255, 60, 0) !important;
 
 }
+/* .margin-top{
+    margin-top: 50px;
+}
+.margin-left{
+    margin-left: 50px;
+}
+.margin-diagonal{
+    margin-top: 50px;
+    margin-left: 50px;
+} */
+.rigoBaby{
+    /* width: 110px; */
+    height: 40px;
+    border-radius: 35% 50% 50% 35%
+}
+
+.PcShipBorder{
+border: 3px dashed yellow !important;
+color: rgb(49, 48, 48);
+}
 .ship-3{
     width:calc(50px*3);
     margin: inherit;
-    border-radius: 35% 50% 50% 35%;}
+    border-radius: 35% 50% 50% 35%;
+}
+/* .ship-3.align-horizontal{
+    width:calc(50px*3);
+} */
+.ship-3.align-diagonal{
+    width:calc(50px*4);
+    height: 42px;
+}
+
 .ship-4{
     width:calc(50px*4);
-    margin: inherit;
     border-radius: 35% 50% 50% 35%;
+}
+.ship-4.align-diagonal{
+    width:calc(50px*5);
+    height: 46px;
+    margin-top: 45px;
+    margin-left: 45px;
+}
+.ship-4.align-horizontal{
+    margin-right: 50px;    
+}
+.ship-4.align-vertical{
+    margin-top: 50px;
 }
 .ship-5{
     width:calc(50px*5);
     margin: inherit;
     border-radius: 35% 50% 50% 35%;
 }
-.destroyer{
-    /* background-color: rgb(17, 50, 112); */
-    /* background: var(--metalMilitar3); */
-    background-position-y: center;
+.ship-5.align-diagonal{
+    width:calc(50px*6);
+    height: 47px;
+}
+.ship-5.align-horizontal{
+    margin-right: 0px;    /* funciona */
+}
 
+
+.destroyer{
+    background-position-y: center;
 }
 .submarine{
-    background-color: rgb(12, 38, 85);
-    /* background: var(--metalMilitar2); */
     background-position-y: center;
-
-}
-.cruiser{
-    /* background-color: rgb(24, 67, 148); */
-    /* background: var(--metalMilitar3); */
-    background-position-y: center;
-
-}
-.battleship{
-    /* background-color: rgb(31, 86, 187); */
-    /* background: var(--metalMilitar3); */
-    background-position-y: center;
-
 }
 .carrier{
-    /* background-color: rgb(41, 108, 233); */
-    /* background: var(--metalMilitar3); */
     background-position-y: center;
-
 }
+.battleship{
+    background-position-y: center;
+}
+
+/* .cruiser-diagonal{
+    background-position-y: center;
+} */
 .align-vertical{
     rotate: 90deg;
 }
-/* .align-horizontal{
-    rotate: 180deg;
-} */
 .align-diagonal{
     rotate: 45deg;
 }

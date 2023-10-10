@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Context } from "../../store/appContext";
 import Square from './square.jsx';
 import SquareTop from './square-top.jsx';
+import Ship from './ship.jsx';
 // import '../../../styles/gameboard.css'
 // , setBoard, setUser, setShipState, shipState, ships, setShips, fireTorpedo iconos para disparos:  BsFillRecordFill - BsFillRecord2Fill o BiBrightness con color bco y rojo , o impacto bala: GiScreenImpact - GiGooeyImpact- SiFireship cdo se hunde          
 {/* <a href="https://www.flaticon.com/free-animated-icons/fire" title="fire animated icons">Fire animated icons created by Freepik - Flaticon</a> */ }
@@ -21,7 +22,9 @@ const Board = ({ board, user }) => {
         <SquareTop row={row} clase={'flex-row  mx-3 square-top'} />
         <div className='d-flex'>
           <SquareTop row={row} clase={'flex-column  px-1 square-top'} />
-          <div className='d-flex tablero sea  game-board' >
+          <div className='d-flex tablero sea  game-board'
+                    onDragEnter={(e)=>{console.log(e, 'dragEnter')}}
+                    >
             {new Array(10).fill(0).map((_, i) => {
               return (
                 <div key={i} className='d-flex justify-content-around'
@@ -29,8 +32,7 @@ const Board = ({ board, user }) => {
                   {board[i].map((item, j) => {
                     // console.log(board[i][j], board );
                     return (
-
-                      <Square className="rowss square"
+                      <Square className="rowss square "
                         key={j}
                         coordenada={board[i][j]}
                         row={i} col={j}

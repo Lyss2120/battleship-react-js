@@ -16,18 +16,21 @@ const Ship = (ship) => {
     }
 
     return (
-        <div className={`m-auto mx-3 botones ship d-flex justify-content-between rounded bg-warning`}/*bg-warning*/// // onClick={() => { actions.selectedShip(ship) }}
+        <div draggable='true' className={`m-auto mx-3 botones ship d-flex justify-content-between rounded bg-warning`}/*bg-warning*/// // onClick={() => { actions.selectedShip(ship) }}
         >
-            <span className={`${ship.name} bg-warning ship-${ship.length} btn align-${align2}`}
+            <span className={`${ship.name} bg-warning ship-${ship.length} btn align-${align2}` }
                 draggable='true'
                 onClick={()=>{actions.flipShips(ship)}}//cambiar el align que por defecto en flip es horizontal
                 onDragStart={(e) => {actions.setSelectedShip(e, ship)}}//barco seleccionado
+                // onDrag={e=>console.log('drag')}
+                onDragEnd={()=>console.log('DRAGEND')}
+                onDrop={()=>console.log('onDrop')}
             >
                 <span className={``}>
                     {ship.length}
                 </span>
             </span>
-            <span className=' pe-3'>{ship.name}</span>
+            {/* <span className=' pe-3'>{ship.name}</span> */}
         </div>
     )
 }

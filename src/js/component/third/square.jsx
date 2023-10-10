@@ -1,49 +1,102 @@
 import React, { useContext } from 'react'
 import { Context } from '../../store/appContext'
+import texturaBarcos from "../../../img/textura barcos.png"
 
 const Square = ({ i, j, coordenada, row, col, board, item, funct }) => {
   const { store, actions } = useContext(Context)
-  const { shipsPlayer } = store;
+  const { PcBoard, PlayerBoard } = store;
   let sobrevolado = store.lightSquare.coords.includes(coordenada)
   // sobrevolado && console.log({sobrevolado});
   // onhover con el barco iluminar la posible posicion, se ilumina todo el tablero, solo las posiciones negativas se tienen que iluminar// setear selected ship al click y sacar el align para pasarselo a onclicksetShips con su align  mas row y col que va a capturar con onDragOver y llamar a la funcion onclicksetShips ahi o con onDrop
   const ship = store.selectedShip //esto es cuando se toma el barco para dejarlo en el tablero, no sirve para el juego en si, tiene que ser el contenido de board[row][col]
-  
-  let coord = row + ',' + col
-  let fired  = coordenada?.fire?.includes(row + ',' + col)//hit
   let colorfire = store.coordsArrayPc.includes(row + ',' + col)
-  let colorfire2 
-  // = store.coordsArrayPlayer.includes(row + ',' + col)seria sunken 
-  let goodBoard = board === store.PcBoard ? 'PcBoard' : 'PlayerBoard'
-  let barco,mar,miss,sunkShip; 
-  coordenada === 0 ? mar=coordenada : coordenada === 'miss' ? miss = coordenada : coordenada.shipState >= 2 ? sunkShip=coordenada : barco=coordenada
-  // sunkShip? console.log({sunkShip},'mar', mar) : console.log(coordenada.shipState, 'mar',mar)
-  // if (coordenada == barco ){console.log('pcFired coords', store.pcFired,row, col,barco.coords[0].filter(item=> item === coord) ,barco.coords, board[row][col])}
-  
-  //  console.log('coordenada.fire', coordenada.fire, store.coordsArrayPc)
-  
-  
+  let colorfire2 = store.coordsArrayPlayer.includes(row + ',' + col)
+  colorfire && console.log({ colorfire }, { colorfire2 }, row + ',' + col, store.coordsArrayPc)
+
+  let goodBoard, user, coordenadaPc, pcShip, pcSea, pcMiss, pcShipCoords, midCoordPc, startPc, pcSunkShip, coordenadaPlayer, playerShip, playerSea, playerMiss, playerShipCoords, midCoordPlayer, startPlayer, playerSunkShip
+
+  board === PcBoard ? (user = 'pc', goodBoard = 'PcBoard', coordenadaPc = coordenada) : (user = 'player', goodBoard = 'PlayerBoard', coordenadaPlayer = coordenada)
+
+  coordenadaPc === 0 ? pcSea = coordenadaPc : coordenadaPc === 'miss' ? pcMiss = coordenadaPc : coordenadaPc?.shipState >= 2 ? pcSunkShip = coordenadaPc : pcShip = coordenadaPc
+  coordenadaPlayer === 0 ? playerSea = coordenadaPlayer : coordenadaPlayer === 'miss' ? playerMiss = coordenadaPlayer : coordenadaPlayer?.shipState >= 2 ? playerSunkShip = coordenadaPlayer : playerShip = coordenadaPlayer
+
+  if (board === PcBoard) {
+    if (coordenadaPc === pcShip) {
+      pcShipCoords = pcShip?.coords
+      pcShip.align === 'diagonal' || pcShip.align === 'vertical' ?
+        (pcShipCoords.length === 4 ? midCoordPc = pcShipCoords[1] // la parte central del barco se va a ubicar en esta posición 
+          : pcShipCoords.length === 5 ? midCoordPc = pcShipCoords[2]
+            : midCoordPc = pcShipCoords[1])
+        :
+        pcShip.align === 'horizontal' ? (pcShipCoords.length === 4 ? midCoordPc = pcShipCoords[2] // mas margin-left 50px
+          : pcShipCoords.length === 5 ? midCoordPc = pcShipCoords[2]
+            : midCoordPc = pcShipCoords[1])
+          :
+          console.log('linea if (coordenadaPc === pcShip) no funciona..x ??')// si no cae en ninguna las tres opciones de alineacion
+      // console.log({ pcShip }, 'pcShip.align', pcShip.align);
+    }
+  }
+  if (board === PlayerBoard) {
+    if (coordenadaPlayer === playerShip) {
+      playerShipCoords = playerShip.coords
+      // console.log('playerShip name', playerShip.name, playerShipCoords, playerShip.coords);
+
+      playerShip.align === 'diagonal' || playerShip.align === 'vertical' ?
+        (playerShipCoords.length === 4 ? midCoordPlayer = playerShipCoords[1] // la parte central del barco se va a ubicar en esta posición 
+          : playerShipCoords.length === 5 ? midCoordPlayer = playerShipCoords[2]
+            : midCoordPlayer = playerShipCoords[1])
+        :
+        playerShip.align === 'horizontal' ?
+          (playerShipCoords.length === 4 ? midCoordPlayer = playerShipCoords[2] // mas margin-left 50px
+            : playerShipCoords.length === 5 ? midCoordPlayer = playerShipCoords[2]
+              : midCoordPlayer = playerShipCoords[1])
+          :
+          console.log('linea if (coordenadaPlayer === playerShip) no funciona..x ??', playerShip)// si no cae en ninguna las tres opciones de alineacion
+      // console.log({ playerShip }, playerShipCoords);
+    }
+  }
+// COLOREA EN ROJO DONDE HAY MAR, Y DICE QUE YA SE DISPARO EN UN LUGAR QUE NO HE DISPARADO, PROBABLEMENTE ES EN EL TABLERO PLAYER QUE YA S DISPARO ASEGURAR LOS DOS ARRAYS SEAN DISTINTOS Y LAS ROW Y COL TMB SE DIFERENCIEN
+
+
   return (
     <>
       {board === store.PcBoard ?
-        <div key={i} className={`square tile  bg-${fired ? 'danger' : barco ? 'secondary' : miss ? 'primary bg-opacity-50' : sunkShip ? 'light' : barco && store.enemyShipsClass ? 'warning bg-opacity-25 border border-warning' : null }`}
+        <div key={i} 
+        className={`square tile  bg-${pcShip ? null : coordenadaPc === 'miss' ? 'primary bg-opacity-75' : board === store.PcBoard && coordenadaPc != 0 ? store.ShipsClass : null}`}
           onDragOver={(e) => { actions.handleOver(e, ship, row, col) }}//permite arrastrar el barco hacia el tablero
-          onClick={() => {actions.handleClick(board, row, col)}}// solo pcBoard puede tener esta posibilidad de disparar al tablero  // style={{ backgroundColor: coordenada}}  // onClick={() => console.log('coord ' + row + ',' + col)}
+          onClick={() => actions.handleClick(board, row, col)}// solo pcBoard puede tener esta posibilidad de disparar al tablero  // style={{ backgroundColor: coordenada}}  // onClick={() => console.log('coord ' + row + ',' + col)}
         >
           {
-            coordenada === 'miss' ? 'miss' : coordenada.length ? '-': null // GiWaterSplash // GiArmorPunch // GiBlast vertical // GiBlaster horizontal
+            coordenada === 'miss' ? 'miss' // si un tiro dio en mar
+              // : coordenada !=0  ? '-' //si hay barco
+              : pcShip ? ( // solo mostrar esto si la variable es true-> enemyships? div PcShipBorder : null
+                row === midCoordPc[0] && col === midCoordPc[1] &&
+                <div className={`rigoBaby PcShipBorder ${pcShip.name} ship-${pcShip.length} align-${pcShip.align} `}>{pcShip.name}</div>//si hay barco
+              )
+                : null
+            //sino sería mar // GiWaterSplash // GiArmorPunch // GiBlast vertical // GiBlaster horizontal
           }
-          {/* 
-          // pc   si hay coordenada mostrar una pate del barco// alargar el svg encima del componente segun el largo del ship//aqui el barco o svg con el largo del barco// componente o parecido con css especial en el principio y final last first child..y que cambie de color
-      */}
         </div>
-        : /*PlayerBoard*/
-        <div key={i} className={`square tile  bg-${barco ? 'secondary bg-opacity-75' : coordenada === 'miss' ? 'primary bg-opacity-75' : sunkShip ? 'danger' : coordenada === 4 ? 'light bg-opacity-50' : board === store.PcBoard && coordenada != 0 ? store.enemyShipsClass : board === store.PlayerBoard && coordenada != 0 ? store.ShipsClass : coordenada === 2 ? 'warning' : coordenada === 3 ? 'danger' : null}`}
+        : /*PlayerBoard*/ //que barcos le esta enviando a firetorpedo cada tablero solo hay que enviar los de player cdo pc dispara y los de pc cdo player dispara
+        <div key={i} 
+        className={`square tile  bg-${playerShip ? null : coordenadaPlayer === 'miss' ? 'primary bg-opacity-75' : board === store.PlayerBoard && coordenadaPlayer != 0 ? store.ShipsClass : null}`}
           onDragOver={(e) => { actions.handleOver(e, ship, row, col) }}//permite arrastrar el barco hacia el tablero
-          onDrop={(e) => { actions.handleDrop(e, ship, row, col) }}//solo playerboard tiene que tener esta posibilidad
+          onDrop={(e) => { actions.handleDrop(e, ship, row, col), console.log('drop'); }}//solo loguea dragend//solo playerboard tiene que tener esta posibilidad
         >
-          {coordenada === 'miss' ? 'miss' : sunkShip ? 'ups': coordenada.length
+          {/* {
+            coordenada === 'miss' ? 'miss' : coordenada != 0 ? coordenada.length : null // GiWaterSplash // GiArmorPunch // GiBlast vertical // GiBlaster horizontal
+          } */}
+          {
+            coordenada === 'miss' ? 'miss' // si un tiro dio en mar
+              // : coordenada !=0  ? '-' //si hay barco
+              : playerShip ? ( // solo mostrar esto si la variable es true-> enemyships? div PlayerShipBorder : null
+                row === midCoordPlayer[0] && col === midCoordPlayer[1] &&
+                <img src={texturaBarcos} alt="barco" className={`rigoBaby ${playerShip.name} ship-${playerShip.length} align-${playerShip.align} `} />
+              )
+                : null
+            //sino sería mar // GiWaterSplash // GiArmorPunch // GiBlast vertical // GiBlaster horizontal
           }
+
         </div>
       }
     </>

@@ -3,12 +3,12 @@
 .wrapper{
     font-family: 'Bangers', cursive;
     width: fit-content;
+    color: rgb(255, 60, 0);
+
     /* background: rgb(26, 29, 34) url('https://www.kindpng.com/picc/m/55-551450_cartoon-ocean-background-ocean-waves-cartoon-png-transparent.png') no-repeat fixed bottom; */
     /* background: var(--sea); */
-    background-color: var(--black);
-    background-size:110% 110%;
     /* background-blend-mode: screen; */
-    background-blend-mode: hard-light;
+    /* background-blend-mode: hard-light; */
 }
 /*crear efectos para los barcos flotando, para los disparos salpicando, para sunken con fuego, para miss en otro color o una valla flotando
 para la pag de inicio al apretar start que tenga una hacia el juego, y restart que ponga todo en 0
@@ -23,7 +23,7 @@ para la pag de inicio al apretar start que tenga una hacia el juego, y restart q
     --orange: rgb(255, 136, 0);
     --square: 50px;
     --container: 1050px;
-    --spacing: 6px;
+    --spacing: 1em;
     --sea: rgb(26, 29, 34)  url( https://media.istockphoto.com/id/1170947236/video/drone-view-of-the-ocean-waves-splashing.jpg?b=1&s=640x640&k=20&c=E26TQJhFJMatApuiI3hd9cnw-vpYt9R9XF-lSYqkDdk=);
     /* https://media.istockphoto.com/id/930686884/vector/waves-seamless-pattern-vector-ocean-sea-water-blue-cut-out-paper-style.jpg?s=612x612&w=0&k=20&c=YtlZKLzo2quyn4I77jyBDHAeaGaVtFyk-ib0SCIPJU4= */
     --metalMilitar: rgb(26, 29, 34) 
@@ -39,16 +39,26 @@ para la pag de inicio al apretar start que tenga una hacia el juego, y restart q
 .turn-display{
     /* display: flex; */
     flex-direction: row;
-    color: rgb(255, 60, 0) !important;
-    background: var(--metalMilitar2);
+    /* background: var(--metalMilitar2); */
     /* background-position-y: center; */
-
     letter-spacing: var(--spacing);
     font-size: large;
     object-fit: cover;
 }
+.usercolor{
+    color: aqua;
+}
+.usernullcolor{
+    color: rgb(200, 255, 0);
+}
+.enemyuser{
+    color: rgba(19, 159, 194, 0.527);
+}
+.footer{
+    background: var(--bs-teal)
+}
 .b{
-    background-color: rgba(90, 138, 122, 0.568);
+    /* background-color: rgba(90, 138, 122, 0.568); */
     /* background: var(--metalMilitar3);
     background-size:cover ; */
     /* color: rgb(255, 123, 0); */
@@ -56,29 +66,31 @@ para la pag de inicio al apretar start que tenga una hacia el juego, y restart q
 
 }
 .botones{
-    background: var(--metalMilitar2);
+    /* background: var(--metalMilitar2); */
     color: rgb(255, 60, 0) !important;
     letter-spacing: var(--spacing);
     margin: inherit;
     /* background-blend-mode: hard-light; */
     text-align:end;
 }
+.ship-box{
+     /* background: var(--metalMilitar2); */
+     color: rgb(255, 60, 0) !important;
+     letter-spacing: var(--spacing);
+     /* background-blend-mode: hard-light; */
+     text-align: left !important;  
+}
+
+
+/* .dd{
+    text-align: left;
+} */
 .ship{
     background: transparent !important;
     color: rgb(19, 18, 18) !important;
 
 }
-/* .lala{
-     background: transparent !important
 
-*/
-.option-container{
-    padding-top: 8em;
-    /* background: var(--metalMilitar3);
-    background-size: cover; */
-    /* background-color: var(--black); */
-
-}
 .icon{
     /* height: 20px; */
 justify-self: center;    
@@ -140,6 +152,10 @@ z-index: -1;
     margin-top: 45px;
     margin-left: 45px;
 }
+.ship-4.align-horizontal.align-vertical.ship-box{
+    margin:0
+    
+}
 .ship-4.align-horizontal{
     margin-right: 50px;    
 }
@@ -186,7 +202,7 @@ z-index: -1;
     background: var(--sea);
     background-size: cover;
 }
-.gamesBoard-container{
+.gameBoard-container{
     width: var(--container);
     height: fit-content;
     margin-bottom: 2em; 
@@ -226,7 +242,51 @@ z-index: -1;
     transition: all 1s;
 }
 .square-top{
-    background-color: rgba(91, 95, 94, 0.11);
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    text-align: center;
+}
+
+.square-top.flex-row span{
+    width: 50px;
+    height: 1.7em;
+}
+.square-top.flex-column span{
+    padding-top: 17px;
+    padding-left: 8px;
+    height: 50px;
+    width: 2em;}
+.square-top span{
+    /* border: solid var(--white) 1px; */
+
+}
+.board-wrapper{
+    /* padding: 2em; */
+    background-color: rgba(104, 103, 105, 0.377);
+}
+.board-wrapper{
+    /* background-color: rgba(22, 22, 22, 0.377); */
+    margin-right: 1em;
+}
+.ship-box{
+margin: 3em; 
+display: flex;
+flex-wrap: wrap;
+color: rgb(6, 168, 168) !important;
+
+}
+.option-container{
+    background-color: gray;  
+    }
+.giLog-icon{
+    font-size: larger;
+    color: rgb(20, 139, 218);
+}
+.option-container-wrapper{
+    display: grid;
+    justify-items:center;
+    align-items: center;
+}
+.buttons-container{
+flex-direction: row;
 }

@@ -7,7 +7,7 @@ const OptionContainer = () => {
   let alignx
 // console.log(store.shipsPlayer, 'lll', store.shipsPc);
   return (
-    <div className="pt-5 fs-5 mt-2 d-flex flex-column option-container">
+    <div className="pt-5 fs-5 m-2 d-flex flex-column option-container">
       {/* <div className=" mt-5 backgr"> */}
       <span className='btn botones lala  start-button row m-3 fs-4' >
         Place your ships
@@ -17,12 +17,7 @@ const OptionContainer = () => {
           return (
             <Ship
               key={index}
-              color={ship.color}
-              name={ship.name}
-              taken={ship.taken}
-              length={ship.length}
-              coords={ship.coords}
-              shipState={ship.shipState}
+              ship={ship}
             />
           )
         })
@@ -30,7 +25,7 @@ const OptionContainer = () => {
 {/* </div> */}
     </div>
 
-
+// t5ratar de pner este barco en el tablero
   )
 }
 

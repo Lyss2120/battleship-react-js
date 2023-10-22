@@ -8,7 +8,7 @@ const ButtonsContainer = () => {
 
 
   return (
-    <div className='pt-5 mt-2 buttons d-flex flex-column option-container'>
+    <div className='buttons-container '>
     <button className='btn botones start-button row m-3 fs-5' onClick={() => { actions.start(PcBoard) }}> 
         start
     </button>
@@ -24,11 +24,6 @@ const ButtonsContainer = () => {
     {/* //setear user y pedir poner los barcos */}
         Inicioo
     </button>
-    <button className='btn botones start-button row m-3 fs-5' onClick={() => { actions.start(PlayerBoard) }}>
-        {/* // onClick={() => { actions.changeUser(user)}} //setear user en la func firetorpedo */}
-        Set your ships! 
-    </button>
-  //fire
     <button className='btn botones showShips-button row m-3 fs-5' onClick={() => actions.showEnemyShips()} >
         show enemy ships
     </button>

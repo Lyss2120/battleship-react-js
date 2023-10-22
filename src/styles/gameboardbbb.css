@@ -2,7 +2,7 @@
 .board-container{
     display: grid;
     place-content: center;
-    height: 100vh;
+    /* height: 100vh; */
 }
 .gameboard{
     /* height: 500px;

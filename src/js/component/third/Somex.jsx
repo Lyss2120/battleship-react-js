@@ -33,9 +33,10 @@ const Somex = () => {
 
     return (
         <>
-            <div className='b d-flex flex-column m-5 somex '>
+            <div className='b d-flex flex-column m-5 somex'>
                 {
                     store.shipsPlayer.length < 4 ?
+                    
                         <OptionContainer />
                         :
                         winner ?
@@ -46,9 +47,10 @@ const Somex = () => {
                             <ButtonsContainer />
 
                 }
-                <div className="d-flex justify-content-around">
-                    <div className='gameBoard-container mx-3'>
-                        <Board board={PcBoard} user={'Pc'} />
+                <div className="d-flex justify-content-around my-5">
+                    <div className='gameBoard-container'>
+                        {store.shipsPlayer.length >= 4 &&
+                        <Board board={PcBoard} user={'Pc'} />}
                         <Board board={PlayerBoard} user={'Player'} />
                     </div>
                 </div>

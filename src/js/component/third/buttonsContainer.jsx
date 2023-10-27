@@ -9,23 +9,17 @@ const ButtonsContainer = () => {
 
   return (
     <div className='buttons-container '>
-    <button className='btn botones start-button row m-3 fs-5' onClick={() => { actions.start(PcBoard) }}> 
-        start
-    </button>
-    <button  className='btn botones start-button row m-3 fs-5' onClick={() => actions.reset()}>
+
+    <button  className='btn btn-dark light-shadow botones start-button row m-3 fs-5' onClick={() => actions.reset()}>
       Reset
     </button>
 
-    <button className='btn botones start-button row m-3 fs-5' onClick={() => { actions.fastwinner() }}> 
-    {/* //setear user en la func firetorpedo */}
+    <button className='btn btn-dark botones light-shadow start-button row m-3 fs-5' onClick={() => { actions.fastwinner() }}> 
         fastwinner
     </button>
-    <button className='btn botones start-button row m-3 fs-5' onClick={() => { actions.inicio() }}> 
-    {/* //setear user y pedir poner los barcos */}
-        Inicioo
-    </button>
-    <button className='btn botones showShips-button row m-3 fs-5' onClick={() => actions.showEnemyShips()} >
-        show enemy ships
+   
+    <button className='btn btn-dark botones justify-content-center light-shadow showShips-button row m-3 fs-5' onClick={() => actions.showEnemyShips()} >
+        show ships
     </button>
 </div>
 

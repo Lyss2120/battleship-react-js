@@ -170,7 +170,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
       changeUser: () => {
         const store = getStore()
-        console.log('hola')
+
         store.user === "" ? setStore({ user: "Player" })
           :
           store.user === "Player" ? setStore({ user: "Pc" })
@@ -190,8 +190,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       fastwinner: () => {
         const store = getStore();
 
-        setStore({ winner: 'Player' })
-        store.winner && (console.log('reseeetwinner'), getActions().reset())
+        setStore({ winner: 'Player' }),
+        alert(store.winner, 'ha ganado')
+        store.winner && (console.log('reseeetwinner')), getActions().reset()
 
       },
       start: (arg) => {
@@ -331,10 +332,10 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
         else if (!takenShipsPlayer) {
           if (board === store.PcBoard) {
-            (console.log({ board }, newShip), setStore({ shipsPc: [...store.shipsPc, newShip], board: newBoard }))
+            (setStore({ shipsPc: [...store.shipsPc, newShip], board: newBoard }))
           }
           else if (board === store.PlayerBoard) {
-            (console.log({ board }, newShip), setStore({ shipsPlayer: [...store.shipsPlayer, newShip], board: newBoard }))
+            (setStore({ shipsPlayer: [...store.shipsPlayer, newShip], board: newBoard }))
           }
         }
         store.shipsPlayer.length === 4 && getActions().changeUser()
@@ -526,14 +527,16 @@ const getState = ({ getStore, getActions, setStore }) => {
         console.log('disparo ' + user + ' ', row, col)
         store.shipStatePc === 4 ?
           (
-            setStore({ winner: 'Player' }), console.log('GANO ' + user),
-            store.winner && (console.log('reseeetwinner'), getActions().reset())
+            setStore({ winner: 'Player' }), 
+            alert(store.winner, 'ha ganado'),
+            store.winner && (console.log('reseeetwinner'))// , getActions().reset())
           )
           :
           store.shipStatePlayer === 4 ?
             (
-              setStore({ winner: 'Player' }), console.log('GANO ' + user),
-              store.winner && (console.log('reseeetwinner'), getActions().reset())
+              setStore({ winner: 'Pc' }), 
+              alert(store.winner,'ha ganado'),
+              store.winner && (console.log('reseeetwinner'))// , getActions().reset())
             )
             :
             (getActions().changeUser())//no dejar que dispare sin estar los barcos posicionadoss ver click
@@ -544,8 +547,9 @@ const getState = ({ getStore, getActions, setStore }) => {
         let randomRow = getActions().randomNumber(10)//entre 0 y 9  /// CDO HAYA UN WINNER INICIAR DENUEVO
         let randomCol = getActions().randomNumber(10)//entre 0 y 9
         console.log(store.user, 'disparó en', randomRow, randomCol)
-
-        getActions().fireTorpedo(randomRow, randomCol)
+       
+        setTimeout(getActions().fireTorpedo(randomRow, randomCol), console.log('timeout')
+        , 6000)//quiero que se demore x segundos en disparar, no funciona
       },
       resetData: (arg) => {
         const store = getStore()

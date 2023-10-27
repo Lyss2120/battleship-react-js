@@ -15,12 +15,12 @@ const Board = ({ board, user }) => {
   // let ship = board === store.PcBoard ? store.takenShipPC.map((item, i) => { item }) : store.takenShipPlayer.map((item, i) => { item })
   // console.log('llamado desde board component',{ship});///como capturar ship... si no se actualiza el array de store.ships..
   // console.log(store.flip, store.selfAlign);
-  console.log('user???', user, store.user)
+
   return (
     <>
       <div >
         <div className={`fs-4 turn-display ${store.user === user ? 'usercolor' : store.user === '' ? 'usernullcolor' : 'enemyuser'} `}>{user}</div>
-        <div className='board-wrapper ' >
+        <div className='board-wrapper mx-3' >
           <SquareTop row={row} clase={'flex-row square-top'} />
           <div className='d-flex'>
             <SquareTop row={row} clase={'flex-column square-top'} />

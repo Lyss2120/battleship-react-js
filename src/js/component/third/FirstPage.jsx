@@ -18,7 +18,7 @@ const Firstpage = () => {
 
             <div>
                 <Link to={'/first'} className='text-decoration-none'>
-                    <div className='boton btn'>start</div>
+                    <div className='light-shadow btn'>start</div>
                 </Link>
             </div>
 

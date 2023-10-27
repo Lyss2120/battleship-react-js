@@ -7,7 +7,7 @@ const OptionContainer = () => {
   let alignx
 // console.log(store.shipsPlayer, 'lll', store.shipsPc);
   return (
-    <div className="pt-5 fs-5 m-2 d-flex flex-column option-container">
+    <div className="pt-5 fs-5 m-2 d-flex flex-column rounded option-container">
       {/* <div className=" mt-5 backgr"> */}
       <span className='btn botones lala  start-button row m-3 fs-4' >
         Place your ships

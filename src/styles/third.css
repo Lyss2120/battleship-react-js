@@ -4,7 +4,7 @@
     font-family: 'Bangers', cursive;
     width: fit-content;
     color: rgb(255, 60, 0);
-
+transition: all 2s;
     /* background: rgb(26, 29, 34) url('https://www.kindpng.com/picc/m/55-551450_cartoon-ocean-background-ocean-waves-cartoon-png-transparent.png') no-repeat fixed bottom; */
     /* background: var(--sea); */
     /* background-blend-mode: screen; */
@@ -49,7 +49,7 @@ para la pag de inicio al apretar start que tenga una hacia el juego, y restart q
     color: aqua;
 }
 .usernullcolor{
-    color: rgb(200, 255, 0);
+    color: rgb(255, 60, 0) !important;
 }
 .enemyuser{
     color: rgba(19, 159, 194, 0.527);
@@ -57,39 +57,33 @@ para la pag de inicio al apretar start que tenga una hacia el juego, y restart q
 .footer{
     background: var(--bs-teal)
 }
-.b{
-    /* background-color: rgba(90, 138, 122, 0.568); */
-    /* background: var(--metalMilitar3);
-    background-size:cover ; */
-    /* color: rgb(255, 123, 0); */
-    letter-spacing: var(--spacing);
-
+.somex{
+    transition: all 1s;
 }
 .botones{
-    /* background: var(--metalMilitar2); */
     color: rgb(255, 60, 0) !important;
     letter-spacing: var(--spacing);
     margin: inherit;
-    /* background-blend-mode: hard-light; */
-    text-align:end;
+}
+.light-shadow{
+    box-shadow: 0px 0px 5px 1px rgb(243 231 231 / 89%);
 }
 .ship-box{
-     /* background: var(--metalMilitar2); */
-     color: rgb(255, 60, 0) !important;
-     letter-spacing: var(--spacing);
-     /* background-blend-mode: hard-light; */
-     text-align: left !important;  
+    letter-spacing: 0.8em;
+    font-weight: 900;
+    display: flex;
+    flex-wrap: wrap;
+
+    /* color: rgb(3, 65, 65) ; */
+    /* background-color: red; */
 }
-
-
 /* .dd{
     text-align: left;
 } */
-.ship{
+/* .ship{
     background: transparent !important;
     color: rgb(19, 18, 18) !important;
-
-}
+} */
 
 .icon{
     /* height: 20px; */
@@ -129,53 +123,59 @@ border: 3px dashed yellow !important;
 color: rgb(49, 48, 48);
 z-index: -1;
 }
+.ship-3.ship-box{
+    width:calc(30px*3);
+    border-radius: 35% 50% 50% 35%;
+}
+.ship-4.ship-box{
+    width:calc(30px*4);
+    border-radius: 35% 50% 50% 35%;
+}
+.ship-5.ship-box{
+    width:calc(30px*5);
+    border-radius: 35% 50% 50% 35%;
+}
 .ship-3{
     width:calc(50px*3);
     margin: inherit;
     border-radius: 35% 50% 50% 35%;
 }
-/* .ship-3.align-horizontal{
-    width:calc(50px*3);
-} */
-.ship-3.align-diagonal{
-    width:calc(50px*4);
-    height: 42px;
-}
-
 .ship-4{
     width:calc(50px*4);
+    margin: inherit;
     border-radius: 35% 50% 50% 35%;
-}
-.ship-4.align-diagonal{
-    width:calc(50px*5);
-    height: 46px;
-    margin-top: 45px;
-    margin-left: 45px;
-}
-.ship-4.align-horizontal.align-vertical.ship-box{
-    margin:0
-    
-}
-.ship-4.align-horizontal{
-    margin-right: 50px;    
-}
-.ship-4.align-vertical{
-    margin-top: 50px;
 }
 .ship-5{
     width:calc(50px*5);
     margin: inherit;
     border-radius: 35% 50% 50% 35%;
 }
-.ship-5.align-diagonal{
-    width:calc(50px*6);
+.ship-3.rigoBaby.align-diagonal{
+    width:calc(50px*3);
+    height: 42px;
+}
+.ship-4.rigoBaby.align-diagonal{
+    width:calc(57px*4);
+    height: 46px;
+    margin-top: 45px;
+    margin-left: 45px;
+}
+/* .ship-4.rigoBaby.align-horizontal.align-vertical{
+    margin:0
+} */
+.ship-4.rigoBaby.align-horizontal{
+    margin-right: 50px;    
+}
+.ship-4.rigoBaby.align-vertical{
+    margin-top: 50px;
+}
+.ship-5.rigoBaby.align-diagonal{
+    width:calc(57px*5);
     height: 47px;
 }
-.ship-5.align-horizontal{
+.ship-5.rigoBaby.align-horizontal{
     margin-right: 0px;    /* funciona */
 }
-
-
 .destroyer{
     background-position-y: center;
 }
@@ -188,7 +188,6 @@ z-index: -1;
 .battleship{
     background-position-y: center;
 }
-
 /* .cruiser-diagonal{
     background-position-y: center;
 } */
@@ -207,7 +206,10 @@ z-index: -1;
     height: fit-content;
     margin-bottom: 2em; 
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    display: flex;
 }
 .game-board{
     background-color: var(--aqua);
@@ -256,37 +258,41 @@ z-index: -1;
     padding-left: 8px;
     height: 50px;
     width: 2em;}
-.square-top span{
-    /* border: solid var(--white) 1px; */
-
-}
-.board-wrapper{
-    /* padding: 2em; */
-    background-color: rgba(104, 103, 105, 0.377);
-}
+/* .square-top span{
+    border: solid var(--white) 1px;
+} */
 .board-wrapper{
     /* background-color: rgba(22, 22, 22, 0.377); */
-    margin-right: 1em;
-}
-.ship-box{
-margin: 3em; 
-display: flex;
-flex-wrap: wrap;
-color: rgb(6, 168, 168) !important;
-
+    background-color: rgba(104, 103, 105, 0.377);
 }
 .option-container{
-    background-color: gray;  
-    }
-.giLog-icon{
-    font-size: larger;
-    color: rgb(20, 139, 218);
+    /* background-color: gray;   */
+    padding: 3em;
 }
 .option-container-wrapper{
+    width: fit-content;
+    margin: 0;
+    margin: auto;
     display: grid;
     justify-items:center;
     align-items: center;
+    background-color: rgba(127, 255, 212, 0.171);
+    box-shadow: 0px 0px 5px 1px rgb(243 231 231 / 89%);
+    /* flex-column  align-items-center  */
+}
+.giLog-icon{
+    font-size: larger;
+    color: rgb(20, 139, 218)!important;
+}
+.sub-title{
+    font-size: 2em;
 }
 .buttons-container{
-flex-direction: row;
+    flex-direction: row;
+}
+.round-btn-icon{
+    padding: 0.2em;
+    border-radius: 50px;
+    background-color: rgb(18, 19, 17);
+    font-weight: 900;
 }

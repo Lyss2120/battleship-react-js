@@ -4,7 +4,6 @@ import Ship from './ship.jsx';
 import { BiShuffle } from 'react-icons/bi';
 
 
-
 const OptionContainer = () => {
 
   const { store, actions } = useContext(Context);
@@ -13,12 +12,11 @@ const OptionContainer = () => {
 
   return (
     <>
-      <div className='d-flex flex-column justify-content-center align-items-center'>
+      <div className='option-container-wrapper rounded sea'>
 
-        <div className={`ship-box m-3 fs-5 `}>
+        <span className={`ship-box m-3 sub-title d-block`}>
           Place your ships!
-        </div>
-
+        </span>
         <div className='option-container d-flex '>
           {
             store.ships?.map((ship, index) => {
@@ -36,12 +34,14 @@ const OptionContainer = () => {
             })
           }
         </div>
-
-        <div className={` btn botones btn-dark ship-box m-3 fs-5 `}
-          onClick={() => { actions.start(PlayerBoard) }}>
-          shuffle <span className='giLog-icon'>< BiShuffle /></span>
+        <div className={`text-dark m-3 fs-5`}>
+          <span>or </span>
+          <div className={`btn text-secondary light-shadow botones btn-dark m-3 fs-5`}
+            onClick={() => { actions.start(PlayerBoard) }}>
+            shuffle
+            <span className='giLog-icon'>< BiShuffle /></span>
+          </div>
         </div>
-
       </div>
     </>
   )

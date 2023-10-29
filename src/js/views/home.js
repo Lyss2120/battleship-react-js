@@ -11,7 +11,7 @@ import { NavTab } from "../component/navTab.jsx";
 export const Home = () => (
 	<>
 		<NavTab />
-		<div className="text-center  board-container">
+		<div className="text-center board-container">
 			{/* <Game /> */}
 			{/* <MyTicTacToe /> */}
 			<Somex />

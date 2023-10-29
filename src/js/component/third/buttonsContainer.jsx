@@ -19,8 +19,12 @@ const ButtonsContainer = () => {
     </button>
    
     <button className='btn btn-dark botones justify-content-center light-shadow showShips-button row m-3 fs-5' onClick={() => actions.showEnemyShips()} >
-        show ships
+        enemy ships
     </button>
+    <button className='btn btn-dark botones justify-content-center light-shadow showShips-button row m-3 fs-5' onClick={() => actions.fireTorpedoPrompt()} >
+          fire    
+    </button>
+
 </div>
 
   )

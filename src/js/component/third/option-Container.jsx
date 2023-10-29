@@ -12,11 +12,19 @@ const OptionContainer = () => {
 
   return (
     <>
-      <div className='option-container-wrapper rounded sea'>
-
-        <span className={`ship-box m-3 sub-title d-block`}>
+      <div className={`m-3  d-flex text-info  justify-content-center align-items-center`}>
+        <span className={`ship-box text-info m-3 sub-title d-block`}>
           Place your ships!
         </span>
+        <span>or </span>
+        <div className={`btn text-secondary light-shadow botones btn-dark m-3 fs-5`}
+          onClick={() => { actions.start(PlayerBoard) }}>
+          shuffle
+          <span className='giLog-icon'>< BiShuffle /></span>
+        </div>
+      </div>
+
+      <div className='option-container-wrapper rounded sea'>
         <div className='option-container d-flex '>
           {
             store.ships?.map((ship, index) => {
@@ -33,14 +41,6 @@ const OptionContainer = () => {
               )
             })
           }
-        </div>
-        <div className={`text-dark m-3 fs-5`}>
-          <span>or </span>
-          <div className={`btn text-secondary light-shadow botones btn-dark m-3 fs-5`}
-            onClick={() => { actions.start(PlayerBoard) }}>
-            shuffle
-            <span className='giLog-icon'>< BiShuffle /></span>
-          </div>
         </div>
       </div>
     </>

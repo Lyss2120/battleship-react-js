@@ -4,10 +4,9 @@ import texturaBarcos from "../../../img/textura barcos.png"
 
 const Square = ({ i, j, coordenada, row, col, board, item, funct }) => {
   const { store, actions } = useContext(Context)
-  const { PcBoard, PlayerBoard, coordsArrayPc } = store;
+  const { PcBoard, PlayerBoard, coordsArrayPc, enemyShipsClass } = store;
   let sobrevolado = store.lightSquare.coords.includes(coordenada)
-  // sobrevolado && console.log({sobrevolado});
-  // onhover con el barco iluminar la posible posicion, se ilumina todo el tablero, solo las posiciones negativas se tienen que iluminar// setear selected ship al click y sacar el align para pasarselo a onclicksetShips con su align  mas row y col que va a capturar con onDragOver y llamar a la funcion onclicksetShips ahi o con onDrop
+
   const ship = store.selectedShip //esto es cuando se toma el barco para dejarlo en el tablero, no sirve para el juego en si, tiene que ser el contenido de board[row][col]
   let colorfire = store.coordsArrayPc.includes(row + ',' + col)
   let colorfire2 = store.coordsArrayPlayer.includes(row + ',' + col)
@@ -18,9 +17,11 @@ const Square = ({ i, j, coordenada, row, col, board, item, funct }) => {
   board === PcBoard ? (user = 'pc', goodBoard = 'PcBoard', coordenadaPc = coordenada) : (user = 'player', goodBoard = 'PlayerBoard', coordenadaPlayer = coordenada)
   coordenadaPc === 0 ? pcSea = coordenadaPc : coordenadaPc === 'miss' ? pcMiss = coordenadaPc : coordenadaPc?.shipState >= 2 ? pcSunkShip = coordenadaPc : pcShip = coordenadaPc // coordenadaPc.fire.includes row,. col ? shooted = true
   coordenadaPlayer === 0 ? playerSea = coordenadaPlayer : coordenadaPlayer === 'miss' ? playerMiss = coordenadaPlayer : coordenadaPlayer?.shipState >= 2 ? playerSunkShip = coordenadaPlayer : playerShip = coordenadaPlayer
- 
+
   shooted = pcShip?.fire?.includes(row + ',' + col) 
   shootedPlayer = playerShip?.fire?.includes(row + ',' + col) 
+
+
 
   if (board === PcBoard) {
     if (coordenadaPc === pcShip) {
@@ -65,7 +66,7 @@ return (
     <>
       {board === store.PcBoard ?
         <div key={i} 
-        className={`square tile  bg-${shooted ? 'danger opacity-50' : pcShip ? 'null border border-warning' : coordenadaPc === 'miss' ? 'primary bg-opacity-75' : board === store.PcBoard && coordenadaPc != 0 ? store.ShipsClass : null}`}
+        className={`square tile  bg-${pcShip && shooted ? 'danger bg-opacity-50' : pcShip && enemyShipsClass ? 'border border-warning' : coordenadaPc === 'miss' ? 'light bg-opacity-25' : board === store.PcBoard && coordenadaPc != 0 && null}`}
           onDragOver={(e) => { actions.handleOver(e, ship, row, col) }}//permite arrastrar el barco hacia el tablero
           onClick={() => actions.handleClick(board, row, col)}// solo pcBoard puede tener esta posibilidad de disparar al tablero  // style={{ backgroundColor: coordenada}}  // onClick={() => console.log('coord ' + row + ',' + col)}
         >

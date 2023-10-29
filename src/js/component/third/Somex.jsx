@@ -1,10 +1,10 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Context } from "../../store/appContext";
 import '../../../styles/third.css';
 import Board from './board.jsx';
-import OptionContainer from './nuevo.jsx';
+import OptionContainer from './option-Container.jsx';
 import ButtonsContainer from './buttonsContainer.jsx';
-import WinnerResetModal from './winnerResetModal.jsx';
+import WinnerModal from './winnerModal.jsx';
 import ReactCanvasConfetti from 'react-canvas-confetti';
 // import Ship from './ship.jsx';
 import { NavTab } from '../navTab.jsx';
@@ -33,7 +33,13 @@ const Somex = () => {
 
     return (
         <>
-            <div className='b d-flex flex-column m-5 somex'>
+            <div className='b d-flex flex-column m-1 somex'>
+            <WinnerModal />
+            <ReactCanvasConfetti style={canvasStyles} />
+{/* <Confetti numberOfPieces={150} width={width} height={height} /> */}
+
+
+ 
                 {
                     store.shipsPlayer.length < 4 ?
                     
@@ -47,8 +53,8 @@ const Somex = () => {
                             <ButtonsContainer />
 
                 }
-                <div className="d-flex justify-content-around my-5">
-                    <div className='gameBoard-container'>
+                <div className="d-flex justify-content-around my-3">
+                    <div className='gameBoard-container m-2'>
                         {store.shipsPlayer.length >= 4 &&
                         <Board board={PcBoard} user={'Pc'} />}
                         <Board board={PlayerBoard} user={'Player'} />
@@ -61,12 +67,7 @@ const Somex = () => {
 }
 
 export default Somex
-/* {                    store.reset &&
-//    <Confetti numberOfPieces={150} width={width} height={height} />
-<ReactCanvasConfetti style={canvasStyles} />
 
-
-} */
 /* <div className="bg-secondary m-2 p-3 d-flex justify-content-between">
               {console.log(store.ships)}
               {

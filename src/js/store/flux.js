@@ -90,7 +90,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       lightSquare: { color: 'null', coords: [] },
       user: "",
       enemyShipsClass: false,//verde
-      ShipsClass: "danger bg-opacity-50",//amarillo
+      ShipsClass: "primary bg-opacity-50",//amarillo
       squareColor: "light bg-opacity-50",
       wrongSquareColor: "danger bg-opacity-50",
       selfAlign: {},
@@ -191,8 +191,17 @@ const getState = ({ getStore, getActions, setStore }) => {
         const store = getStore();
 
         setStore({ winner: 'Player' }),
-        alert(store.winner, 'ha ganado')
+        alert(store.winner + ' ha ganado')
         store.winner && (console.log('reseeetwinner')), getActions().reset()
+
+      },
+      winnerCheer: () => {
+        const store = getStore();
+
+        alert(store.winner + ' ha ganado')
+        store.winner && (console.log('reseeetwinner')), 
+        //llamar a modal winner confetti y reset?
+        getActions().reset()
 
       },
       start: (arg) => {
@@ -528,14 +537,14 @@ const getState = ({ getStore, getActions, setStore }) => {
         store.shipStatePc === 4 ?
           (
             setStore({ winner: 'Player' }), 
-            alert(store.winner, 'ha ganado'),
-            store.winner && (console.log('reseeetwinner'))// , getActions().reset())
+            alert(store.winner + ' ha ganado'),
+            store.winner && (console.log(store.winner + ' ha ganado' ,'reseeetwinner'))// , getActions().reset())
           )
           :
           store.shipStatePlayer === 4 ?
             (
               setStore({ winner: 'Pc' }), 
-              alert(store.winner,'ha ganado'),
+              alert(store.winner,' ha ganado'),
               store.winner && (console.log('reseeetwinner'))// , getActions().reset())
             )
             :

@@ -8,6 +8,10 @@ import WinnerModal from './winnerModal.jsx';
 import ReactCanvasConfetti from 'react-canvas-confetti';
 // import Ship from './ship.jsx';
 import { NavTab } from '../navTab.jsx';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import { useState } from 'react';
+
 
 
 
@@ -17,50 +21,30 @@ const Somex = () => {
 
     const { store, actions } = useContext(Context);
     const { user, PcBoard, PlayerBoard, winner } = store;
+
     useEffect(() => {
         actions.start(PcBoard)
     }, [store.reset])
-
-    const canvasStyles = {
-        position: "fixed",
-        pointerEvents: "none",
-        width: "100%",
-        height: "100%",
-        top: 0,
-        left: 0
-    };
 
 
     return (
         <>
             <div className='b d-flex flex-column m-1 somex'>
-            <WinnerModal />
-            <ReactCanvasConfetti style={canvasStyles} />
-{/* <Confetti numberOfPieces={150} width={width} height={height} /> */}
-
-
- 
                 {
-                    store.shipsPlayer.length < 4 ?
-                    
-                        <OptionContainer />
-                        :
-                        winner ?
-                            <div className='turn-display mt-2 fs-3 p-3 '>
-                                <p>The winner is: <span className='info'>{winner}</span></p> {/* se muestra si hay ganador usar como modal o info tooltip con confetti */}
-                            </div>
-                            :
-                            <ButtonsContainer />
-
+                    store.shipsPlayer.length < 4
+                        ? <OptionContainer />
+                        : winner
+                            ? <WinnerModal />
+                            : <ButtonsContainer />
                 }
                 <div className="d-flex justify-content-around my-3">
                     <div className='gameBoard-container m-2'>
                         {store.shipsPlayer.length >= 4 &&
-                        <Board board={PcBoard} user={'Pc'} />}
+                            <Board board={PcBoard} user={'Pc'} />}
                         <Board board={PlayerBoard} user={'Player'} />
                     </div>
                 </div>
-            </div>
+            </div >
 
         </>
     )

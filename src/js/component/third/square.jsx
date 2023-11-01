@@ -1,6 +1,8 @@
 import React, { useContext } from 'react'
 import { Context } from '../../store/appContext'
 import texturaBarcos from "../../../img/textura barcos.png"
+import { GiBlast, GiBlaster, GiWaterSplash } from 'react-icons/gi'
+import { MdOutlineWhatshot } from "react-icons/md";
 
 const Square = ({ i, j, coordenada, row, col, board, item, funct }) => {
   const { store, actions } = useContext(Context)
@@ -10,7 +12,7 @@ const Square = ({ i, j, coordenada, row, col, board, item, funct }) => {
   const ship = store.selectedShip //esto es cuando se toma el barco para dejarlo en el tablero, no sirve para el juego en si, tiene que ser el contenido de board[row][col]
   let colorfire = store.coordsArrayPc.includes(row + ',' + col)
   let colorfire2 = store.coordsArrayPlayer.includes(row + ',' + col)
-  colorfire && console.log({ colorfire }, { colorfire2 }, row + ',' + col, store.coordsArrayPc) //danger opacity-50
+  // colorfire && console.log({ colorfire }, { colorfire2 }, row + ',' + col, store.coordsArrayPc) //danger opacity-50
 
   let goodBoard, user, shooted, coordenadaPc, pcShip, pcSea, pcMiss, pcShipCoords, midCoordPc, startPc, pcSunkShip, shootedPlayer, coordenadaPlayer, playerShip, playerSea, playerMiss, playerShipCoords, midCoordPlayer, startPlayer, playerSunkShip
 
@@ -66,20 +68,23 @@ return (
     <>
       {board === store.PcBoard ?
         <div key={i} 
-        className={`square tile  bg-${pcShip && shooted ? 'danger bg-opacity-50' : pcShip && enemyShipsClass ? 'border border-warning' : coordenadaPc === 'miss' ? 'light bg-opacity-25' : board === store.PcBoard && coordenadaPc != 0 && null}`}
+        className={`square tile  bg-${pcShip && shooted ? ' shot': pcSunkShip ? 'danger bg-opacity-50' : pcShip && enemyShipsClass ? 'border border-warning' : coordenadaPc === 'miss' && 'null shot' }`}
           onDragOver={(e) => { actions.handleOver(e, ship, row, col) }}//permite arrastrar el barco hacia el tablero
           onClick={() => actions.handleClick(board, row, col)}// solo pcBoard puede tener esta posibilidad de disparar al tablero  // style={{ backgroundColor: coordenada}}  // onClick={() => console.log('coord ' + row + ',' + col)}
         >
           {
-            coordenada === 'miss' ? 'miss' // si un tiro dio en mar
-              // : coordenada !=0  ? '-' //si hay barco
-              : pcShip && pcSunkShip ? ( // solo mostrar esto si la variable es true-> enemyships? div PcShipBorder : null
-                row === midCoordPc[0] && col === midCoordPc[1] &&
-                <span className={`rigoBaby PcShipBorder ${pcShip.name} ship-${pcShip.length} align-${pcShip.align} `}>{pcShip.name}</span>//si hay barco
-              
-                )
-                : null
-            //sino sería mar // GiWaterSplash // GiArmorPunch // GiBlast vertical // GiBlaster horizontal
+            coordenada === 'miss' ? 
+            <span className="GiWaterSplash-icon">
+              <GiWaterSplash/>
+            </span>
+                : (pcShip && shooted || pcSunkShip) &&
+                <span className="GiBlast-icon">
+                  <MdOutlineWhatshot />
+                </span>
+                
+
+                //null
+            //sino sería mar //  // GiArmorPunch // GiBlast vertical // GiBlaster horizontal
           }
         </div>
         : /*PlayerBoard*/ //que barcos le esta enviando a firetorpedo cada tablero solo hay que enviar los de player cdo pc dispara y los de pc cdo player dispara

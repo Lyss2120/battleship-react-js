@@ -280,10 +280,7 @@ z-index: -1;
     box-shadow: 0px 0px 5px 1px rgb(243 231 231 / 89%);
     /* flex-column  align-items-center  */
 }
-.giLog-icon{
-    font-size: larger;
-    color: rgb(20, 139, 218)!important;
-}
+
 .sub-title{
     font-size: 2em;
 }
@@ -295,4 +292,20 @@ z-index: -1;
     border-radius: 50px;
     background-color: rgb(18, 19, 17);
     font-weight: 900;
+}
+.shot{
+    background-color: rgba(2, 2, 85, 0.336);
+}
+.giLog-icon{
+    font-size: larger;
+    color: rgb(20, 139, 218)!important;
+}
+.GiWaterSplash-icon{
+    font-size: 1.5em;
+    color: rgb(134, 217, 250);
+}
+.GiBlast-icon{
+    font-size: 2em;
+    color: rgb(236, 82, 11);
+
 }

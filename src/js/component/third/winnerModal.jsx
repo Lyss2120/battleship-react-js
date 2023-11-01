@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
 import { Context } from "../../store/appContext";
-import ReactCanvasConfetti from 'react-canvas-confetti';
+
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 
 
@@ -8,71 +10,32 @@ const WinnerModal = () => {
 
   const { store, actions } = useContext(Context);
   const { selfAlign, shipsPc } = store;//ponerle confetti y que paresca un modal sobre el juego....se marca solo cuando se cambia el align se tiene que marcar al drop
+  const [show, setShow] = useState(true);
+  const handleClose = () => setShow(false);
 
-
-
+  
   return (
     <>
-    <div className='text-light fs-1'>winner</div>
-  <ReactCanvasConfetti
-    angle={90}
-    className="canvas"
-    colors={[
-      '#26ccff',
-      '#a25afd',
-      '#ff5e7e',
-      '#88ff5a',
-      '#fcff42',
-      '#ffa62d',
-      '#ff36ff'
-    ]}
-    decay={0.8}
-    drift={0}
-    gravity={1}
-    origin={{
-      x: 0.5,
-      y: 0.5
-    }}
-    particleCount={500}
-    resize
-    scalar={1}
-    shapes={[
-      'circle',
-      'square'
-    ]}
-    spread={360}
-    startVelocity={45}
-    ticks={600}
-    useWorker
-    zIndex={-1}
-  />
-
-
-
-
-      <div className="modal" >
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">there is a winner!!!</h5>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+            <Modal.Title>there is a winner!!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Woohoo, the winner is :
+            <div className="d-flex justify-content-center text-danger fs-1 py-3">
+                {store.winner}!
             </div>
-            <div className="modal-body">
-              <p>{store.winner}</p>
-            </div>
-            <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">close</button>
-              <button type="button" className="btn btn-primary"
-                onClick={() => { actions.reset() }}>
-                reset
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </>
-  )
+        </Modal.Body>
+        <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+                Close
+            </Button>
+            <Button variant="primary" onClick={() => actions.reset()}>
+                play again
+            </Button>
+        </Modal.Footer>
+    </Modal>
+</>
+)
 }
 
 export default WinnerModal

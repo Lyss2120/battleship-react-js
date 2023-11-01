@@ -12,15 +12,7 @@ export const Home = () => (
 	<>
 		<NavTab />
 		<div className="text-center board-container">
-			{/* <Game /> */}
-			{/* <MyTicTacToe /> */}
 			<Somex />
 		</div>
-		{/* // <div className="text-center d-grid justify-content-center ">
-		// 	<div className="text-center mt-5">
-		// 		<h1>tic tac toe!!</h1>
-		// 		<Board />
-		// 	</div>
-		// </div> */}
 	</>
 );

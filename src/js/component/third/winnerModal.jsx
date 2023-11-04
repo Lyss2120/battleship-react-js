@@ -1,26 +1,26 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Context } from "../../store/appContext";
 
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-
+// ship3 o submarine se mezcla con los shipss de pc. ver pq
 
 const WinnerModal = () => {
 
   const { store, actions } = useContext(Context);
-  const { selfAlign, shipsPc } = store;//ponerle confetti y que paresca un modal sobre el juego....se marca solo cuando se cambia el align se tiene que marcar al drop
+  //ponerle confetti y que parezca un modal sobre el juego....se marca solo cuando se cambia el align se tiene que marcar al drop
   const [show, setShow] = useState(true);
   const handleClose = () => setShow(false);
 
   
   return (
     <>
-    <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
+    <Modal show={show} onHide={handleClose} >
+        <Modal.Header closeButton className='winnerModal' >
             <Modal.Title>there is a winner!!</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Woohoo, the winner is :
+        <Modal.Body className='winnerModal' >Woohoo, the winner is :
             <div className="d-flex justify-content-center text-danger fs-1 py-3">
                 {store.winner}!
             </div>

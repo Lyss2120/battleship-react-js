@@ -445,7 +445,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         let newUserShips = [...userShips]
         let sea, ship, newShip, newshipStatePc, newshipStatePlayer, newCoords
         let coords = row + ',' + col
-        let repeated = store.coordsArrayPc.includes(row + ',' + col) || store.coordsArrayPlayer.includes(row + ',' + col)//aqui tiene que ser ship.fire se crea un nuevo elemento cada vez qeu se llama a la func. 
+        let repeated = store.coordsArrayPc.includes(row + ',' + col) || store.coordsArrayPlayer.includes(row + ',' + col)//si ya esta agregado a las coord guardadas esta repetido 
 
         newshipStatePc = store.shipStatePc
         newshipStatePlayer = store.shipStatePlayer
@@ -537,12 +537,11 @@ const getState = ({ getStore, getActions, setStore }) => {
         //   )
         console.log(store.user, 'disparó en', row, col)
 
-        // console.log('disparo ' + user + ' ', row, col)
         store.shipStatePc === 4 ? (setStore({ winner: 'Player' }), store.winner && (console.log(store.winner + ' ha ganado', 'reseeetwinner')))
           :
           store.shipStatePlayer === 4 ? ( setStore({ winner: 'Pc' }), store.winner && (console.log('reseeetwinner')))
             :
-            getActions().changeUser()//no dejar que dispare sin estar los barcos posicionadoss ver click
+            getActions().changeUser()//cambia el usuario despues de disparar y validar winner
       },
       disparaPc: (user) => {
         const store = getStore();

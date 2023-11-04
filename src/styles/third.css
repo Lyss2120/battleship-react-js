@@ -77,14 +77,6 @@ para la pag de inicio al apretar start que tenga una hacia el juego, y restart q
     /* color: rgb(3, 65, 65) ; */
     /* background-color: red; */
 }
-/* .dd{
-    text-align: left;
-} */
-/* .ship{
-    background: transparent !important;
-    color: rgb(19, 18, 18) !important;
-} */
-
 .icon{
     /* height: 20px; */
 justify-self: center;    
@@ -102,22 +94,11 @@ color: rgb(255, 123, 0);
     color: rgb(255, 60, 0) !important;
 
 }
-/* .margin-top{
-    margin-top: 50px;
-}
-.margin-left{
-    margin-left: 50px;
-}
-.margin-diagonal{
-    margin-top: 50px;
-    margin-left: 50px;
-} */
 .rigoBaby{
     /* width: 110px; */
     height: 40px;
     border-radius: 35% 50% 50% 35%
 }
-
 .PcShipBorder{
 border: 3px dashed yellow !important;
 color: rgb(49, 48, 48);
@@ -308,4 +289,8 @@ z-index: -1;
     font-size: 2em;
     color: rgb(236, 82, 11);
 
+}
+.modal-content{
+    background-color: rgb(25, 50, 104);
+  
 }

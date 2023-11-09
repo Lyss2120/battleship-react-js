@@ -291,6 +291,14 @@ z-index: -1;
 
 }
 .modal-content{
-    background-color: rgb(25, 50, 104);
-  
+    background-color: var(--aqua);
+    background: rgb(1, 27, 58);
+    color: aqua;
+}
+
+.modal-body{
+    background: var(--metalMilitar2) ;
+    background-position-y:center;
+    background-size: cover;
+
 }

@@ -18,17 +18,17 @@ const WinnerModal = () => {
     <>
     <Modal show={show} onHide={handleClose} >
         <Modal.Header closeButton className='winnerModal' >
-            <Modal.Title>there is a winner!!</Modal.Title>
+            <Modal.Title>Woohoo, the winner is :</Modal.Title>
         </Modal.Header>
-        <Modal.Body className='winnerModal' >Woohoo, the winner is :
+        <Modal.Body className='winnerModal' >
             <div className="d-flex justify-content-center text-danger fs-1 py-3">
                 {store.winner}!
             </div>
         </Modal.Body>
         <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
+            {/* <Button variant="secondary" onClick={handleClose}>
                 Close
-            </Button>
+            </Button> */}
             <Button variant="primary" onClick={() => actions.reset()}>
                 play again
             </Button>

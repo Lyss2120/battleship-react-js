@@ -102,7 +102,10 @@ const getState = ({ getStore, getActions, setStore }) => {
       coordsArrayPlayer: [],
       winner: null,
       pcFired: [],
-      playerFired: []
+      playerFired: [],
+      pcCount:1,
+      playerCount:1
+
       // coordArray:[],// guarda las coordenadas ocupadas en arrays dentro de coordAarray para poder ubicar solo los lugares disponibles
       // takenCoords: [],colorfire para el color de pc squares
     },
@@ -430,7 +433,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
       fireTorpedo: (row, col) => {
         const store = getStore();
-        const { user, coordsArrayPc, coordsArrayPlayer, shipsPlayer, shipsPc } = store
+        const { user, pcFired, playerFired, shipsPc, shipsPlayer, pcCount, playerCount} = store
         //recibe las coordenadas desde el click o las llama desde firetorpedoprompt... al clickear el boton fire de inmediato llama coordenadas desde ahi llamar a firetorpedo
         //validar quien es el jugador para asignar el board como tablero enemigo //al primer disparo deberia cambiar el user y activar un randomfire para pc, cuando le toca a player dispara y se marca en los dos tableros
         if (store.winner) {
@@ -446,7 +449,8 @@ const getState = ({ getStore, getActions, setStore }) => {
         let sea, ship, newShip, newshipStatePc, newshipStatePlayer, newCoords
         let coords = row + ',' + col
         let repeated = store.coordsArrayPc.includes(row + ',' + col) || store.coordsArrayPlayer.includes(row + ',' + col)//si ya esta agregado a las coord guardadas esta repetido 
-
+        let newPcCount = pcCount
+        let newPlayerCount = playerCount
         newshipStatePc = store.shipStatePc
         newshipStatePlayer = store.shipStatePlayer
 
@@ -487,12 +491,12 @@ const getState = ({ getStore, getActions, setStore }) => {
           newShip = newUserShips[ship],
           newShip = getActions().handleShipData(ship, row, col, 'fireTorpedo', newBoard, ship.align),// si las coords no se repiten, se modifica el barco guardando dentro las coords golpeadas
           board === store.PcBoard ? 
-          setStore({ pcFired: [[row, col], ...store.pcFired] }) 
+          (setStore({ pcFired: [[row, col], ...store.pcFired], shipsPc : newUserShips }))
           : 
-          setStore({ playerFired: [[row, col], ...store.playerFired] }),
-
+          (setStore({ playerFired: [[row, col], ...store.playerFired], shipsPlayer: newUserShips })),
+          
           newShip.shipState === 2 && store.user === 'Player' ? 
-          (newshipStatePc++, setStore({ shipStatePc: newshipStatePc, coordsArrayPc: [...store.coordsArrayPc, coords] })) 
+          (newshipStatePc++, setStore({ shipStatePc: newshipStatePc, coordsArrayPc: [...store.coordsArrayPc, coords] }), pcCount ++) 
           : 
           (newshipStatePlayer, setStore({ shipStatePlayer: newshipStatePlayer, coordsArrayPlayer: [...store.coordsArrayPlayer, coords] })),
           setStore({ userShips: newUserShips, board: newBoard }) // cambiando el user cada vez que dispare // guardo las coords golpeadas en su estado / guardo ship y tablero modificados
@@ -535,7 +539,18 @@ const getState = ({ getStore, getActions, setStore }) => {
         //         setStore({ userShips: newUserShips, board: newBoard }) // cambiando el user cada vez que dispare // guardo las coords golpeadas en su estado / guardo ship y tablero modificados
         //       )
         //   )
+        user === 'Pc' ? 
+        ( newPcCount++, 
+          setStore({ pcCount: newPcCount }),
+          console.log({ shipsPc }, {pcCount}) 
+        ): 
+        ( newPlayerCount++, 
+            setStore({ playerCount: newPlayerCount }),
+            console.log({ shipsPlayer}, {playerCount})
+        )
+
         console.log(store.user, 'disparó en', row, col)
+
 
         store.shipStatePc === 4 ? (setStore({ winner: 'Player' }), store.winner && (console.log(store.winner + ' ha ganado', 'reseeetwinner')))
           :
@@ -556,13 +571,16 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
       resetData: (arg) => {
         const store = getStore()
-        const { reset, winner, squareEnter, coordsArrayPc, coordsArrayPlayer, shipStatePc, shipStatePlayer, selectedShip, flip, selfAlign, user, shipsPlayer, shipsPc, PlayerBoard, PcBoard, ships } = store
-        let newStates = { winner, coordsArrayPc, coordsArrayPlayer, shipStatePc, shipStatePlayer, selectedShip, flip, selfAlign, user, shipsPlayer, shipsPc, PlayerBoard, PcBoard, ships }
+        const { enemyShipsClass, pcCount, playerCount, reset, winner, squareEnter, coordsArrayPc, coordsArrayPlayer, shipStatePc, shipStatePlayer, selectedShip, flip, selfAlign, user, shipsPlayer, shipsPc, PlayerBoard, PcBoard, ships } = store
+        let newStates = {enemyShipsClass, pcCount, playerCount, reset, winner, coordsArrayPc, coordsArrayPlayer, shipStatePc, shipStatePlayer, selectedShip, flip, selfAlign, user, shipsPlayer, shipsPc, PlayerBoard, PcBoard, ships }
         let newBoard = [...store.PcBoard]
+        let newEnemyShipsClass = enemyShipsClass
         let newWinner = winner
         let newReset = reset
         let newUser = user
         let newFlip = flip
+        let newPcCount = pcCount
+        let newPlayerCount = playerCount
         let newShipStatePlayer = shipStatePlayer
         let newShipStatePc = shipStatePc
         let newBoardPL = [...store.PlayerBoard]
@@ -585,7 +603,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         ],
-          newBoardPL = [
+        newBoardPL = [
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -597,7 +615,8 @@ const getState = ({ getStore, getActions, setStore }) => {
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
           ],
-          newShipsPc = []
+        newEnemyShipsClass = false
+        newShipsPc = []
         newShipsPlayer = []
         newCoordsArrayPc = []
         newCoordsArrayPlayer = []
@@ -609,8 +628,11 @@ const getState = ({ getStore, getActions, setStore }) => {
         newShipStatePc = 0
         newReset = !newReset
         newWinner = null
+        newPcCount = 1
+        newPlayerCount = 1
 
         setStore({
+          enemyShipsClass: newEnemyShipsClass,
           ships: arg,
           PcBoard: newBoard,
           PlayerBoard: newBoardPL,
@@ -621,6 +643,8 @@ const getState = ({ getStore, getActions, setStore }) => {
           selectedShip: newSelectedShip,
           user: newUser,
           flip: newFlip,
+          pcCount: newPcCount, 
+          playerCount: newPlayerCount,
           coordsArrayPlayer: newCoordsArrayPlayer,
           shipStatePlayer: newShipStatePlayer,
           shipStatePc: newShipStatePc,
